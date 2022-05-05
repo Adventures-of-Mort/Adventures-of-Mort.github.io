@@ -1,12 +1,9 @@
-import config from "./config";
-import "./phaser.min.js";
+import * as Phaser from "./phaser.min.js";
 
-const game = new Phaser.Game(config);
+import BootScene from "./scenes/BootScene";
+import WorldScene from "./scenes/WorldScene";
 
-export default game;
-
-/*
-var config = {
+const config = {
   type: Phaser.AUTO,
   parent: "content",
   width: 320,
@@ -22,5 +19,5 @@ var config = {
   },
   scene: [BootScene, WorldScene],
 };
-*/
-//var game = new Phaser.Game(config);
+
+export default config;
