@@ -1,6 +1,3 @@
-import * as Phaser from "../phaser.min.js";
-import game from "../game";
-
 const WorldScene = new Phaser.Class({
   Extends: Phaser.Scene,
 

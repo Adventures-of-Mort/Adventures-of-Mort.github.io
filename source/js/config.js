@@ -1,7 +1,9 @@
-import * as Phaser from "./phaser.min.js";
-
 import BootScene from "./scenes/BootScene";
 import WorldScene from "./scenes/WorldScene";
+import StartScene from "./scenes/StartScene";
+import BattleUIScene from "./scenes/BattleUIScene.js";
+import StartUIScene from "./scenes/StartUIScene.js";
+import BattleScene from "./scenes/BattleScene";
 
 const config = {
   type: Phaser.AUTO,
@@ -17,7 +19,7 @@ const config = {
       debug: false, // set to true to view zones
     },
   },
-  scene: [BootScene, WorldScene],
+  scene: [BootScene, WorldScene, StartScene, BattleScene, BattleUIScene, StartUIScene],
 };
 
 export default config;

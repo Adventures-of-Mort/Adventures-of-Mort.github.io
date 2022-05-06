@@ -1,4 +1,4 @@
-/*import BootScene from "./BootScene";
+import BootScene from "./BootScene";
 import WorldScene from "./WorldScene";
 
 const scenes = {
@@ -7,4 +7,3 @@ const scenes = {
 };
 
 export default scenes;
-*/
