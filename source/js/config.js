@@ -19,7 +19,7 @@ const config = {
       debug: false, // set to true to view zones
     },
   },
-  scene: [BootScene, WorldScene, StartScene, BattleScene, BattleUIScene, StartUIScene],
+  scene: [BootScene, StartScene, BattleUIScene, WorldScene, BattleScene, StartUIScene],
 };
 
 export default config;

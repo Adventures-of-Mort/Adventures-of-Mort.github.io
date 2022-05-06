@@ -4,6 +4,7 @@ module.exports = {
 
   // input file
   entry: "./source/js/game.js",
+  watch: true,
 
   // output file
   output: {

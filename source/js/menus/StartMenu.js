@@ -11,6 +11,7 @@ const StartMenu = new Phaser.Class({
   },
   confirm: function () {
     // do something when the player selects an action
+    this.scene.events.emit("StartMenuSelect", this.menuItemIndex);
   },
   create: function () {},
 });

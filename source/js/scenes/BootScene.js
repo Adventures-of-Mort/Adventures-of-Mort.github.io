@@ -19,10 +19,9 @@ const BootScene = new Phaser.Class({
   },
 
   create: function () {
-    // start the WorldScene
-    this.scene.start("BattleScene");
-    // only for test
-    //this.scene.start("StartScene");
+    // start the StartScene
+
+    this.scene.start("StartScene");
   },
 });
 
