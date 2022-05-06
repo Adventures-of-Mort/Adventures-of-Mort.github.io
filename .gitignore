@@ -47,6 +47,10 @@ typings/
 # TypeScript cache
 *.tsbuildinfo
 
+# Webpack Bundle
+bundle.js
+bundle.js.map
+
 # Optional npm cache directory
 .npm
 
