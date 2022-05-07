@@ -1,13 +1,10 @@
-const WorldScene = new Phaser.Class({
-  Extends: Phaser.Scene,
+class WorldScene extends Phaser.Scene {
+  constructor() {
+    super({ key: "WorldScene" });
+  }
+  preload() {}
 
-  initialize: function WorldScene() {
-    Phaser.Scene.call(this, { key: "WorldScene" });
-  },
-
-  preload: function () {},
-
-  create: function () {
+  create() {
     // create the map
     var map = this.make.tilemap({ key: "map" });
 
@@ -78,8 +75,8 @@ const WorldScene = new Phaser.Class({
     }
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
-  },
-  onMeetEnemy: function (player, zone) {
+  }
+  onMeetEnemy(player, zone) {
     // we move the zone to some other location
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
@@ -88,8 +85,8 @@ const WorldScene = new Phaser.Class({
     this.cameras.main.shake(300);
 
     // start battle
-  },
-  update: function (time, delta) {
+  }
+  update(time, delta) {
     //    this.controls.update(delta);
 
     this.player.body.setVelocity(0);
@@ -122,7 +119,7 @@ const WorldScene = new Phaser.Class({
     } else {
       this.player.anims.stop();
     }
-  },
-});
+  }
+}
 
 export default WorldScene;

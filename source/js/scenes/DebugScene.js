@@ -1,7 +1,7 @@
-const DebugScene = new Phaser.Class({
-  Extends: Phaser.Scene,
+class DebugScene extends Phaser.Scene {
+  constructor() {
+    super({ key: "DebugScene" });
+  }
+}
 
-  initialize: function DebugScene() {
-    Phaser.Scene.call(this, { key: DebugScene });
-  },
-});
+export default DebugScene;

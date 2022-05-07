@@ -1,11 +1,15 @@
 import StartMenu from "../menus/StartMenu";
 
-const StartUIScene = new Phaser.Class({
-  Extends: Phaser.Scene,
-  initialize: function StartUIScene() {
-    Phaser.Scene.call(this, { key: "StartUIScene" });
-  },
-  create: function () {
+class StartUIScene extends Phaser.Scene {
+  constructor() {
+    super({ key: "StartUIScene" });
+  }
+
+  create() {
+    setInterval(() => {
+      console.log("still hurr");
+    }, 1000);
+
     // basic container to hold all menus
     this.menus = this.add.container();
 
@@ -22,18 +26,21 @@ const StartUIScene = new Phaser.Class({
     this.input.keyboard.on("keydown", this.onKeyInput, this);
 
     this.events.on("StartMenuSelect", this.onStartChoice, this);
-  },
+  }
 
-  onStartChoice: function (index) {
+  onStartChoice(index) {
+    // start choice
     if (index === 0) {
       this.scene.start("WorldScene");
     }
+    // debug choice
     if (index === 1) {
+      //this.scene.events.off("StartMenuSelect");
       this.scene.start("BattleScene");
     }
-  },
+  }
 
-  onKeyInput: function (event) {
+  onKeyInput(event) {
     if (this.currentMenu) {
       if (event.code === "ArrowUp") {
         this.currentMenu.moveSelectionUp();
@@ -43,7 +50,7 @@ const StartUIScene = new Phaser.Class({
         this.currentMenu.confirm();
       }
     }
-  },
-});
+  }
+}
 
 export default StartUIScene;

@@ -1,17 +1,14 @@
-const MenuItem = new Phaser.Class({
-  Extends: Phaser.GameObjects.Text,
-
-  initialize: function MenuItem(x, y, text, scene) {
-    Phaser.GameObjects.Text.call(this, scene, x, y, text, { color: "#ffffff", align: "left", fontSize: 15 });
-  },
-
-  select: function () {
+class MenuItem extends Phaser.GameObjects.Text {
+  constructor(x, y, text, scene) {
+    super(scene, x, y, text, { color: "#ffffff", align: "left", fontSize: 15 });
+  }
+  select() {
     this.setColor("#f8ff38");
-  },
+  }
 
-  deselect: function () {
+  deselect() {
     this.setColor("#ffffff");
-  },
-});
+  }
+}
 
 export default MenuItem;

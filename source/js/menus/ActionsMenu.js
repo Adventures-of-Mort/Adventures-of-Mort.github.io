@@ -1,15 +1,14 @@
 import Menu from "./Menu";
 
-const ActionsMenu = new Phaser.Class({
-  Extends: Menu,
-
-  initialize: function ActionsMenu(x, y, scene) {
-    Menu.call(this, x, y, scene);
+class ActionsMenu extends Menu {
+  constructor(x, y, scene) {
+    super(x, y, scene);
     this.addMenuItem("Attack");
-  },
-  confirm: function () {
+  }
+  confirm() {
     // do something when the player selects an action
-  },
-});
+    console.log("action menu firing");
+  }
+}
 
 export default ActionsMenu;

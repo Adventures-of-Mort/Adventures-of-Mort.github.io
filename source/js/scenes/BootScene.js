@@ -1,14 +1,8 @@
-import * as Phaser from "../phaser.min.js";
-
-const BootScene = new Phaser.Class({
-  Extends: Phaser.Scene,
-
-  initialize: function BootScene() {
-    Phaser.Scene.call(this, { key: "BootScene" });
-  },
-
-  preload: function () {
-    // map tiles
+class BootScene extends Phaser.Scene {
+  constructor() {
+    super({ key: "BootScene" });
+  }
+  preload() {
     this.load.image("tiles", "assets/map/spritesheet.png");
 
     // map in json format
@@ -23,13 +17,11 @@ const BootScene = new Phaser.Class({
 
     // evil tree enemy
     this.load.image("evilTree", "../../../public/MORT/ENEMIES/TREE/Tree.png");
-  },
-  create: function () {
-    // start the StartScene
+  }
 
+  create() {
     this.scene.start("StartScene");
-  },
-});
-// goblin enemy
+  }
+}
 
 export default BootScene;
