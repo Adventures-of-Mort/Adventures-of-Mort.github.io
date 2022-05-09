@@ -1,15 +1,12 @@
 import StartMenu from "../menus/StartMenu";
+import keys from "./keys";
 
 class StartUIScene extends Phaser.Scene {
   constructor() {
-    super({ key: "StartUIScene" });
+    super({ key: keys.START_UI_SCENE });
   }
 
   create() {
-    setInterval(() => {
-      console.log("still hurr");
-    }, 1000);
-
     // basic container to hold all menus
     this.menus = this.add.container();
 
@@ -21,7 +18,7 @@ class StartUIScene extends Phaser.Scene {
     // add menus to the container
     this.menus.add(this.startMenu);
 
-    this.startScene = this.scene.get("StartScene");
+    this.startScene = this.scene.get(keys.START_SCENE);
 
     this.input.keyboard.on("keydown", this.onKeyInput, this);
 
@@ -30,13 +27,15 @@ class StartUIScene extends Phaser.Scene {
 
   onStartChoice(index) {
     // start choice
+    this.events.off("StartMenuSelect");
+    // start world scene
     if (index === 0) {
-      this.scene.start("WorldScene");
+      this.scene.start(keys.WORLD_SCENE);
     }
     // debug choice
     if (index === 1) {
-      //this.scene.events.off("StartMenuSelect");
-      this.scene.start("BattleScene");
+      this.events.off("StartMenuSelect", this.onStartChoice);
+      this.scene.start(keys.BATTLE_SCENE);
     }
   }
 

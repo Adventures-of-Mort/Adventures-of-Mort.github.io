@@ -1,6 +1,8 @@
+import keys from "./keys"
+
 class WorldScene extends Phaser.Scene {
 	constructor() {
-		super({ key: "WorldScene" })
+		super({ key: keys.WORLD_SCENE })
 	}
 	preload() {}
 
@@ -101,7 +103,7 @@ class WorldScene extends Phaser.Scene {
 		this.cameras.main.shake(200)
 
 		// start battle
-		this.scene.switch("BattleScene")
+		this.scene.switch(keys.BATTLE_SCENE)
 	}
 	update(time, delta) {
 		//    this.controls.update(delta);

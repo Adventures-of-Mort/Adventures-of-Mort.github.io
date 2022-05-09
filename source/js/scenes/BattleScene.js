@@ -3,7 +3,7 @@ import Enemy from "../units/Enemy"
 
 class BattleScene extends Phaser.Scene {
 	constructor() {
-		super({ key: "BattleScene" })
+		super({ key: keys.BATTLE_SCENE })
 	}
 	create() {
 		this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)")
