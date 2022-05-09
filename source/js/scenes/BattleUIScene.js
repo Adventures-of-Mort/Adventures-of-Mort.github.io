@@ -49,8 +49,8 @@ class BattleUIScene extends Phaser.Scene {
         this.currentMenu.moveSelectionDown();
       } else if (event.code === "ArrowRight" || event.code === "Shift") {
       } else if (event.code === "Space" || event.code === "ArrowLeft") {
-        //this.currentMenu.confirm();
-        console.log("hi");
+        this.currentMenu.confirm();
+        //console.log("hi");
       }
     }
   }

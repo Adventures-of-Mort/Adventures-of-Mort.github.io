@@ -1,3 +1,5 @@
+import * as Phaser from "../phaser.min.js";
+
 class BootScene extends Phaser.Scene {
   constructor() {
     super({ key: "BootScene" });

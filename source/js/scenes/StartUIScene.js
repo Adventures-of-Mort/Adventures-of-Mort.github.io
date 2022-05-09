@@ -6,10 +6,6 @@ class StartUIScene extends Phaser.Scene {
   }
 
   create() {
-    setInterval(() => {
-      console.log("still hurr");
-    }, 1000);
-
     // basic container to hold all menus
     this.menus = this.add.container();
 
@@ -30,12 +26,14 @@ class StartUIScene extends Phaser.Scene {
 
   onStartChoice(index) {
     // start choice
+    this.events.off("StartMenuSelect");
+
     if (index === 0) {
       this.scene.start("WorldScene");
     }
     // debug choice
     if (index === 1) {
-      //this.scene.events.off("StartMenuSelect");
+      this.events.off("StartMenuSelect", this.onStartChoice);
       this.scene.start("BattleScene");
     }
   }
