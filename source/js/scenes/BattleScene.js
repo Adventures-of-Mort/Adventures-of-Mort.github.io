@@ -1,9 +1,10 @@
 import PlayerCharacter from "../units/Player";
 import Enemy from "../units/Enemy";
+import keys from "./keys";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
-    super({ key: "BattleScene" });
+    super({ key: keys.BATTLE_SCENE });
   }
   create() {
     // change the background to green
@@ -36,7 +37,7 @@ class BattleScene extends Phaser.Scene {
     this.units = this.heroes.concat(this.enemies);
 
     // Run UI Scene at the same time
-    this.scene.launch("BattleUIScene");
+    this.scene.launch(keys.BATTLE_UI_SCENE);
   }
 }
 

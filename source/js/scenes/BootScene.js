@@ -1,8 +1,9 @@
 import * as Phaser from "../phaser.min.js";
+import keys from "./keys";
 
 class BootScene extends Phaser.Scene {
   constructor() {
-    super({ key: "BootScene" });
+    super({ key: keys.BOOT_SCENE });
   }
   preload() {
     this.load.image("tiles", "assets/map/spritesheet.png");
@@ -22,7 +23,7 @@ class BootScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start("StartScene");
+    this.scene.start(keys.START_SCENE);
   }
 }
 

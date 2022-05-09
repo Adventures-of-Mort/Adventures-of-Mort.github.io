@@ -1,10 +1,11 @@
 import HeroesMenu from "../menus/HeroesMenu";
 import ActionsMenu from "../menus/ActionsMenu";
 import EnemiesMenu from "../menus/EnemiesMenu";
+import keys from "./keys";
 
 class BattleUIScene extends Phaser.Scene {
   constructor() {
-    super({ key: "BattleUIScene" });
+    super({ key: keys.BATTLE_UI_SCENE });
   }
   create() {
     let blue = 0x031f4c;

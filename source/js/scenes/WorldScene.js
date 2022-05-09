@@ -1,6 +1,8 @@
+import keys from "./keys";
+
 class WorldScene extends Phaser.Scene {
   constructor() {
-    super({ key: "WorldScene" });
+    super({ key: keys.WORLD_SCENE });
   }
   preload() {}
 
