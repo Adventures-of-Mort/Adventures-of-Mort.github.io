@@ -6,14 +6,10 @@ class BattleScene extends Phaser.Scene {
 		super({ key: "BattleScene" })
 	}
 	create() {
-		// change the background to green
-
-		// Find way to implement battleScene 12 for visualization
-
 		this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)")
 
 		// player character - warrior
-		var warrior = new PlayerCharacter(
+		const warrior = new PlayerCharacter(
 			this,
 			250,
 			50,
@@ -26,7 +22,7 @@ class BattleScene extends Phaser.Scene {
 		this.add.existing(warrior)
 
 		// player character - mage
-		var mage = new PlayerCharacter(
+		const mage = new PlayerCharacter(
 			this,
 			250,
 			100,
@@ -66,6 +62,23 @@ class BattleScene extends Phaser.Scene {
 
 		// Run UI Scene at the same time
 		this.scene.launch("BattleUIScene")
+
+		const timeEvent = this.time.addEvent({
+			delay: 2000,
+			callback: this.exitBattle,
+			callbackScope: this,
+		})
+
+		// this.sys.events.on("wake", this.wake, this)
+	}
+
+	wake() {
+		this.scene.run("BattleUIScene")
+		this.time.addEvent({
+			delay: 2000,
+			callback: this.exitBattle,
+			callbackScope: this,
+		})
 	}
 
 	nextTurn() {
@@ -102,6 +115,11 @@ class BattleScene extends Phaser.Scene {
 			callback: this.nextTurn,
 			callbackScope: this,
 		})
+	}
+
+	exitBattle() {
+		this.scene.remove("BattleUIScene")
+		this.scene.switch("WorldScene")
 	}
 }
 

@@ -43,6 +43,9 @@ class BattleUIScene extends Phaser.Scene {
 
 		this.battleScene = this.scene.get("BattleScene")
 
+		this.remapHeroes()
+		this.remapEnemies()
+
 		this.input.keyboard.on("keydown", this.onKeyInput, this)
 
 		this.battleScene.events.on("PlayerSelect", this.onPlayerSelect, this)
@@ -54,9 +57,6 @@ class BattleUIScene extends Phaser.Scene {
 		// Combat Text
 		this.message = new Message(this, this.battleScene.events)
 		this.add.existing(this.message)
-
-		this.remapHeroes()
-		this.remapEnemies()
 
 		this.battleScene.nextTurn()
 	}

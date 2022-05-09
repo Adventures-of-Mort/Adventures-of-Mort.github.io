@@ -98,9 +98,10 @@ class WorldScene extends Phaser.Scene {
 		zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height)
 
 		// shake the world
-		this.cameras.main.shake(300)
+		this.cameras.main.shake(200)
 
 		// start battle
+		this.scene.switch("BattleScene")
 	}
 	update(time, delta) {
 		//    this.controls.update(delta);
