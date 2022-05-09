@@ -1,11 +1,12 @@
 import StartMenu from "../menus/StartMenu";
+import keys from "./keys";
 
-const StartUIScene = new Phaser.Class({
-  Extends: Phaser.Scene,
-  initialize: function StartUIScene() {
-    Phaser.Scene.call(this, { key: "StartUIScene" });
-  },
-  create: function () {
+class StartUIScene extends Phaser.Scene {
+  constructor() {
+    super({ key: keys.START_UI_SCENE });
+  }
+
+  create() {
     // basic container to hold all menus
     this.menus = this.add.container();
 
@@ -17,23 +18,28 @@ const StartUIScene = new Phaser.Class({
     // add menus to the container
     this.menus.add(this.startMenu);
 
-    this.startScene = this.scene.get("StartScene");
+    this.startScene = this.scene.get(keys.START_SCENE);
 
     this.input.keyboard.on("keydown", this.onKeyInput, this);
 
     this.events.on("StartMenuSelect", this.onStartChoice, this);
-  },
+  }
 
-  onStartChoice: function (index) {
+  onStartChoice(index) {
+    // start choice
+    this.events.off("StartMenuSelect");
+    // start world scene
     if (index === 0) {
-      this.scene.start("WorldScene");
+      this.scene.start(keys.WORLD_SCENE);
     }
+    // debug choice
     if (index === 1) {
-      this.scene.start("BattleScene");
+      this.events.off("StartMenuSelect", this.onStartChoice);
+      this.scene.start(keys.BATTLE_SCENE);
     }
-  },
+  }
 
-  onKeyInput: function (event) {
+  onKeyInput(event) {
     if (this.currentMenu) {
       if (event.code === "ArrowUp") {
         this.currentMenu.moveSelectionUp();
@@ -43,7 +49,7 @@ const StartUIScene = new Phaser.Class({
         this.currentMenu.confirm();
       }
     }
-  },
-});
+  }
+}
 
 export default StartUIScene;
