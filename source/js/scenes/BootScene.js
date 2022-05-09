@@ -1,4 +1,5 @@
 import * as Phaser from "../phaser.min.js"
+import keys from "./keys"
 
 class BootScene extends Phaser.Scene {
 	constructor() {
@@ -28,7 +29,7 @@ class BootScene extends Phaser.Scene {
 	}
 
 	create() {
-		this.scene.start(keys.START_SCENE)
+		this.scene.start(keys.WORLD_SCENE)
 	}
 }
 

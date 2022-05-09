@@ -1,5 +1,6 @@
 import PlayerCharacter from "../units/Player"
 import Enemy from "../units/Enemy"
+import keys from "./keys"
 
 class BattleScene extends Phaser.Scene {
 	constructor() {
