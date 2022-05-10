@@ -16,10 +16,17 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false, // set to true to view zones
+      debug: true, // set to true to view zones
     },
   },
-  scene: [BootScene, WorldScene, StartScene, BattleScene, BattleUIScene, StartUIScene],
+  scene: [
+    BootScene,
+    WorldScene,
+    StartScene,
+    BattleScene,
+    BattleUIScene,
+    StartUIScene,
+  ],
 };
 
 export default config;

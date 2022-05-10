@@ -12,19 +12,28 @@ const WorldScene = new Phaser.Class({
     var map = this.make.tilemap({ key: "map" });
 
     // first parameter is the name of the tilemap in tiled
-    var tiles = map.addTilesetImage("spritesheet", "tiles");
+    var tiles = map.addTilesetImage("Tileset 7", "tiles");
 
     // creating the layers
-    var grass = map.createStaticLayer("Grass", tiles, 0, 0);
-    var obstacles = map.createStaticLayer("Obstacles", tiles, 0, 0);
 
-    // make all tiles in obstacles collidable
-    obstacles.setCollisionByExclusion([-1]);
+    const collisionLayer = map.createDynamicLayer("Collision", tiles);
+    const waterLayer = map.createDynamicLayer("Water", tiles);
+    const landLayer = map.createDynamicLayer("Land", tiles);
+    const aboveLandLayer = map.createDynamicLayer("Above Land", tiles);
+    const towerTopLayer = map.createDynamicLayer("Tower Top", tiles);
+    towerTopLayer.setDepth(20);
+    const debugGraphics = this.add.graphics().setAlpha(0.75);
+
+    // make all tiles in landLayer collidable
+    collisionLayer.setCollisionByExclusion([-1]);
 
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
     this.anims.create({
       key: "left",
-      frames: this.anims.generateFrameNumbers("player", { frames: [1, 7, 1, 13] }),
+      frames: [
+        { key: "player", frame: "MortWalkSide1.png" },
+        { key: "player", frame: "MortWalkSide2.png" },
+      ],
       frameRate: 10,
       repeat: -1,
     });
@@ -32,25 +41,35 @@ const WorldScene = new Phaser.Class({
     // animation with key 'right'
     this.anims.create({
       key: "right",
-      frames: this.anims.generateFrameNumbers("player", { frames: [1, 7, 1, 13] }),
+      frames: [
+        { key: "player", frame: "MortWalkSide1.png" },
+        { key: "player", frame: "MortWalkSide2.png" },
+      ],
       frameRate: 10,
       repeat: -1,
     });
     this.anims.create({
       key: "up",
-      frames: this.anims.generateFrameNumbers("player", { frames: [2, 8, 2, 14] }),
+      frames: [
+        { key: "player", frame: "MortWalkUp1.png" },
+        { key: "player", frame: "MortWalkUp2.png" },
+      ],
       frameRate: 10,
       repeat: -1,
     });
     this.anims.create({
       key: "down",
-      frames: this.anims.generateFrameNumbers("player", { frames: [0, 6, 0, 12] }),
+      frames: [
+        { key: "player", frame: "MortWalkDown1.png" },
+        { key: "player", frame: "MortWalkDown2.png" },
+      ],
       frameRate: 10,
       repeat: -1,
     });
 
     // our player sprite created through the phycis system
-    this.player = this.physics.add.sprite(50, 100, "player", 6);
+    this.player = this.physics.add.sprite(490, 805, "player");
+    const frameNames = this.textures.get("player").getFrameNames();
 
     // don't go out of the map
     this.physics.world.bounds.width = map.widthInPixels;
@@ -58,7 +77,7 @@ const WorldScene = new Phaser.Class({
     this.player.setCollideWorldBounds(true);
 
     // don't walk on trees
-    this.physics.add.collider(this.player, obstacles);
+    this.physics.add.collider(this.player, collisionLayer);
 
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -69,7 +88,9 @@ const WorldScene = new Phaser.Class({
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // where the enemies will be
-    this.spawns = this.physics.add.group({ classType: Phaser.GameObjects.Zone });
+    this.spawns = this.physics.add.group({
+      classType: Phaser.GameObjects.Zone,
+    });
     for (var i = 0; i < 30; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
@@ -77,7 +98,13 @@ const WorldScene = new Phaser.Class({
       this.spawns.create(x, y, 20, 20);
     }
     // add collider
-    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
+    this.physics.add.overlap(
+      this.player,
+      this.spawns,
+      this.onMeetEnemy,
+      false,
+      this
+    );
   },
   onMeetEnemy: function (player, zone) {
     // we move the zone to some other location
