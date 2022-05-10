@@ -9,12 +9,9 @@ class BattleUIScene extends Phaser.Scene {
 		super({ key: keys.BATTLE_UI_SCENE })
 	}
 	create() {
-		let blue = 0x031f4c
-		let red = 0x555555
-
 		this.graphics = this.add.graphics()
 		this.graphics.lineStyle(1, 0xffffff)
-		this.graphics.fillStyle(red, 1)
+		this.graphics.fillStyle(0x031f4c, 1)
 
 		// Enemy Menu
 		this.graphics.strokeRect(2, 150, 90, 100)
@@ -42,23 +39,41 @@ class BattleUIScene extends Phaser.Scene {
 		this.menus.add(this.actionsMenu)
 		this.menus.add(this.enemiesMenu)
 
-		this.battleScene = this.scene.get("BattleScene")
+		// retrieve unit data from Battle Scene
+		this.battleScene = this.scene.get(keys.BATTLE_SCENE)
 
-		this.remapHeroes()
-		this.remapEnemies()
-
+		// menu navigation
 		this.input.keyboard.on("keydown", this.onKeyInput, this)
 
+		//when its the players turn
 		this.battleScene.events.on("PlayerSelect", this.onPlayerSelect, this)
 
-		this.events.on("SelectEnemies", this.onSelectEnemies, this)
+		// when the action on the menu is selected
+		//for now we have only one action so we dont send an action ID
+		this.events.on("SelectAction", this.onSelectAction, this)
 
+		// when an enemy is selected
 		this.events.on("Enemy", this.onEnemy, this)
+
+		// when the scene gets a wake event
+		this.sys.events.on("wake", this.createMenu, this)
 
 		// Combat Text
 		this.message = new Message(this, this.battleScene.events)
 		this.add.existing(this.message)
 
+		this.createMenu()
+	}
+
+	createMenu() {
+		console.log("CreateMenu : UI Scene")
+		// map hero menu items to heroes
+		this.remapHeroes()
+
+		// map enemy menu items to enemies
+		this.remapEnemies()
+
+		// ROUND 1, FIGHT!
 		this.battleScene.nextTurn()
 	}
 
@@ -68,13 +83,13 @@ class BattleUIScene extends Phaser.Scene {
 		this.currentMenu = this.actionsMenu
 	}
 
-	onSelectEnemies() {
+	onSelectAction() {
 		this.currentMenu = this.enemiesMenu
 		this.enemiesMenu.select(0)
 	}
 
 	onKeyInput(event) {
-		if (this.currentMenu) {
+		if (this.currentMenu && this.currentMenu.selected) {
 			if (event.code === "ArrowUp") {
 				this.currentMenu.moveSelectionUp()
 			} else if (event.code === "ArrowDown") {
