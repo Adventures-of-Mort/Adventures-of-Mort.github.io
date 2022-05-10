@@ -1,13 +1,14 @@
-const StartScene = new Phaser.Class({
-  extends: Phaser.Scene,
+import StartMenu from "../menus/StartMenu";
+import keys from "./keys";
 
-  initialize: function StartScene() {
-    Phaser.Scene.call(this, { key: "StartScene" });
-  },
-  create: function () {
-    this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
-    this.scene.launch("BattleUIScene");
-  },
-});
+class StartScene extends Phaser.Scene {
+  constructor() {
+    super({ key: keys.START_SCENE });
+  }
+
+  create() {
+    this.scene.launch(keys.START_UI_SCENE);
+  }
+}
 
 export default StartScene;

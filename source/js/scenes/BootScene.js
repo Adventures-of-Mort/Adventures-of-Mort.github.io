@@ -1,14 +1,11 @@
 import * as Phaser from "../phaser.min.js"
+import keys from "./keys"
 
-const BootScene = new Phaser.Class({
-	Extends: Phaser.Scene,
-
-	initialize: function BootScene() {
-		Phaser.Scene.call(this, { key: "BootScene" })
-	},
-
-	preload: function () {
-		// map tiles
+class BootScene extends Phaser.Scene {
+	constructor() {
+		super({ key: keys.BOOT_SCENE })
+	}
+	preload() {
 		this.load.image("tiles", "assets/map/spritesheet.png")
 
 		// map in json format
@@ -19,8 +16,6 @@ const BootScene = new Phaser.Class({
 			frameWidth: 16,
 			frameHeight: 16,
 		})
-
-		// goblin enemy
 		this.load.image(
 			"goblin",
 			"../../../public/MORT/ENEMIES/GOBLIN/Goblin.png"
@@ -31,14 +26,11 @@ const BootScene = new Phaser.Class({
 			"evilTree",
 			"../../../public/MORT/ENEMIES/TREE/Tree.png"
 		)
-	},
+	}
 
-	create: function () {
-		// start the WorldScene
-		this.scene.start("BattleScene")
-		// only for test
-		//this.scene.start("StartScene");
-	},
-})
+	create() {
+		this.scene.start(keys.WORLD_SCENE)
+	}
+}
 
 export default BootScene
