@@ -1,18 +1,23 @@
 import Menu from "./Menu";
 
-const StartMenu = new Phaser.Class({
-  Extends: Menu,
-
-  initialize: function StartMenu(x, y, scene) {
-    Menu.call(this, x, y, scene);
+class StartMenu extends Menu {
+  constructor(x, y, scene) {
+    super(x, y, scene);
     this.addMenuItem("Start");
-
     this.addMenuItem("Debug Mode");
-  },
-  confirm: function () {
+    this.startScene = scene;
+  }
+  create() {
+    //this.startScene = this.scene;
+  }
+  confirm() {
     // do something when the player selects an action
-  },
-  create: function () {},
-});
+    try {
+      this.startScene.events.emit("StartMenuSelect", this.menuItemIndex);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
 
 export default StartMenu;

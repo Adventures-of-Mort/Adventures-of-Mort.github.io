@@ -1,11 +1,12 @@
 import StartMenu from "../menus/StartMenu";
+import keys from "./keys";
 
-const StartUIScene = new Phaser.Class({
-  Extends: Phaser.Scene,
-  initialize: function StartUIScene() {
-    Phaser.Scene.call(this, { key: "StartUIScene" });
-  },
-  create: function () {
+class StartUIScene extends Phaser.Scene {
+  constructor() {
+    super({ key: keys.START_UI_SCENE });
+  }
+
+  create() {
     // basic container to hold all menus
     this.menus = this.add.container();
 
@@ -17,12 +18,38 @@ const StartUIScene = new Phaser.Class({
     // add menus to the container
     this.menus.add(this.startMenu);
 
-    this.graphics = this.add.graphics();
-    this.graphics.lineStyle(1, 0xffffff);
-    this.graphics.fillStyle(0x031f4c, 1);
-    this.graphics.strokeRect(2, 150, 90, 100);
-    this.graphics.fillRect(2, 150, 90, 100);
-  },
-});
+    this.startScene = this.scene.get(keys.START_SCENE);
+
+    this.input.keyboard.on("keydown", this.onKeyInput, this);
+
+    this.events.on("StartMenuSelect", this.onStartChoice, this);
+  }
+
+  onStartChoice(index) {
+    // start choice
+    this.events.off("StartMenuSelect");
+    // start world scene
+    if (index === 0) {
+      this.scene.start(keys.WORLD_SCENE);
+    }
+    // debug choice
+    if (index === 1) {
+      this.events.off("StartMenuSelect", this.onStartChoice);
+      this.scene.start(keys.BATTLE_SCENE);
+    }
+  }
+
+  onKeyInput(event) {
+    if (this.currentMenu) {
+      if (event.code === "ArrowUp") {
+        this.currentMenu.moveSelectionUp();
+      } else if (event.code === "ArrowDown") {
+        this.currentMenu.moveSelectionDown();
+      } else if (event.code === "Enter") {
+        this.currentMenu.confirm();
+      }
+    }
+  }
+}
 
 export default StartUIScene;

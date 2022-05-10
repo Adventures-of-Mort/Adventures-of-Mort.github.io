@@ -1,44 +1,51 @@
-import * as Phaser from "../phaser.min.js";
+import * as Phaser from "../phaser.min.js"
+import keys from "./keys"
 
-const BootScene = new Phaser.Class({
-  Extends: Phaser.Scene,
-
-  initialize: function BootScene() {
-    Phaser.Scene.call(this, { key: "BootScene" });
-  },
-
-  preload: function () {
+class BootScene extends Phaser.Scene {
+	constructor() {
+		super({ key: keys.BOOT_SCENE })
+	}
+	preload() {
     // map tiles
-    this.load.image(
+		this.load.image(
       "tiles",
       "../../../public/MORT/MAPS/Tilesets/Tileset 7.png"
     );
 
-    // map in json format
-    this.load.tilemapTiledJSON(
+		// map in json format
+		this.load.tilemapTiledJSON(
       "map",
       "../../../public/MORT/MAPS/OverworldMapV2.json"
     );
 
+		// our two characters
+		this.load.spritesheet("player", "assets/RPG_assets.png", {
+			frameWidth: 16,
+			frameHeight: 16,
+		})
+		this.load.image(
+			"goblin",
+			"../../../public/MORT/ENEMIES/GOBLIN/Goblin.png"
+		)
+    
+    // butz overworld atlas
     this.load.atlas(
-      "player",
+      "playerButz",
       "../../../public/MORT/MORT/OverworldMortSpritesheet.png",
       "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
     );
 
-    // goblin enemy
-    this.load.image("goblin", "../../../public/MORT/ENEMIES/GOBLIN/Goblin.png");
+		// evil tree enemy
+		this.load.image(
+			"evilTree",
+			"../../../public/MORT/ENEMIES/TREE/Tree.png"
+		)
+	}
 
-    // evil tree enemy
-    this.load.image("evilTree", "../../../public/MORT/ENEMIES/TREE/Tree.png");
-  },
+	create() {
+		this.scene.start(keys.START_SCENE)
+	}
+}
 
-  create: function () {
-    // start the WorldScene
-    this.scene.start("WorldScene");
-    // only for test
-    //this.scene.start("StartScene");
-  },
-});
+export default BootScene
 
-export default BootScene;
