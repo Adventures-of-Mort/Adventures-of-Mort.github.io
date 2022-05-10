@@ -28,5 +28,4 @@ const config = {
 		BattleUIScene,
 	],
 }
-
 export default config

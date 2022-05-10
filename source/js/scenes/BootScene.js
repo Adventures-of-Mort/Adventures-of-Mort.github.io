@@ -6,10 +6,17 @@ class BootScene extends Phaser.Scene {
 		super({ key: keys.BOOT_SCENE })
 	}
 	preload() {
-		this.load.image("tiles", "assets/map/spritesheet.png")
+    // map tiles
+		this.load.image(
+      "tiles",
+      "../../../public/MORT/MAPS/Tilesets/Tileset 7.png"
+    );
 
 		// map in json format
-		this.load.tilemapTiledJSON("map", "assets/map/map.json")
+		this.load.tilemapTiledJSON(
+      "map",
+      "../../../public/MORT/MAPS/OverworldMapV2.json"
+    );
 
 		// our two characters
 		this.load.spritesheet("player", "assets/RPG_assets.png", {
@@ -20,6 +27,13 @@ class BootScene extends Phaser.Scene {
 			"goblin",
 			"../../../public/MORT/ENEMIES/GOBLIN/Goblin.png"
 		)
+    
+    // butz overworld atlas
+    this.load.atlas(
+      "playerButz",
+      "../../../public/MORT/MORT/OverworldMortSpritesheet.png",
+      "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
+    );
 
 		// evil tree enemy
 		this.load.image(
@@ -29,8 +43,9 @@ class BootScene extends Phaser.Scene {
 	}
 
 	create() {
-		this.scene.start(keys.WORLD_SCENE)
+		this.scene.start(keys.START_SCENE)
 	}
 }
 
 export default BootScene
+
