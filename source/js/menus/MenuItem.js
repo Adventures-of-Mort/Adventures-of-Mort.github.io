@@ -1,4 +1,4 @@
-import * as Phaser from "../phaser.min.js"
+import * as Phaser from "../phaser.js"
 
 class MenuItem extends Phaser.GameObjects.Text {
 	constructor(x, y, text, scene) {

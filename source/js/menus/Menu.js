@@ -44,8 +44,10 @@ class Menu extends Phaser.GameObjects.Container {
 	// select the menu as a whole and an element with index from it
 	select(index) {
 		if (!index) index = 0
+
 		this.menuItems[this.menuItemIndex].deselect()
 		this.menuItemIndex = index
+
 		while (!this.menuItems[this.menuItemIndex].active) {
 			console.log("Menu : select")
 			this.menuItemIndex++
@@ -65,9 +67,9 @@ class Menu extends Phaser.GameObjects.Container {
 		this.menuItemIndex = 0
 		this.selected = false
 	}
-	confirm() {
-		// wen the player confirms his slection, do the action
-	}
+	// confirm() {
+	// 	// wen the player confirms his slection, do the action
+	// }
 	clear() {
 		for (let i = 0; i < this.menuItems.length; i++) {
 			console.log("Menu : Clear")
@@ -80,7 +82,7 @@ class Menu extends Phaser.GameObjects.Container {
 		this.clear()
 		for (let i = 0; i < units.length; i++) {
 			console.log("Menu : Remap")
-			let unit = units[i]
+			const unit = units[i]
 			unit.setMenuItem(this.addMenuItem(unit.type))
 		}
 		this.menuItemIndex = 0

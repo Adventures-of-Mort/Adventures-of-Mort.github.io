@@ -13,6 +13,8 @@ class BattleScene extends Phaser.Scene {
 	}
 
 	battleSequence() {
+		// PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
+
 		// The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
 
 		// player character - warrior
@@ -24,20 +26,20 @@ class BattleScene extends Phaser.Scene {
 			1,
 			"Warrior",
 			100,
-			20
+			40
 		)
 		this.add.existing(warrior)
 
 		// player character - mage
 		const mage = new PlayerCharacter(
-			this,
-			250,
-			100,
-			"player",
-			4,
-			"Mage",
-			80,
-			8
+			this, //scene
+			250, //x coord
+			100, //y coord
+			"player", //texture
+			4, //frame
+			"Mage", //type
+			80, //HP
+			40 //Damage
 		)
 		this.add.existing(mage)
 
@@ -67,9 +69,9 @@ class BattleScene extends Phaser.Scene {
 		this.units = this.heroes.concat(this.enemies)
 
 		this.index = -1
-
+		console.log(this)
 		// Run UI Scene at the same time
-		this.scene.launch(keys.BATTLE_UI_SCENE)
+		this.scene.run(keys.BATTLE_UI_SCENE)
 
 		//Timer to kill battle sequence for development purposes
 
@@ -103,6 +105,7 @@ class BattleScene extends Phaser.Scene {
 
 		//checking to see if its a player character
 		if (this.units[this.index] instanceof PlayerCharacter) {
+			console.log("Its a players turn")
 			this.events.emit("PlayerSelect", this.index)
 		} else {
 			// if its an enemy
@@ -155,7 +158,9 @@ class BattleScene extends Phaser.Scene {
 		this.scene.switch(keys.WORLD_SCENE)
 	}
 
+	// where is this method being called?
 	receivePlayerSelection(action, target) {
+		console.log("receiving player selection")
 		if (action === "attack") {
 			this.units[this.index].attack(this.enemies[target])
 		}

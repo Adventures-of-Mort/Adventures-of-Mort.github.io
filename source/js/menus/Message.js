@@ -1,4 +1,4 @@
-import * as Phaser from "../phaser.min.js"
+import * as Phaser from "../phaser.js"
 
 export default class Message extends Phaser.GameObjects.Container {
 	constructor(scene, events) {

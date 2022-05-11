@@ -5,7 +5,7 @@ class EnemiesMenu extends Menu {
 		super(x, y, scene)
 	}
 	confirm() {
-		console.log("enemy menu firing")
+		// emits when player selects enemy to attack
 		this.scene.events.emit("Enemy", this.menuItemIndex)
 	}
 }
