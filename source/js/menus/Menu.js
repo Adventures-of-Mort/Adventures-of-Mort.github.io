@@ -23,22 +23,15 @@ class Menu extends Phaser.GameObjects.Container {
 	}
 	moveSelectionUp() {
 		this.menuItems[this.menuItemIndex].deselect()
-		do {
-			console.log("Menu : moveSelectionUp")
-			this.menuItemIndex--
-			if (this.menuItemIndex < 0)
-				this.menuItemIndex = this.menuItems.length - 1
-		} while (!this.menuItems[this.menuItemIndex].active)
+		this.menuItemIndex--
+		if (this.menuItemIndex < 0)
+			this.menuItemIndex = this.menuItems.length - 1
 		this.menuItems[this.menuItemIndex].select()
 	}
 	moveSelectionDown() {
 		this.menuItems[this.menuItemIndex].deselect()
-		do {
-			console.log("Menu : moveSelectionDown")
-			this.menuItemIndex++
-			if (this.menuItemIndex >= this.menuItems.length)
-				this.menuItemIndex = 0
-		} while (!this.menuItems[this.menuItemIndex].active)
+		this.menuItemIndex++
+		if (this.menuItemIndex >= this.menuItems.length) this.menuItemIndex = 0
 		this.menuItems[this.menuItemIndex].select()
 	}
 	// select the menu as a whole and an element with index from it
