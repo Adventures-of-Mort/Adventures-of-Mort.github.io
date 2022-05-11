@@ -6,8 +6,15 @@ class BattleScene extends Phaser.Scene {
   constructor() {
     super({ key: keys.BATTLE_SCENE });
   }
+  preload() {
+    this.load.image(
+      "battleBackground",
+      "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
+    );
+  }
   create() {
     // this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
+
     let background = this.add.image(160, 120, "battleBackground");
     background.displayWidth = 320;
     background.displayHeight = 240;

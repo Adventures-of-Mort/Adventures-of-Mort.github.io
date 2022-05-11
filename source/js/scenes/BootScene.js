@@ -11,10 +11,6 @@ class BootScene extends Phaser.Scene {
       "tiles",
       "../../../public/MORT/MAPS/Tilesets/Tileset 7.png"
     );
-    this.load.image(
-      "battleBackground",
-      "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
-    );
 
     // map in json format
     this.load.tilemapTiledJSON(
