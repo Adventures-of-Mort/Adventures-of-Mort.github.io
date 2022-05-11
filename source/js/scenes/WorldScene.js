@@ -1,4 +1,5 @@
 import keys from "./keys"
+import Phaser from "../phaser"
 
 class WorldScene extends Phaser.Scene {
 	constructor() {
@@ -11,63 +12,63 @@ class WorldScene extends Phaser.Scene {
 		var map = this.make.tilemap({ key: "map" })
 
 		// first parameter is the name of the tilemap in tiled
-		var tiles = map.addTilesetImage("Tileset 7", "tiles");
+		var tiles = map.addTilesetImage("Tileset 7", "tiles")
 
 		// creating the layers
-    const collisionLayer = map.createDynamicLayer("Collision", tiles);
-    const waterLayer = map.createDynamicLayer("Water", tiles);
-    const landLayer = map.createDynamicLayer("Land", tiles);
-    const aboveLandLayer = map.createDynamicLayer("Above Land", tiles);
-    const towerTopLayer = map.createDynamicLayer("Tower Top", tiles);
-    towerTopLayer.setDepth(20);
-    const debugGraphics = this.add.graphics().setAlpha(0.75);
+		const collisionLayer = map.createDynamicLayer("Collision", tiles)
+		const waterLayer = map.createDynamicLayer("Water", tiles)
+		const landLayer = map.createDynamicLayer("Land", tiles)
+		const aboveLandLayer = map.createDynamicLayer("Above Land", tiles)
+		const towerTopLayer = map.createDynamicLayer("Tower Top", tiles)
+		towerTopLayer.setDepth(20)
+		const debugGraphics = this.add.graphics().setAlpha(0.75)
 
 		// make all tiles in obstacles collidable
-		collisionLayer.setCollisionByExclusion([-1]);
+		collisionLayer.setCollisionByExclusion([-1])
 
 		//  animation with key 'left', we don't need left and right as we will use one and flip the sprite
-	 this.anims.create({
-      key: "left",
-      frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
+		this.anims.create({
+			key: "left",
+			frames: [
+				{ key: "playerButz", frame: "MortWalkSide1.png" },
+				{ key: "playerButz", frame: "MortWalkSide2.png" },
+			],
+			frameRate: 10,
+			repeat: -1,
+		})
 
-    // animation with key 'right'
-    this.anims.create({
-      key: "right",
-      frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: "up",
-      frames: [
-        { key: "playerButz", frame: "MortWalkUp1.png" },
-        { key: "playerButz", frame: "MortWalkUp2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: "down",
-      frames: [
-        { key: "playerButz", frame: "MortWalkDown1.png" },
-        { key: "playerButz", frame: "MortWalkDown2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
+		// animation with key 'right'
+		this.anims.create({
+			key: "right",
+			frames: [
+				{ key: "playerButz", frame: "MortWalkSide1.png" },
+				{ key: "playerButz", frame: "MortWalkSide2.png" },
+			],
+			frameRate: 10,
+			repeat: -1,
+		})
+		this.anims.create({
+			key: "up",
+			frames: [
+				{ key: "playerButz", frame: "MortWalkUp1.png" },
+				{ key: "playerButz", frame: "MortWalkUp2.png" },
+			],
+			frameRate: 10,
+			repeat: -1,
+		})
+		this.anims.create({
+			key: "down",
+			frames: [
+				{ key: "playerButz", frame: "MortWalkDown1.png" },
+				{ key: "playerButz", frame: "MortWalkDown2.png" },
+			],
+			frameRate: 10,
+			repeat: -1,
+		})
 
 		// our player sprite created through the phycis system
-    this.player = this.physics.add.sprite(490, 805, "playerButz");
-    const frameNames = this.textures.get("playerButz").getFrameNames();
+		this.player = this.physics.add.sprite(490, 805, "playerButz")
+		const frameNames = this.textures.get("playerButz").getFrameNames()
 
 		// don't go out of the map
 		this.physics.world.bounds.width = map.widthInPixels
@@ -75,7 +76,7 @@ class WorldScene extends Phaser.Scene {
 		this.player.setCollideWorldBounds(true)
 
 		// don't walk on into the water
-    this.physics.add.collider(this.player, collisionLayer);
+		this.physics.add.collider(this.player, collisionLayer)
 
 		// limit camera to map
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels)

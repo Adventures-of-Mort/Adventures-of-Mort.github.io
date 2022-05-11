@@ -1,5 +1,5 @@
 import config from "./config"
-import "./phaser.min.js"
+import "./phaser.js"
 
 const game = new Phaser.Game(config)
 

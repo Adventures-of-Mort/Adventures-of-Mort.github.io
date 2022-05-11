@@ -7,8 +7,7 @@ class ActionsMenu extends Menu {
 		this.addMenuItem("Attack")
 	}
 	confirm() {
-		// do something when the player selects an action
-		console.log("action menu firing")
+		// emit when player selects action
 		this.battleScene.events.emit("SelectAction")
 	}
 }
