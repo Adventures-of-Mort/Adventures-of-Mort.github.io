@@ -7,7 +7,10 @@ class BattleScene extends Phaser.Scene {
     super({ key: keys.BATTLE_SCENE });
   }
   create() {
-    this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
+    // this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
+    let background = this.add.image(160, 120, "battleBackground");
+    background.displayWidth = 320;
+    background.displayHeight = 240;
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
   }
@@ -22,9 +25,9 @@ class BattleScene extends Phaser.Scene {
       this,
       250,
       50,
-      "player",
-      1,
-      "Warrior",
+      "skeleman",
+      0,
+      "Skeleman",
       100,
       40
     );
@@ -35,9 +38,9 @@ class BattleScene extends Phaser.Scene {
       this, //scene
       250, //x coord
       100, //y coord
-      "player", //texture
-      4, //frame
-      "Mage", //type
+      "battleButz", //texture
+      0, //frame
+      "Mort", //type
       80, //HP
       40 //Damage
     );
@@ -47,21 +50,21 @@ class BattleScene extends Phaser.Scene {
     const goblin = new Enemy(this, 50, 50, "goblin", null, "Goblin", 50, 3);
     this.add.existing(goblin);
 
-    // non player character - evilTree
-    const evilTree = new Enemy(
+    // non player character - whiteWolf
+    const whiteWolf = new Enemy(
       this,
       50,
       100,
-      "evilTree",
+      "whiteWolf",
       null,
-      "Evil Tree",
+      "White Wolf",
       50,
       3
     );
-    this.add.existing(evilTree);
+    this.add.existing(whiteWolf);
 
     // array with enemies
-    this.enemies = [goblin, evilTree];
+    this.enemies = [goblin, whiteWolf];
     // array with heroes
     this.heroes = [warrior, mage];
 
