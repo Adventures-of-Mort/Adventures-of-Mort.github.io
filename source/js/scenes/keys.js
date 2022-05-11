@@ -5,6 +5,7 @@ const keys = {
   BATTLE_UI_SCENE: "BattleUIScene",
   BOOT_SCENE: "BootScene",
   WORLD_SCENE: "WorldScene",
+  TOWER_SCENE: "TowerScene",
 };
 
 export default keys;
