@@ -1,4 +1,5 @@
 import mort from "../characters/mort"
+import skeleman from "../characters/skelemen"
 
 class Unit extends Phaser.GameObjects.Sprite {
 	constructor(scene, x, y, texture, frame, type, hp, damage, maxHP) {
@@ -31,7 +32,8 @@ class Unit extends Phaser.GameObjects.Sprite {
 	takeDamage(damage) {
 		this.hp -= damage
 		if (this.type === mort.type) mort.currentHP -= damage
-		console.log(`${mort.type} has ${mort.currentHP} hit points remaining`)
+		if (this.type === skeleman.type) skeleman.currentHP -= damage
+
 		if (this.hp <= 0) {
 			this.hp = 0
 			this.menuItem.unitKilled()

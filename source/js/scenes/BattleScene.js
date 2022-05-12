@@ -2,6 +2,7 @@ import PlayerCharacter from "../units/Player"
 import Enemy from "../units/Enemy"
 import keys from "./keys"
 import mort from "../characters/mort"
+import skeleman from "../characters/skelemen"
 
 class BattleScene extends Phaser.Scene {
 	constructor() {
@@ -37,9 +38,9 @@ class BattleScene extends Phaser.Scene {
 			"skeleman",
 			0,
 			"Skeleman",
-			100,
+			skeleman.currentHP,
 			40,
-			100
+			skeleman.maxHP
 		)
 		this.add.existing(warrior)
 
@@ -142,8 +143,8 @@ class BattleScene extends Phaser.Scene {
 			// ATTACK!
 			this.units[this.index].attack(this.heroes[target])
 			let currentTarget = this.heroes[target]
-			if (currentTarget.type === mort.type)
-				currentTarget.hp === mort.currentHP
+			// if (currentTarget.type === mort.type)
+			// 	currentTarget.hp === mort.currentHP
 			this.battleUIScene.remapHeroes()
 			// This is to add time between attacks to provide smoother gameplay loop
 			this.time.addEvent({
