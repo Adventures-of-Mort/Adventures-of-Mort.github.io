@@ -12,12 +12,33 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/MAPS/Tilesets/Tileset 7.png"
     );
 
+    this.load.image(
+      "floor1Tiles",
+      "../../../public/MORT/MAPS/Tilesets/Tileset 6+7.png"
+    );
+
+    this.load.image(
+      "finalFloorTiles",
+      "../../../public/MORT/MAPS/Tilesets/Tileset 1.png"
+    );
+
     // map in json format
     this.load.tilemapTiledJSON(
       "map",
       "../../../public/MORT/MAPS/OverworldMapV2.json"
     );
 
+    this.load.tilemapTiledJSON(
+      "floor1",
+      "../../../public/MORT/MAPS/Tower1V2.json"
+    );
+
+    this.load.tilemapTiledJSON(
+      "FinalTowerFloor",
+      "../../../public/MORT/MAPS/FinalFloor.json"
+    );
+
+    // our two characters
     this.load.atlas(
       "battleButz",
       "../../../public/MORT/MORT/BattleMortSpritesheet.png",
@@ -44,7 +65,7 @@ class BootScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start(keys.START_SCENE);
+    this.scene.start(keys.FINAL_SCENE);
   }
 }
 

@@ -5,6 +5,7 @@ import mort from "../characters/mort"
 import skeleman from "../characters/skelemen"
 
 class BattleScene extends Phaser.Scene {
+
 	constructor() {
 		super({ key: keys.BATTLE_SCENE })
 	}
