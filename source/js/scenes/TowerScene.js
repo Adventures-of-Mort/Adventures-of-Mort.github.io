@@ -12,7 +12,6 @@ class TowerScene extends Phaser.Scene {
     const map = this.make.tilemap({ key: "floor1" });
 
     // first parameter is the name of the tilemap in tiled
-    // var tiles = map.addTilesetImage("Tileset 7", "tiles");
     const tiles = map.addTilesetImage("Floor1", "floor1Tiles");
 
     // creating the layers
@@ -74,7 +73,6 @@ class TowerScene extends Phaser.Scene {
     });
 
     // our player sprite created through the phycis system
-    //OG Starting POINT 456,450
     this.player = this.physics.add.sprite(455, 410, "playerButz");
     const frameNames = this.textures.get("playerButz").getFrameNames();
 
@@ -126,14 +124,6 @@ class TowerScene extends Phaser.Scene {
       false,
       this
     );
-
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-
-    //doors to next level
-    // this.entrance.create(455, 375, 16, 16);
-    // this.entrance.create(48, 20, 16, 16);
 
     this.physics.add.overlap(
       this.player,
@@ -187,8 +177,6 @@ class TowerScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    // this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement

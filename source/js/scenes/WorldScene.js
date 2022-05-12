@@ -70,7 +70,7 @@ class WorldScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // our player sprite created through the phycis system
+    // our player sprite created through the physics system
     this.player = this.physics.add.sprite(490, 805, "playerButz");
     const frameNames = this.textures.get("playerButz").getFrameNames();
 
@@ -101,6 +101,7 @@ class WorldScene extends Phaser.Scene {
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
+
     for (var i = 0; i < 15; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
@@ -115,12 +116,6 @@ class WorldScene extends Phaser.Scene {
       false,
       this
     );
-
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-
-    // this.entrance.create(480, 375, 16, 16);
 
     this.physics.add.overlap(
       this.player,
@@ -159,8 +154,6 @@ class WorldScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    //    this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement

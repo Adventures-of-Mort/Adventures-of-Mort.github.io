@@ -24,7 +24,6 @@ class FinalBossScene extends Phaser.Scene {
     let background = this.add.image(500, 500, "finalFloorBackground");
     background.displayWidth = 1000;
     background.displayHeight = 1000;
-    // const stars = map.createLayer("Image Layer 1");
     const collisionLayer = map.createLayer("Collision", tiles);
     const doorLayer = map.createLayer("door", tiles);
     const groundLayer = map.createLayer("Base Floor", tiles);
@@ -78,8 +77,7 @@ class FinalBossScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // our player sprite created through the phycis system
-    //OG Starting POINT 456,450
+    // our player sprite created through the physics system
     this.player = this.physics.add.sprite(385, 778, "playerButz");
     const frameNames = this.textures.get("playerButz").getFrameNames();
 
@@ -157,15 +155,12 @@ class FinalBossScene extends Phaser.Scene {
   }
 
   hitDoorLayer(player, target) {
-    console.log("DOOR HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
 
     this.scene.switch(keys.TOWER_SCENE);
   }
 
   update(time, delta) {
-    // this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement
