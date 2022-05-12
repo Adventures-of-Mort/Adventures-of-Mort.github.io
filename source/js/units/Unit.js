@@ -1,8 +1,12 @@
+import mort from "../characters/mort"
+import skeleman from "../characters/skelemen"
+
 class Unit extends Phaser.GameObjects.Sprite {
-	constructor(scene, x, y, texture, frame, type, hp, damage) {
+	constructor(scene, x, y, texture, frame, type, hp, damage, maxHP) {
 		super(scene, x, y, texture, frame)
 		this.type = type
-		this.maxHp = this.hp = hp
+		this.maxHP = maxHP
+		this.hp = hp
 		this.damage = damage // default damage
 		this.living = true
 		this.menuItem = null
@@ -27,6 +31,9 @@ class Unit extends Phaser.GameObjects.Sprite {
 	}
 	takeDamage(damage) {
 		this.hp -= damage
+		if (this.type === mort.type) mort.currentHP -= damage
+		if (this.type === skeleman.type) skeleman.currentHP -= damage
+
 		if (this.hp <= 0) {
 			this.hp = 0
 			this.menuItem.unitKilled()
