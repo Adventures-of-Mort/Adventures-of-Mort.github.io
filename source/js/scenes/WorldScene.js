@@ -16,27 +16,19 @@ class WorldScene extends Phaser.Scene {
 
 		// creating the layers
 		const collisionLayer = map.createLayer("Collision", tiles)
-    const doorLayer = map.createLayer("door", tiles);
+		const doorLayer = map.createLayer("door", tiles)
 		const waterLayer = map.createLayer("Water", tiles)
 		const landLayer = map.createLayer("Land", tiles)
 		const aboveLandLayer = map.createLayer("Above Land", tiles)
 		const towerTopLayer = map.createLayer("Tower Top", tiles)
 		towerTopLayer.setDepth(20)
 		const debugGraphics = this.add.graphics().setAlpha(0.75)
-    
-    this.cameras.main.fadeIn(500, 0, 0, 0);
+
+		this.cameras.main.fadeIn(500, 0, 0, 0)
 
 		// make all tiles in obstacles collidable
 		collisionLayer.setCollisionByExclusion([-1])
-    doorLayer.setCollisionByProperty({ door: true });
-    
-     //set up collision detection for door
-    this.physics.add.collider(
-      this.player,
-      doorLayer,
-      this.hitDoorLayer.bind(this)
-    );
-
+		doorLayer.setCollisionByProperty({ door: true })
 
 		//  animation with key 'left', we don't need left and right as we will use one and flip the sprite
 		this.anims.create({
@@ -90,6 +82,13 @@ class WorldScene extends Phaser.Scene {
 		// don't walk on into the water
 		this.physics.add.collider(this.player, collisionLayer)
 
+		//set up collision detection for door
+		this.physics.add.collider(
+			this.player,
+			doorLayer,
+			this.hitDoorLayer.bind(this)
+		)
+
 		// limit camera to map
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
 		this.cameras.main.startFollow(this.player)
@@ -108,11 +107,11 @@ class WorldScene extends Phaser.Scene {
 			// parameters are x, y, width, height
 			this.spawns.create(x, y, 20, 20)
 		}
-    
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-    
+
+		this.entrance = this.physics.add.group({
+			classType: Phaser.GameObjects.Zone,
+		})
+
 		// add collider
 		this.physics.add.overlap(
 			this.player,
@@ -121,35 +120,35 @@ class WorldScene extends Phaser.Scene {
 			false,
 			this
 		)
-    
-    this.physics.add.overlap(
-      this.player,
-      this.entrance,
-      this.HitDoorLayer,
-      false,
-      this
-    );
 
-    this.sys.events.on(
-      "wake",
-      () => {
-        this.cameras.main.fadeIn(500, 0, 0, 0);
-      },
-      this
-    );
+		this.physics.add.overlap(
+			this.player,
+			this.entrance,
+			this.hitDoorLayer,
+			false,
+			this
+		)
+
+		this.sys.events.on(
+			"wake",
+			() => {
+				this.cameras.main.fadeIn(500, 0, 0, 0)
+			},
+			this
+		)
 	}
 
-  hitDoorLayer(player, target) {
-    console.log("DOOR WORLD HIT");
-    this.cameras.main.fadeOut(500, 0, 0, 0);
+	hitDoorLayer(player, target) {
+		console.log("DOOR WORLD HIT")
+		this.cameras.main.fadeOut(500, 0, 0, 0)
 
-    this.cameras.main.once(
-      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      (cam, effect) => {
-        this.scene.switch(keys.TOWER_SCENE);
-      }
-    );
-  }
+		this.cameras.main.once(
+			Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+			(cam, effect) => {
+				this.scene.switch(keys.TOWER_SCENE)
+			}
+		)
+	}
 
 	onMeetEnemy(player, zone) {
 		// we move the zone to some other location
