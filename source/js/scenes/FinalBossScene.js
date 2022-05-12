@@ -5,17 +5,26 @@ class FinalBossScene extends Phaser.Scene {
     super({ key: keys.FINAL_SCENE });
   }
 
-  preload() {}
+  preload() {
+    this.load.image(
+      "finalFloorBackground",
+      "../../../public/MORT/MAPS/Tilesets/stars.jpg"
+    );
+  }
 
   create() {
     // create the map
     const map = this.make.tilemap({ key: "FinalTowerFloor" });
 
     // first parameter is the name of the tilemap in tiled
-    // var tiles = map.addTilesetImage("Tileset 7", "tiles");
+
     const tiles = map.addTilesetImage("Tileset1", "finalFloorTiles");
 
     // creating the layers
+    let background = this.add.image(500, 500, "finalFloorBackground");
+    background.displayWidth = 1000;
+    background.displayHeight = 1000;
+    // const stars = map.createLayer("Image Layer 1");
     const collisionLayer = map.createLayer("Collision", tiles);
     const doorLayer = map.createLayer("door", tiles);
     const groundLayer = map.createLayer("Base Floor", tiles);
