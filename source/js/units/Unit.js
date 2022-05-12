@@ -1,8 +1,12 @@
+import mort from "../characters/mort"
+// import Enemy from "./Enemy"
+
 class Unit extends Phaser.GameObjects.Sprite {
-	constructor(scene, x, y, texture, frame, type, hp, damage) {
+	constructor(scene, x, y, texture, frame, type, hp, damage, maxHP) {
 		super(scene, x, y, texture, frame)
 		this.type = type
-		this.maxHp = this.hp = hp
+		this.maxHP = maxHP
+		this.hp = hp
 		this.damage = damage // default damage
 		this.living = true
 		this.menuItem = null
@@ -27,7 +31,10 @@ class Unit extends Phaser.GameObjects.Sprite {
 	}
 	takeDamage(damage) {
 		this.hp -= damage
+		if (this.type === mort.type) mort.currentHP -= damage
+		console.log(`${mort.type} has ${mort.currentHP} hit points remaining`)
 		if (this.hp <= 0) {
+			// if (this instanceof Enemy) console.log(`${this.type} got smoked`)
 			this.hp = 0
 			this.menuItem.unitKilled()
 			this.living = false
