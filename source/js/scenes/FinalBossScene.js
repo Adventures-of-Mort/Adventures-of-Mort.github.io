@@ -80,7 +80,7 @@ class FinalBossScene extends Phaser.Scene {
 
     // our player sprite created through the phycis system
     //OG Starting POINT 456,450
-    this.player = this.physics.add.sprite(455, 410, "playerButz");
+    this.player = this.physics.add.sprite(385, 778, "playerButz");
     const frameNames = this.textures.get("playerButz").getFrameNames();
 
     // don't go out of the map
@@ -95,7 +95,7 @@ class FinalBossScene extends Phaser.Scene {
     this.physics.add.collider(
       this.player,
       doorLayer,
-      this.HitDoorLayer.bind(this)
+      this.hitDoorLayer.bind(this)
     );
 
     // limit camera to map
@@ -126,19 +126,20 @@ class FinalBossScene extends Phaser.Scene {
       this
     );
 
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-
     //doors to next level
-    this.entrance.create(455, 375, 16, 16);
-    this.entrance.create(48, 20, 16, 16);
-
     this.physics.add.overlap(
       this.player,
       this.entrance,
-      this.HitDoorLayer,
+      this.hitDoorLayer,
       false,
+      this
+    );
+
+    this.sys.events.on(
+      "wake",
+      () => {
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+      },
       this
     );
   }
@@ -155,16 +156,11 @@ class FinalBossScene extends Phaser.Scene {
     this.scene.switch(keys.BATTLE_SCENE);
   }
 
-  HitDoorLayer(player, target) {
+  hitDoorLayer(player, target) {
     console.log("DOOR HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
 
-    this.cameras.main.once(
-      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      (cam, effect) => {
-        this.scene.switch(keys.WORLD_SCENE);
-      }
-    );
+    this.scene.switch(keys.TOWER_SCENE);
   }
 
   update(time, delta) {

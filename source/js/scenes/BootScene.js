@@ -65,7 +65,7 @@ class BootScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start(keys.FINAL_SCENE);
+    this.scene.start(keys.WORLD_SCENE);
   }
 }
 

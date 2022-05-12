@@ -155,12 +155,7 @@ class WorldScene extends Phaser.Scene {
     console.log("DOOR WORLD HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
 
-    this.cameras.main.once(
-      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      (cam, effect) => {
-        this.scene.switch(keys.TOWER_SCENE);
-      }
-    );
+    this.scene.switch(keys.TOWER_SCENE);
   }
 
   update(time, delta) {
