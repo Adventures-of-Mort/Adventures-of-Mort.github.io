@@ -1,6 +1,6 @@
 {
 	"frames": {
-		"10.png": {
+		"MortBattleAttack1.png": {
 			"frame": {
 				"x": 1,
 				"y": 1,
@@ -20,7 +20,7 @@
 				"h": 24
 			}
 		},
-		"11.png": {
+		"MortBattleAttack2.png": {
 			"frame": {
 				"x": 19,
 				"y": 1,
@@ -40,7 +40,7 @@
 				"h": 24
 			}
 		},
-		"12.png": {
+		"MortBattleAttack3.png": {
 			"frame": {
 				"x": 37,
 				"y": 1,
@@ -60,71 +60,51 @@
 				"h": 24
 			}
 		},
-		"13.png": {
-			"frame": {
-				"x": 55,
-				"y": 1,
-				"w": 16,
-				"h": 24
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 16,
-				"h": 24
-			},
-			"sourceSize": {
-				"w": 16,
-				"h": 24
-			}
-		},
-		"14.png": {
+		"MortBattleDead.png": {
 			"frame": {
 				"x": 1,
 				"y": 27,
-				"w": 16,
-				"h": 24
+				"w": 23,
+				"h": 16
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 16,
-				"h": 24
+				"w": 23,
+				"h": 16
 			},
 			"sourceSize": {
-				"w": 16,
-				"h": 24
+				"w": 23,
+				"h": 16
 			}
 		},
-		"15.png": {
+		"MortBattleRun.png": {
 			"frame": {
-				"x": 19,
+				"x": 26,
 				"y": 27,
-				"w": 16,
-				"h": 24
+				"w": 18,
+				"h": 26
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 16,
-				"h": 24
+				"w": 18,
+				"h": 26
 			},
 			"sourceSize": {
-				"w": 16,
-				"h": 24
+				"w": 18,
+				"h": 26
 			}
 		},
-		"16.png": {
+		"MortBattleSpell1.png": {
 			"frame": {
-				"x": 37,
+				"x": 46,
 				"y": 27,
-				"w": 16,
+				"w": 18,
 				"h": 24
 			},
 			"rotated": false,
@@ -132,39 +112,19 @@
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 16,
+				"w": 18,
 				"h": 24
 			},
 			"sourceSize": {
-				"w": 16,
+				"w": 18,
 				"h": 24
 			}
 		},
-		"17.png": {
+		"MortBattleSpell2.png": {
 			"frame": {
 				"x": 55,
-				"y": 27,
-				"w": 16,
-				"h": 24
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 16,
-				"h": 24
-			},
-			"sourceSize": {
-				"w": 16,
-				"h": 24
-			}
-		},
-		"18.png": {
-			"frame": {
-				"x": 73,
 				"y": 1,
-				"w": 16,
+				"w": 18,
 				"h": 24
 			},
 			"rotated": false,
@@ -172,38 +132,38 @@
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 16,
+				"w": 18,
 				"h": 24
 			},
 			"sourceSize": {
-				"w": 16,
+				"w": 18,
 				"h": 24
 			}
 		},
-		"MortBattleDown.png": {
+		"MortBattleSpell3.png": {
 			"frame": {
-				"x": 73,
+				"x": 66,
 				"y": 27,
-				"w": 16,
-				"h": 21
+				"w": 17,
+				"h": 24
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 16,
-				"h": 21
+				"w": 17,
+				"h": 24
 			},
 			"sourceSize": {
-				"w": 16,
-				"h": 21
+				"w": 17,
+				"h": 24
 			}
 		},
 		"MortBattleStand.png": {
 			"frame": {
-				"x": 73,
-				"y": 50,
+				"x": 1,
+				"y": 53,
 				"w": 16,
 				"h": 24
 			},
@@ -218,6 +178,26 @@
 			"sourceSize": {
 				"w": 16,
 				"h": 24
+			}
+		},
+		"MortBattlehurt.png": {
+			"frame": {
+				"x": 46,
+				"y": 53,
+				"w": 18,
+				"h": 22
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 18,
+				"h": 22
+			},
+			"sourceSize": {
+				"w": 18,
+				"h": 22
 			}
 		}
 	},
@@ -227,8 +207,8 @@
 		"image": "spritesheet.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 90,
-			"h": 75
+			"w": 84,
+			"h": 78
 		},
 		"scale": "1"
 	}

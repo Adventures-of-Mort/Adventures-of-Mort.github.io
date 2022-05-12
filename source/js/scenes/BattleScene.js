@@ -6,13 +6,25 @@ class BattleScene extends Phaser.Scene {
   constructor() {
     super({ key: keys.BATTLE_SCENE });
   }
+  preload() {
+    this.load.image(
+      "battleBackground",
+      "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
+    );
+  }
   create() {
-    this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
+    // this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
+
+    let background = this.add.image(160, 120, "battleBackground");
+    background.displayWidth = 320;
+    background.displayHeight = 240;
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
   }
 
   battleSequence() {
+    // PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
+
     // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
 
     // player character - warrior
@@ -20,9 +32,9 @@ class BattleScene extends Phaser.Scene {
       this,
       250,
       50,
-      "player",
-      1,
-      "Warrior",
+      "skeleman",
+      0,
+      "Skeleman",
       100,
       100
     );
@@ -30,14 +42,14 @@ class BattleScene extends Phaser.Scene {
 
     // player character - mage
     const mage = new PlayerCharacter(
-      this,
-      250,
-      100,
-      "player",
-      4,
-      "Mage",
-      80,
-      100
+      this, //scene
+      250, //x coord
+      100, //y coord
+      "battleButz", //texture
+      0, //frame
+      "Mort", //type
+      80, //HP
+      100 //Damage
     );
     this.add.existing(mage);
 
@@ -45,21 +57,21 @@ class BattleScene extends Phaser.Scene {
     const goblin = new Enemy(this, 50, 50, "goblin", null, "Goblin", 50, 3);
     this.add.existing(goblin);
 
-    // non player character - evilTree
-    const evilTree = new Enemy(
+    // non player character - whiteWolf
+    const whiteWolf = new Enemy(
       this,
       50,
       100,
-      "evilTree",
+      "whiteWolf",
       null,
-      "Evil Tree",
+      "White Wolf",
       50,
       3
     );
-    this.add.existing(evilTree);
+    this.add.existing(whiteWolf);
 
     // array with enemies
-    this.enemies = [goblin, evilTree];
+    this.enemies = [goblin, whiteWolf];
     // array with heroes
     this.heroes = [warrior, mage];
 
@@ -67,9 +79,9 @@ class BattleScene extends Phaser.Scene {
     this.units = this.heroes.concat(this.enemies);
 
     this.index = -1;
-
+    console.log(this);
     // Run UI Scene at the same time
-    this.scene.launch(keys.BATTLE_UI_SCENE);
+    this.scene.run(keys.BATTLE_UI_SCENE);
 
     //Timer to kill battle sequence for development purposes
 
@@ -103,6 +115,7 @@ class BattleScene extends Phaser.Scene {
 
     //checking to see if its a player character
     if (this.units[this.index] instanceof PlayerCharacter) {
+      console.log("Its a players turn");
       this.events.emit("PlayerSelect", this.index);
     } else {
       // if its an enemy
@@ -155,7 +168,9 @@ class BattleScene extends Phaser.Scene {
     this.scene.switch(keys.TOWER_SCENE);
   }
 
+  // where is this method being called?
   receivePlayerSelection(action, target) {
+    console.log("receiving player selection");
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
     }
@@ -168,7 +183,7 @@ class BattleScene extends Phaser.Scene {
 
   exitBattle() {
     this.scene.sleep(keys.BATTLE_UI_SCENE);
-    this.scene.switch(keys.TOWER_SCENE);
+    this.scene.switch(keys.WORLD_SCENE);
   }
 }
 

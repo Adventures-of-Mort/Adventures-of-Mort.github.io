@@ -16,12 +16,14 @@ class TowerScene extends Phaser.Scene {
     const tiles = map.addTilesetImage("Floor1", "floor1Tiles");
 
     // creating the layers
-    const collisionLayer = map.createDynamicLayer("Collision", tiles);
-    const doorLayer = map.createDynamicLayer("Door", tiles);
-    const groundLayer = map.createDynamicLayer("Floor", tiles);
-    const objectLayer = map.createDynamicLayer("Objects", tiles);
+    const collisionLayer = map.createLayer("Collision", tiles);
+    const doorLayer = map.createLayer("Door", tiles);
+    const groundLayer = map.createLayer("Floor", tiles);
+    const objectLayer = map.createLayer("Objects", tiles);
 
     const debugGraphics = this.add.graphics().setAlpha(0.75);
+
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
 
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
@@ -122,7 +124,7 @@ class TowerScene extends Phaser.Scene {
     });
 
     //doors to next level
-    this.entrance.create(448, 370, 16, 16);
+    this.entrance.create(455, 375, 16, 16);
     this.entrance.create(48, 20, 16, 16);
 
     this.physics.add.overlap(
@@ -173,10 +175,10 @@ class TowerScene extends Phaser.Scene {
     // Update the animation last and give left/right animations precedence over up/down animations
     if (this.cursors.left.isDown) {
       this.player.anims.play("left", true);
-      this.player.flipX = true;
+      this.player.flipX = false;
     } else if (this.cursors.right.isDown) {
       this.player.anims.play("right", true);
-      this.player.flipX = false;
+      this.player.flipX = true;
     } else if (this.cursors.up.isDown) {
       this.player.anims.play("up", true);
     } else if (this.cursors.down.isDown) {

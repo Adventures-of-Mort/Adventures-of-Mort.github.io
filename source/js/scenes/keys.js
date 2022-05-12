@@ -6,6 +6,7 @@ const keys = {
   BOOT_SCENE: "BootScene",
   WORLD_SCENE: "WorldScene",
   TOWER_SCENE: "TowerScene",
+  FINAL_SCENE: "FinalBossScene",
 };
 
 export default keys;

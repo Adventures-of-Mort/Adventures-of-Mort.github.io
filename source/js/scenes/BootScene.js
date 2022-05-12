@@ -1,4 +1,4 @@
-import * as Phaser from "../phaser.min.js";
+import * as Phaser from "../phaser.js";
 import keys from "./keys";
 
 class BootScene extends Phaser.Scene {
@@ -17,6 +17,11 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/MAPS/Tilesets/Tileset 6+7.png"
     );
 
+    this.load.image(
+      "finalFloorTiles",
+      "../../../public/MORT/MAPS/Tilesets/Tileset 1.png"
+    );
+
     // map in json format
     this.load.tilemapTiledJSON(
       "map",
@@ -28,12 +33,25 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/MAPS/Tower1V2.json"
     );
 
+    this.load.tilemapTiledJSON(
+      "FinalTowerFloor",
+      "../../../public/MORT/MAPS/FinalFloor.json"
+    );
+
     // our two characters
-    this.load.spritesheet("player", "assets/RPG_assets.png", {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-    this.load.image("goblin", "../../../public/MORT/ENEMIES/GOBLIN/Goblin.png");
+    this.load.atlas(
+      "battleButz",
+      "../../../public/MORT/MORT/BattleMortSpritesheet.png",
+      "../../../public/MORT/MORT/BattleMortSpritesheet.json"
+    );
+
+    this.load.atlas(
+      "skeleman",
+      "../../../public/MORT/SKELEMAN/SkeleSpritesheet.png",
+      "../../../public/MORT/SKELEMAN/SkeleSpritesheet.json"
+    );
+
+    this.load.image("goblin", "../../../public/MORT/ENEMIES/5.png");
 
     // butz overworld atlas
     this.load.atlas(
@@ -42,12 +60,12 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
     );
 
-    // evil tree enemy
-    this.load.image("evilTree", "../../../public/MORT/ENEMIES/TREE/Tree.png");
+    // white wolf enemy
+    this.load.image("whiteWolf", "../../../public/MORT/ENEMIES/10.png");
   }
 
   create() {
-    this.scene.start(keys.TOWER_SCENE);
+    this.scene.start(keys.WORLD_SCENE);
   }
 }
 
