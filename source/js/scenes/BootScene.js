@@ -40,7 +40,7 @@ class BootScene extends Phaser.Scene {
 
     // our two characters
     this.load.atlas(
-      "battleButz",
+      "battleMort",
       "../../../public/MORT/MORT/BattleMortSpritesheet.png",
       "../../../public/MORT/MORT/BattleMortSpritesheet.json"
     );
@@ -55,7 +55,7 @@ class BootScene extends Phaser.Scene {
 
     // butz overworld atlas
     this.load.atlas(
-      "playerButz",
+      "playerMort",
       "../../../public/MORT/MORT/OverworldMortSpritesheet.png",
       "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
     );
