@@ -148,7 +148,14 @@ class FinalBossScene extends Phaser.Scene {
 
   HitDoorLayer(player, target) {
     console.log("DOOR HIT");
-    this.scene.switch(keys.WORLD_SCENE);
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+
+    this.cameras.main.once(
+      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+      (cam, effect) => {
+        this.scene.switch(keys.WORLD_SCENE);
+      }
+    );
   }
 
   update(time, delta) {

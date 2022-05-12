@@ -23,7 +23,7 @@ class TowerScene extends Phaser.Scene {
 
     const debugGraphics = this.add.graphics().setAlpha(0.75);
 
-    this.cameras.main.fadeIn(1000, 0, 0, 0);
+    this.cameras.main.fadeIn(500, 0, 0, 0);
 
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
@@ -88,7 +88,7 @@ class TowerScene extends Phaser.Scene {
     this.physics.add.collider(
       this.player,
       doorLayer,
-      this.HitDoorLayer.bind(this)
+      this.hitDoorLayer.bind(this)
     );
 
     // limit camera to map
@@ -124,8 +124,8 @@ class TowerScene extends Phaser.Scene {
     });
 
     //doors to next level
-    this.entrance.create(455, 375, 16, 16);
-    this.entrance.create(48, 20, 16, 16);
+    // this.entrance.create(455, 375, 16, 16);
+    // this.entrance.create(48, 20, 16, 16);
 
     this.physics.add.overlap(
       this.player,
@@ -134,8 +134,25 @@ class TowerScene extends Phaser.Scene {
       false,
       this
     );
-  }
+    // setInterval(this.logging, 5000);
+    this.time.addEvent({
+      delay: 5000,
+      repeat: 15,
+      callback: this.logging,
+      callbackScope: this,
+    });
 
+    this.sys.events.on(
+      "wake",
+      () => {
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+      },
+      this
+    );
+  }
+  logging() {
+    console.log("Hello");
+  }
   onMeetEnemy(player, zone) {
     // we move the zone to some other location
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
@@ -148,8 +165,16 @@ class TowerScene extends Phaser.Scene {
     this.scene.switch(keys.BATTLE_SCENE);
   }
 
-  HitDoorLayer(player, target) {
-    console.log("DOOR HIT");
+  hitDoorLayer(player, target) {
+    console.log("DOOR TOWER HIT");
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+
+    // this.cameras.main.once(
+    //   Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+    //   (cam, effect) => {
+    //     this.scene.switch(keys.WORLD_SCENE);
+    //   }
+    // );
     this.scene.switch(keys.WORLD_SCENE);
   }
 

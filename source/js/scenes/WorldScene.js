@@ -24,6 +24,8 @@ class WorldScene extends Phaser.Scene {
     towerTopLayer.setDepth(20);
     const debugGraphics = this.add.graphics().setAlpha(0.75);
 
+    this.cameras.main.fadeIn(500, 0, 0, 0);
+
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
@@ -84,7 +86,7 @@ class WorldScene extends Phaser.Scene {
     this.physics.add.collider(
       this.player,
       doorLayer,
-      this.HitDoorLayer.bind(this)
+      this.hitDoorLayer.bind(this)
     );
 
     // limit camera to map
@@ -127,6 +129,14 @@ class WorldScene extends Phaser.Scene {
       false,
       this
     );
+
+    this.sys.events.on(
+      "wake",
+      () => {
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+      },
+      this
+    );
   }
 
   onMeetEnemy(player, zone) {
@@ -141,10 +151,16 @@ class WorldScene extends Phaser.Scene {
     this.scene.switch(keys.BATTLE_SCENE);
   }
 
-  HitDoorLayer(player, target) {
-    console.log("DOOR HIT");
+  hitDoorLayer(player, target) {
+    console.log("DOOR WORLD HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
-    this.scene.switch(keys.TOWER_SCENE);
+
+    this.cameras.main.once(
+      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+      (cam, effect) => {
+        this.scene.switch(keys.TOWER_SCENE);
+      }
+    );
   }
 
   update(time, delta) {
