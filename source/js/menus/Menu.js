@@ -71,15 +71,17 @@ class Menu extends Phaser.GameObjects.Container {
 		this.menuItems.length = 0
 		this.menuItemIndex = 0
 	}
-	remap(units) {
-		this.clear()
-		for (let i = 0; i < units.length; i++) {
-			console.log("Menu : Remap")
-			const unit = units[i]
-			unit.setMenuItem(this.addMenuItem(unit.type))
-		}
-		this.menuItemIndex = 0
-	}
+	// remap(units) {
+	// 	this.clear()
+	// 	for (let i = 0; i < units.length; i++) {
+	// 		console.log("Menu : Remap")
+	// 		const unit = units[i]
+	// 		unit.setMenuItem(
+	// 			this.addMenuItem(`${unit.type} | ${unit.hp} / ${unit.maxHP}`)
+	// 		)
+	// 	}
+	// 	this.menuItemIndex = 0
+	// }
 }
 
 export default Menu

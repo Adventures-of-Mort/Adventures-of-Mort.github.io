@@ -15,11 +15,11 @@ class WorldScene extends Phaser.Scene {
 		var tiles = map.addTilesetImage("Tileset 7", "tiles")
 
 		// creating the layers
-		const collisionLayer = map.createDynamicLayer("Collision", tiles)
-		const waterLayer = map.createDynamicLayer("Water", tiles)
-		const landLayer = map.createDynamicLayer("Land", tiles)
-		const aboveLandLayer = map.createDynamicLayer("Above Land", tiles)
-		const towerTopLayer = map.createDynamicLayer("Tower Top", tiles)
+		const collisionLayer = map.createLayer("Collision", tiles)
+		const waterLayer = map.createLayer("Water", tiles)
+		const landLayer = map.createLayer("Land", tiles)
+		const aboveLandLayer = map.createLayer("Above Land", tiles)
+		const towerTopLayer = map.createLayer("Tower Top", tiles)
 		towerTopLayer.setDepth(20)
 		const debugGraphics = this.add.graphics().setAlpha(0.75)
 
@@ -90,7 +90,7 @@ class WorldScene extends Phaser.Scene {
 		this.spawns = this.physics.add.group({
 			classType: Phaser.GameObjects.Zone,
 		})
-		for (var i = 0; i < 15; i++) {
+		for (var i = 0; i < 30; i++) {
 			var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width)
 			var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height)
 			// parameters are x, y, width, height
@@ -138,10 +138,10 @@ class WorldScene extends Phaser.Scene {
 		// Update the animation last and give left/right animations precedence over up/down animations
 		if (this.cursors.left.isDown) {
 			this.player.anims.play("left", true)
-			this.player.flipX = true
+			this.player.flipX = false
 		} else if (this.cursors.right.isDown) {
 			this.player.anims.play("right", true)
-			this.player.flipX = false
+			this.player.flipX = true
 		} else if (this.cursors.up.isDown) {
 			this.player.anims.play("up", true)
 		} else if (this.cursors.down.isDown) {

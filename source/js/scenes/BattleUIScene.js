@@ -114,6 +114,7 @@ class BattleUIScene extends Phaser.Scene {
 		var heroes = this.battleScene.heroes
 		this.heroesMenu.remap(heroes)
 	}
+
 	remapEnemies() {
 		var enemies = this.battleScene.enemies
 		this.enemiesMenu.remap(enemies)

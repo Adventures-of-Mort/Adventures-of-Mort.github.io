@@ -1,11 +1,11 @@
 {
 	"frames": {
-		"MortWalkDown1.png": {
+		"5.png": {
 			"frame": {
 				"x": 1,
 				"y": 1,
 				"w": 16,
-				"h": 17
+				"h": 15
 			},
 			"rotated": false,
 			"trimmed": false,
@@ -13,19 +13,19 @@
 				"x": 0,
 				"y": 0,
 				"w": 16,
-				"h": 17
+				"h": 15
 			},
 			"sourceSize": {
 				"w": 16,
-				"h": 17
+				"h": 15
 			}
 		},
-		"MortWalkDown2.png": {
+		"MortOverworldDown.png": {
 			"frame": {
 				"x": 19,
 				"y": 1,
 				"w": 16,
-				"h": 17
+				"h": 15
 			},
 			"rotated": false,
 			"trimmed": false,
@@ -33,79 +33,159 @@
 				"x": 0,
 				"y": 0,
 				"w": 16,
-				"h": 17
+				"h": 15
 			},
 			"sourceSize": {
 				"w": 16,
-				"h": 17
+				"h": 15
+			}
+		},
+		"MortWalkDown1.png": {
+			"frame": {
+				"x": 37,
+				"y": 1,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"MortWalkDown2.png": {
+			"frame": {
+				"x": 1,
+				"y": 19,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
 			}
 		},
 		"MortWalkSide1.png": {
 			"frame": {
-				"x": 1,
-				"y": 20,
-				"w": 15,
-				"h": 17
+				"x": 19,
+				"y": 19,
+				"w": 16,
+				"h": 16
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 15,
-				"h": 17
+				"w": 16,
+				"h": 16
 			},
 			"sourceSize": {
-				"w": 15,
-				"h": 17
+				"w": 16,
+				"h": 16
 			}
 		},
 		"MortWalkSide2.png": {
 			"frame": {
-				"x": 18,
-				"y": 20,
-				"w": 15,
-				"h": 17
+				"x": 37,
+				"y": 19,
+				"w": 16,
+				"h": 16
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 15,
-				"h": 17
+				"w": 16,
+				"h": 16
 			},
 			"sourceSize": {
-				"w": 15,
-				"h": 17
+				"w": 16,
+				"h": 16
 			}
 		},
 		"MortWalkUp1.png": {
 			"frame": {
-				"x": 37,
-				"y": 1,
-				"w": 17,
-				"h": 17
+				"x": 1,
+				"y": 37,
+				"w": 14,
+				"h": 16
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 17,
-				"h": 17
+				"w": 14,
+				"h": 16
 			},
 			"sourceSize": {
-				"w": 17,
-				"h": 17
+				"w": 14,
+				"h": 16
 			}
 		},
 		"MortWalkUp2.png": {
 			"frame": {
-				"x": 35,
-				"y": 20,
+				"x": 17,
+				"y": 37,
+				"w": 14,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 14,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 14,
+				"h": 16
+			}
+		},
+		"MortWave1.png": {
+			"frame": {
+				"x": 33,
+				"y": 37,
+				"w": 15,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 15,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 15,
+				"h": 16
+			}
+		},
+		"MortWave2.png": {
+			"frame": {
+				"x": 55,
+				"y": 1,
 				"w": 16,
-				"h": 17
+				"h": 16
 			},
 			"rotated": false,
 			"trimmed": false,
@@ -113,11 +193,11 @@
 				"x": 0,
 				"y": 0,
 				"w": 16,
-				"h": 17
+				"h": 16
 			},
 			"sourceSize": {
 				"w": 16,
-				"h": 17
+				"h": 16
 			}
 		}
 	},
@@ -127,8 +207,8 @@
 		"image": "spritesheet.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 55,
-			"h": 38
+			"w": 72,
+			"h": 54
 		},
 		"scale": "1"
 	}

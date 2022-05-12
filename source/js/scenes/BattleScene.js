@@ -1,13 +1,26 @@
 import PlayerCharacter from "../units/Player"
 import Enemy from "../units/Enemy"
 import keys from "./keys"
+import mort from "../characters/mort"
+import skeleman from "../characters/skelemen"
 
 class BattleScene extends Phaser.Scene {
 	constructor() {
 		super({ key: keys.BATTLE_SCENE })
 	}
+	preload() {
+		this.load.image(
+			"battleBackground",
+			"../../../public/MORT/BATTLEBACKGROUNDS/0.png"
+		)
+	}
 	create() {
-		this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)")
+		// this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
+
+		let background = this.add.image(160, 120, "battleBackground")
+		background.displayWidth = 320
+		background.displayHeight = 240
+		this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE)
 		this.battleSequence()
 		this.sys.events.on("wake", this.battleSequence, this)
 	}
@@ -22,11 +35,12 @@ class BattleScene extends Phaser.Scene {
 			this,
 			250,
 			50,
-			"player",
-			1,
-			"Warrior",
-			100,
-			40
+			"skeleman",
+			0,
+			"Skeleman",
+			skeleman.currentHP,
+			40,
+			skeleman.maxHP
 		)
 		this.add.existing(warrior)
 
@@ -35,33 +49,45 @@ class BattleScene extends Phaser.Scene {
 			this, //scene
 			250, //x coord
 			100, //y coord
-			"player", //texture
-			4, //frame
-			"Mage", //type
-			80, //HP
-			40 //Damage
+			"battleButz", //texture
+			0, //frame
+			"Mort", //type
+			mort.currentHP, //HP
+			40, //Damage
+			mort.maxHP //maxHP
 		)
 		this.add.existing(mage)
 
 		// non player character - goblin
-		const goblin = new Enemy(this, 50, 50, "goblin", null, "Goblin", 50, 3)
+		const goblin = new Enemy(
+			this,
+			50,
+			50,
+			"goblin",
+			null,
+			"Goblin",
+			50,
+			3,
+			50
+		)
 		this.add.existing(goblin)
 
-		// non player character - evilTree
-		const evilTree = new Enemy(
+		// non player character - whiteWolf
+		const whiteWolf = new Enemy(
 			this,
 			50,
 			100,
-			"evilTree",
+			"whiteWolf",
 			null,
-			"Evil Tree",
+			"White Wolf",
 			50,
-			3
+			3,
+			50
 		)
-		this.add.existing(evilTree)
+		this.add.existing(whiteWolf)
 
 		// array with enemies
-		this.enemies = [goblin, evilTree]
+		this.enemies = [goblin, whiteWolf]
 		// array with heroes
 		this.heroes = [warrior, mage]
 
@@ -116,6 +142,10 @@ class BattleScene extends Phaser.Scene {
 			} while (!this.heroes[target].living)
 			// ATTACK!
 			this.units[this.index].attack(this.heroes[target])
+			let currentTarget = this.heroes[target]
+			// if (currentTarget.type === mort.type)
+			// 	currentTarget.hp === mort.currentHP
+			this.battleUIScene.remapHeroes()
 			// This is to add time between attacks to provide smoother gameplay loop
 			this.time.addEvent({
 				delay: 3000,

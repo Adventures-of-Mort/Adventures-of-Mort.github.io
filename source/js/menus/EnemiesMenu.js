@@ -28,6 +28,15 @@ class EnemiesMenu extends Menu {
 		// emits when player selects enemy to attack
 		this.scene.events.emit("Enemy", this.menuItemIndex)
 	}
+	remap(units) {
+		this.clear()
+		for (let i = 0; i < units.length; i++) {
+			console.log("Menu : Remap")
+			const unit = units[i]
+			unit.setMenuItem(this.addMenuItem(unit.type))
+		}
+		this.menuItemIndex = 0
+	}
 }
 
 export default EnemiesMenu
