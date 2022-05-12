@@ -18,6 +18,7 @@ class TowerScene extends Phaser.Scene {
     // creating the layers
     const collisionLayer = map.createLayer("Collision", tiles);
     const doorLayer = map.createLayer("Door", tiles);
+    const exitLayer = map.createLayer("Exit", tiles);
     const groundLayer = map.createLayer("Floor", tiles);
     const objectLayer = map.createLayer("Objects", tiles);
 
@@ -28,6 +29,7 @@ class TowerScene extends Phaser.Scene {
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
+    exitLayer.setCollisionByProperty({ exit: true });
 
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
     this.anims.create({
@@ -91,6 +93,12 @@ class TowerScene extends Phaser.Scene {
       this.hitDoorLayer.bind(this)
     );
 
+    this.physics.add.collider(
+      this.player,
+      exitLayer,
+      this.hitExitLayer.bind(this)
+    );
+
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cameras.main.startFollow(this.player);
@@ -130,17 +138,18 @@ class TowerScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.player,
       this.entrance,
-      this.HitDoorLayer,
+      this.hitDoorLayer,
       false,
       this
     );
-    // setInterval(this.logging, 5000);
-    this.time.addEvent({
-      delay: 5000,
-      repeat: 15,
-      callback: this.logging,
-      callbackScope: this,
-    });
+
+    this.physics.add.overlap(
+      this.player,
+      this.entrance,
+      this.hitExitLayer,
+      false,
+      this
+    );
 
     this.sys.events.on(
       "wake",
@@ -150,9 +159,7 @@ class TowerScene extends Phaser.Scene {
       this
     );
   }
-  logging() {
-    console.log("Hello");
-  }
+
   onMeetEnemy(player, zone) {
     // we move the zone to some other location
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
@@ -169,13 +176,14 @@ class TowerScene extends Phaser.Scene {
     console.log("DOOR TOWER HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
 
-    // this.cameras.main.once(
-    //   Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-    //   (cam, effect) => {
-    //     this.scene.switch(keys.WORLD_SCENE);
-    //   }
-    // );
     this.scene.switch(keys.WORLD_SCENE);
+  }
+
+  hitExitLayer(player, target) {
+    console.log("Exit TOWER HIT");
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+
+    this.scene.switch(keys.FINAL_SCENE);
   }
 
   update(time, delta) {
