@@ -7,7 +7,6 @@ class EnemiesMenu extends Menu {
 	moveSelectionUp() {
 		this.menuItems[this.menuItemIndex].deselect()
 		do {
-			console.log("Menu : moveSelectionUp")
 			this.menuItemIndex--
 			if (this.menuItemIndex < 0)
 				this.menuItemIndex = this.menuItems.length - 1
@@ -17,7 +16,6 @@ class EnemiesMenu extends Menu {
 	moveSelectionDown() {
 		this.menuItems[this.menuItemIndex].deselect()
 		do {
-			console.log("Menu : moveSelectionDown")
 			this.menuItemIndex++
 			if (this.menuItemIndex >= this.menuItems.length)
 				this.menuItemIndex = 0
@@ -31,7 +29,6 @@ class EnemiesMenu extends Menu {
 	remap(units) {
 		this.clear()
 		for (let i = 0; i < units.length; i++) {
-			console.log("Menu : Remap")
 			const unit = units[i]
 			unit.setMenuItem(this.addMenuItem(unit.type))
 		}

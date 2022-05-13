@@ -1,200 +1,211 @@
-import PlayerCharacter from "../units/Player";
-import Enemy from "../units/Enemy";
-import keys from "./keys";
-import mort from "../characters/mort";
-import skeleman from "../characters/skelemen";
+import PlayerCharacter from "../units/Player"
+import Enemy from "../units/Enemy"
+import keys from "./keys"
+import mort from "../characters/mort"
+import skeleman from "../characters/skelemen"
+// import context from "../utilities/context";
 
 class BattleScene extends Phaser.Scene {
-  constructor() {
-    super({ key: keys.BATTLE_SCENE });
-  }
-  preload() {
-    this.load.image(
-      "battleBackground",
-      "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
-    );
-  }
-  create() {
-    // this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
+	constructor() {
+		super({ key: keys.BATTLE_SCENE })
+	}
+	// preload() {
+	//   this.load.image(
+	//     "battleBackground",
+	//     "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
+	//   );
+	// }
+	create() {
+		// this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
 
-    let background = this.add.image(160, 120, "battleBackground");
-    background.displayWidth = 320;
-    background.displayHeight = 240;
-    this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
-    this.battleSequence();
-    this.sys.events.on("wake", this.battleSequence, this);
-  }
+		this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE)
+		this.battleSequence()
+		this.sys.events.on("wake", this.battleSequence, this)
+	}
 
-  battleSequence() {
-    // PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
+	battleSequence() {
+		let sceneContext = this.registry.get("context")
+		let zoneEnemies = sceneContext.currentEnemies()
 
-    // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
+		const firstEnemy = zoneEnemies[0].localEnemies[0]
+		const secondEnemy = zoneEnemies[0].localEnemies[1]
 
-    // player character - warrior
-    const warrior = new PlayerCharacter(
-      this,
-      250,
-      50,
-      "skeleman",
-      0,
-      "Skeleman",
-      skeleman.currentHP,
-      40,
-      skeleman.maxHP
-    );
-    this.add.existing(warrior);
+		let background = this.add.image(
+			160,
+			120,
+			`${sceneContext.currentScene}-battleBackground`
+		)
+		background.displayWidth = 320
+		background.displayHeight = 240
 
-    // player character - mage
-    const mage = new PlayerCharacter(
-      this, //scene
-      250, //x coord
-      100, //y coord
-      "battleMort", //texture
-      0, //frame
-      "Mort", //type
-      mort.currentHP, //HP
-      40, //Damage
-      mort.maxHP //maxHP
-    );
-    this.add.existing(mage);
+		// PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
 
-    // non player character - goblin
-    const goblin = new Enemy(this, 50, 50, "goblin", null, "Goblin", 50, 3, 50);
-    this.add.existing(goblin);
+		// The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
 
-    // non player character - whiteWolf
-    const whiteWolf = new Enemy(
-      this,
-      50,
-      100,
-      "whiteWolf",
-      null,
-      "White Wolf",
-      50,
-      3,
-      50
-    );
-    this.add.existing(whiteWolf);
+		// player character - warrior
+		const warrior = new PlayerCharacter(
+			this,
+			250,
+			50,
+			"skeleman",
+			0,
+			"Skeleman",
+			skeleman.currentHP,
+			40,
+			skeleman.maxHP
+		)
+		this.add.existing(warrior)
 
-    // array with enemies
-    this.enemies = [goblin, whiteWolf];
-    // array with heroes
-    this.heroes = [warrior, mage];
+		// player character - mage
+		const mage = new PlayerCharacter(
+			this, //scene
+			250, //x coord
+			100, //y coord
+			"battleMort", //texture
+			0, //frame
+			"Mort", //type
+			mort.currentHP, //HP
+			40, //Damage
+			mort.maxHP //maxHP
+		)
+		this.add.existing(mage)
 
-    // array with both parties, who will attack
-    this.units = this.heroes.concat(this.enemies);
+		// non player character - goblin
+		const enemyOne = new Enemy(
+			this,
+			50,
+			50,
+			firstEnemy.texture,
+			null,
+			firstEnemy.type,
+			firstEnemy.hp,
+			firstEnemy.damage,
+			firstEnemy.hp
+		)
+		this.add.existing(enemyOne)
 
-    this.index = -1;
-    console.log(this);
-    // Run UI Scene at the same time
-    this.scene.run(keys.BATTLE_UI_SCENE);
+		// non player character - whiteWolf
+		const enemyTwo = new Enemy(
+			this,
+			50,
+			100,
+			secondEnemy.texture,
+			null,
+			secondEnemy.type,
+			secondEnemy.hp,
+			secondEnemy.damage,
+			secondEnemy.hp
+		)
+		this.add.existing(enemyTwo)
 
-    //Timer to kill battle sequence for development purposes
+		// array with enemies
+		this.enemies = [enemyOne, enemyTwo]
+		// array with heroes
+		this.heroes = [warrior, mage]
 
-    // const timeEvent = this.time.addEvent({
-    // 	delay: 2000,
-    // 	callback: this.exitBattle,
-    // 	callbackScope: this,
-    // })
-  }
+		// array with both parties, who will attack
+		this.units = this.heroes.concat(this.enemies)
 
-  // wake() {
-  // 	this.scene.run("BattleUIScene")
-  // 	this.time.addEvent({
-  // 		delay: 2000,
-  // 		callback: this.exitBattle,
-  // 		callbackScope: this,
-  // 	})
-  // }
+		this.index = -1
+		// Run UI Scene at the same time
+		this.scene.run(keys.BATTLE_UI_SCENE)
 
-  nextTurn() {
-    if (this.checkEndBattle()) {
-      this.endBattle();
-      return;
-    }
-    do {
-      this.index++;
-      console.log("nextTurn : BattleScene");
-      // Here is where we restart the turn order
-      if (this.index >= this.units.length) this.index = 0;
-    } while (!this.units[this.index].living);
+		//Timer to kill battle sequence for development purposes
 
-    //checking to see if its a player character
-    if (this.units[this.index] instanceof PlayerCharacter) {
-      console.log("Its a players turn");
-      this.events.emit("PlayerSelect", this.index);
-    } else {
-      // if its an enemy
-      // pick a random target
-      let target;
-      do {
-        target = Math.floor(Math.random() * this.heroes.length);
-      } while (!this.heroes[target].living);
-      // ATTACK!
-      this.units[this.index].attack(this.heroes[target]);
-      let currentTarget = this.heroes[target];
-      // if (currentTarget.type === mort.type)
-      // 	currentTarget.hp === mort.currentHP
-      this.battleUIScene.remapHeroes();
-      // This is to add time between attacks to provide smoother gameplay loop
-      this.time.addEvent({
-        delay: 3000,
-        callback: this.nextTurn,
-        callbackScope: this,
-      });
-    }
-  }
+		// const timeEvent = this.time.addEvent({
+		// 	delay: 2000,
+		// 	callback: this.exitBattle,
+		// 	callbackScope: this,
+		// })
+	}
 
-  checkEndBattle() {
-    let victory = true;
+	// wake() {
+	// 	this.scene.run("BattleUIScene")
+	// 	this.time.addEvent({
+	// 		delay: 2000,
+	// 		callback: this.exitBattle,
+	// 		callbackScope: this,
+	// 	})
+	// }
 
-    for (let i = 0; i < this.enemies.length; i++) {
-      console.log("check end battle(victory) : battleScene");
-      if (this.enemies[i].living) victory = false;
-    }
+	nextTurn() {
+		if (this.checkEndBattle()) {
+			this.endBattle()
+			return
+		}
+		do {
+			this.index++
+			// Here is where we restart the turn order
+			if (this.index >= this.units.length) this.index = 0
+		} while (!this.units[this.index].living)
 
-    let gameOver = true;
+		//checking to see if its a player character
+		if (this.units[this.index] instanceof PlayerCharacter) {
+			this.events.emit("PlayerSelect", this.index)
+		} else {
+			// if its an enemy
+			// pick a random target
+			let target
+			do {
+				target = Math.floor(Math.random() * this.heroes.length)
+			} while (!this.heroes[target].living)
+			// ATTACK!
+			this.units[this.index].attack(this.heroes[target])
+			let currentTarget = this.heroes[target]
+			// if (currentTarget.type === mort.type)
+			// 	currentTarget.hp === mort.currentHP
+			this.battleUIScene.remapHeroes()
+			// This is to add time between attacks to provide smoother gameplay loop
+			this.time.addEvent({
+				delay: 3000,
+				callback: this.nextTurn,
+				callbackScope: this,
+			})
+		}
+	}
 
-    for (let i = 0; i < this.heroes.length; i++) {
-      console.log("check end battle(gameOver) : battleScene");
-      if (this.heroes[i].living) gameOver = false;
-    }
+	checkEndBattle() {
+		let victory = true
 
-    return victory || gameOver;
-  }
+		for (let i = 0; i < this.enemies.length; i++) {
+			if (this.enemies[i].living) victory = false
+		}
 
-  endBattle() {
-    // Wrap it up, boys. The show is over
-    this.heroes.length = 0;
-    this.enemies.length = 0;
-    for (let i = 0; i < this.units.length; i++) {
-      console.log("endbattle : battleScene");
-      this.units[i].destroy();
-    }
-    this.units.length = 0;
+		let gameOver = true
 
-    this.scene.sleep(keys.BATTLE_UI_SCENE);
+		for (let i = 0; i < this.heroes.length; i++) {
+			if (this.heroes[i].living) gameOver = false
+		}
 
-    this.scene.switch(keys.WORLD_SCENE);
-  }
+		return victory || gameOver
+	}
 
-  // where is this method being called?
-  receivePlayerSelection(action, target) {
-    console.log("receiving player selection");
-    if (action === "attack") {
-      this.units[this.index].attack(this.enemies[target]);
-    }
-    this.time.addEvent({
-      delay: 3000,
-      callback: this.nextTurn,
-      callbackScope: this,
-    });
-  }
+	endBattle() {
+		// Wrap it up, boys. The show is over
+		let sceneContext = this.registry.get("context")
+		this.heroes.length = 0
+		this.enemies.length = 0
+		for (let i = 0; i < this.units.length; i++) {
+			this.units[i].destroy()
+		}
+		this.units.length = 0
 
-  exitBattle() {
-    this.scene.sleep(keys.BATTLE_UI_SCENE);
-    this.scene.switch(keys.WORLD_SCENE);
-  }
+		this.scene.sleep(keys.BATTLE_UI_SCENE)
+
+		this.scene.switch(sceneContext.currentScene)
+	}
+
+	// where is this method being called?
+	receivePlayerSelection(action, target) {
+		if (action === "attack") {
+			this.units[this.index].attack(this.enemies[target])
+		}
+		this.time.addEvent({
+			delay: 3000,
+			callback: this.nextTurn,
+			callbackScope: this,
+		})
+	}
 }
 
-export default BattleScene;
+export default BattleScene

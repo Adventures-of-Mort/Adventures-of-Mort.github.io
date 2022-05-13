@@ -16,7 +16,6 @@ class Unit extends Phaser.GameObjects.Sprite {
 	}
 	attack(target) {
 		if (target.living) {
-			console.log(`${this.type} made an attack against ${target.type}`)
 			target.takeDamage(this.damage)
 			this.scene.events.emit(
 				"Message",
@@ -41,7 +40,6 @@ class Unit extends Phaser.GameObjects.Sprite {
 			this.visible = false
 			this.menuItem = null
 		}
-		console.log(`${this.type} has ${this.hp} hit points remaining`)
 	}
 }
 

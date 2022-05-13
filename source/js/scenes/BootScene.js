@@ -1,5 +1,6 @@
 import * as Phaser from "../phaser.js"
 import keys from "./keys"
+import context from "../utilities/context"
 
 class BootScene extends Phaser.Scene {
 	constructor() {
@@ -58,6 +59,17 @@ class BootScene extends Phaser.Scene {
 			"../../../public/MORT/MORT/OverworldMortSpritesheet.json"
 		)
 
+		//battle backgrounds
+		this.load.image(
+			"WorldScene-battleBackground",
+			"../../../public/MORT/BATTLEBACKGROUNDS/0.png"
+		)
+
+		this.load.image(
+			"TowerScene-battleBackground",
+			"../../../public/MORT/BATTLEBACKGROUNDS/21.png"
+		)
+
 		//enemies
 
 		this.load.image("whiteWolf", "../../../public/MORT/ENEMIES/10.png")
@@ -70,6 +82,8 @@ class BootScene extends Phaser.Scene {
 	}
 
 	create() {
+		this.registry.set("context", context)
+
 		this.scene.start(keys.START_SCENE)
 	}
 }
