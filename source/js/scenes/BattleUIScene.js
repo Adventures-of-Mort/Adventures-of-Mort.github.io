@@ -66,7 +66,6 @@ class BattleUIScene extends Phaser.Scene {
 	}
 
 	createMenu() {
-		console.log("CreateMenu : UI Scene")
 		// map hero menu items to heroes
 		this.remapHeroes()
 
@@ -97,7 +96,6 @@ class BattleUIScene extends Phaser.Scene {
 			} else if (event.code === "ArrowRight" || event.code === "Shift") {
 			} else if (event.code === "Space" || event.code === "ArrowLeft") {
 				this.currentMenu.confirm()
-				// console.log("hi")
 			}
 		}
 	}
