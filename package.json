@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/Group-10-Game-Dev/Capstone-Game/issues"
   },
-  "homepage": "https://group-10-game-dev.github.io/",
+  "homepage": "https://group-10-game-dev.github.io/Capstone-Game/",
   "devDependencies": {
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
