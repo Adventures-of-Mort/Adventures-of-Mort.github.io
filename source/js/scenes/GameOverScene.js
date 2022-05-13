@@ -7,10 +7,13 @@ class GameOverScene extends Phaser.Scene {
   preload() {}
 
   create() {
+    console.log("launched");
     this.music = this.sound.add("gameover");
 
     this.music.play({ volume: 0.2 });
 
-    const text = this.add.text(50, 50, "Game Over", {});
+    const text = this.add.text(120, 160, "And they were never heard from again...", { wordWrap: { width: 200 } });
   }
 }
+
+export default GameOverScene;
