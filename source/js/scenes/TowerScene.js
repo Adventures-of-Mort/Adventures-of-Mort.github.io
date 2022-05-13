@@ -18,7 +18,6 @@ class TowerScene extends Phaser.Scene {
     // creating the layers
     const collisionLayer = map.createLayer("Collision", tiles);
     const doorLayer = map.createLayer("Door", tiles);
-    const exitLayer = map.createLayer("Exit", tiles);
     const groundLayer = map.createLayer("Floor", tiles);
     const objectLayer = map.createLayer("Objects", tiles);
 
@@ -29,10 +28,11 @@ class TowerScene extends Phaser.Scene {
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
-    exitLayer.setCollisionByProperty({ exit: true });
 
     this.music = this.sound.add("doomcastle");
     this.music.play({ volume: 0.2 });
+
+    this.doorFX;
 
     this.events.on("sleep", () => {
       console.log(this.scene);
@@ -43,8 +43,8 @@ class TowerScene extends Phaser.Scene {
     this.anims.create({
       key: "left",
       frames: [
-        { key: "playerMort", frame: "MortWalkSide1.png" },
-        { key: "playerMort", frame: "MortWalkSide2.png" },
+        { key: "playerButz", frame: "MortWalkSide1.png" },
+        { key: "playerButz", frame: "MortWalkSide2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -54,8 +54,8 @@ class TowerScene extends Phaser.Scene {
     this.anims.create({
       key: "right",
       frames: [
-        { key: "playerMort", frame: "MortWalkSide1.png" },
-        { key: "playerMort", frame: "MortWalkSide2.png" },
+        { key: "playerButz", frame: "MortWalkSide1.png" },
+        { key: "playerButz", frame: "MortWalkSide2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -64,8 +64,8 @@ class TowerScene extends Phaser.Scene {
     this.anims.create({
       key: "up",
       frames: [
-        { key: "playerMort", frame: "MortWalkUp1.png" },
-        { key: "playerMort", frame: "MortWalkUp2.png" },
+        { key: "playerButz", frame: "MortWalkUp1.png" },
+        { key: "playerButz", frame: "MortWalkUp2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -74,8 +74,8 @@ class TowerScene extends Phaser.Scene {
     this.anims.create({
       key: "down",
       frames: [
-        { key: "playerMort", frame: "MortWalkDown1.png" },
-        { key: "playerMort", frame: "MortWalkDown2.png" },
+        { key: "playerButz", frame: "MortWalkDown1.png" },
+        { key: "playerButz", frame: "MortWalkDown2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -83,8 +83,8 @@ class TowerScene extends Phaser.Scene {
 
     // our player sprite created through the phycis system
     //OG Starting POINT 456,450
-    this.player = this.physics.add.sprite(455, 410, "playerMort");
-    const frameNames = this.textures.get("playerMort").getFrameNames();
+    this.player = this.physics.add.sprite(455, 410, "playerButz");
+    const frameNames = this.textures.get("playerButz").getFrameNames();
 
     // don't go out of the map
     this.physics.world.bounds.width = map.widthInPixels;
@@ -96,12 +96,6 @@ class TowerScene extends Phaser.Scene {
 
     //set up collision detection for door
     this.physics.add.collider(this.player, doorLayer, this.hitDoorLayer.bind(this));
-
-    this.physics.add.collider(
-      this.player,
-      exitLayer,
-      this.hitExitLayer.bind(this)
-    );
 
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -133,25 +127,14 @@ class TowerScene extends Phaser.Scene {
     // this.entrance.create(455, 375, 16, 16);
     // this.entrance.create(48, 20, 16, 16);
 
-
-    
-
-    this.physics.add.overlap(
-      this.player,
-      this.entrance,
-      this.hitDoorLayer,
-      false,
-      this
-    );
-
-    this.physics.add.overlap(
-      this.player,
-      this.entrance,
-      this.hitExitLayer,
-      false,
-      this
-    );
-
+    this.physics.add.overlap(this.player, this.entrance, this.HitDoorLayer, false, this);
+    // setInterval(this.logging, 5000);
+    this.time.addEvent({
+      delay: 5000,
+      repeat: 15,
+      callback: this.logging,
+      callbackScope: this,
+    });
 
     this.sys.events.on(
       "wake",
@@ -162,7 +145,9 @@ class TowerScene extends Phaser.Scene {
       this
     );
   }
-
+  logging() {
+    console.log("Hello");
+  }
   onMeetEnemy(player, zone) {
     // we move the zone to some other location
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
@@ -181,14 +166,13 @@ class TowerScene extends Phaser.Scene {
     console.log("music", this.music);
     this.music.pause();
 
+    // this.cameras.main.once(
+    //   Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+    //   (cam, effect) => {
+    //     this.scene.switch(keys.WORLD_SCENE);
+    //   }
+    // );
     this.scene.switch(keys.WORLD_SCENE);
-  }
-
-  hitExitLayer(player, target) {
-    console.log("Exit TOWER HIT");
-    this.cameras.main.fadeOut(500, 0, 0, 0);
-
-    this.scene.switch(keys.FINAL_SCENE);
   }
 
   update(time, delta) {

@@ -29,8 +29,7 @@ class WorldScene extends Phaser.Scene {
     this.doorFX = this.sound.add("door2");
 
     // create animations
-    this.createAnimations();
-
+    //this.createAnimations();
 
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
@@ -91,11 +90,7 @@ class WorldScene extends Phaser.Scene {
 
     //set up collision detection for door
 
-    this.physics.add.collider(
-      this.player,
-      doorLayer,
-      this.hitDoorLayer.bind(this)
-    );
+    this.physics.add.collider(this.player, doorLayer, this.hitDoorLayer.bind(this));
 
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -118,28 +113,15 @@ class WorldScene extends Phaser.Scene {
     }
 
     // add collider
-    this.physics.add.overlap(
-      this.player,
-      this.spawns,
-      this.onMeetEnemy,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.entrance = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
 
-
     // this.entrance.create(480, 375, 16, 16);
 
-    this.physics.add.overlap(
-      this.player,
-      this.entrance,
-      this.HitDoorLayer,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.entrance, this.HitDoorLayer, false, this);
 
     this.sys.events.on(
       "wake",
@@ -171,7 +153,6 @@ class WorldScene extends Phaser.Scene {
       //this.scene.switch(keys.TOWER_SCENE);
       // this.scene.sleep(keys.WORLD_SCENE).run(keys.TOWER_SCENE);
     });
-
   }
 
   onMeetEnemy(player, zone) {
@@ -185,7 +166,6 @@ class WorldScene extends Phaser.Scene {
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
   }
-
 
   hitDoorLayer(player, target) {
     console.log("DOOR WORLD HIT");
@@ -228,9 +208,6 @@ class WorldScene extends Phaser.Scene {
       this.player.anims.stop();
     }
   }
-
-
-  
 }
 
 export default WorldScene;
