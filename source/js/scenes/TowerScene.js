@@ -29,6 +29,14 @@ class TowerScene extends Phaser.Scene {
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
 
+    this.music = this.sound.add("doomcastle");
+    this.music.play({ volume: 0.04 });
+
+    this.events.on("sleep", () => {
+      console.log(this.scene);
+      this.music.stop();
+    });
+
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
     this.anims.create({
       key: "left",
@@ -85,11 +93,7 @@ class TowerScene extends Phaser.Scene {
     this.physics.add.collider(this.player, collisionLayer);
 
     //set up collision detection for door
-    this.physics.add.collider(
-      this.player,
-      doorLayer,
-      this.hitDoorLayer.bind(this)
-    );
+    this.physics.add.collider(this.player, doorLayer, this.hitDoorLayer.bind(this));
 
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -111,13 +115,7 @@ class TowerScene extends Phaser.Scene {
     }
 
     // add collider
-    this.physics.add.overlap(
-      this.player,
-      this.spawns,
-      this.onMeetEnemy,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.entrance = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -127,13 +125,7 @@ class TowerScene extends Phaser.Scene {
     // this.entrance.create(455, 375, 16, 16);
     // this.entrance.create(48, 20, 16, 16);
 
-    this.physics.add.overlap(
-      this.player,
-      this.entrance,
-      this.HitDoorLayer,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.entrance, this.HitDoorLayer, false, this);
     // setInterval(this.logging, 5000);
     this.time.addEvent({
       delay: 5000,
@@ -168,6 +160,8 @@ class TowerScene extends Phaser.Scene {
   hitDoorLayer(player, target) {
     console.log("DOOR TOWER HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
+    console.log("music", this.music);
+    this.music.pause();
 
     // this.cameras.main.once(
     //   Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,

@@ -21,15 +21,12 @@ const config = {
       debug: true, // set to true to view zones
     },
   },
-  scene: [
-    BootScene,
-    StartScene,
-    StartUIScene,
-    WorldScene,
-    TowerScene,
-    FinalBossScene,
-    BattleScene,
-    BattleUIScene,
-  ],
+  scene: [BootScene, StartScene, StartUIScene, WorldScene, TowerScene, FinalBossScene, BattleScene, BattleUIScene],
+  callbacks: {
+    preBoot: function (game) {
+      //game.music = Phaser.Sound.SoundManagerCreator.create(game);
+      //game.FX = Phaser
+    },
+  },
 };
 export default config;
