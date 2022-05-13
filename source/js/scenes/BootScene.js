@@ -62,7 +62,7 @@ class BootScene extends Phaser.Scene {
     //starting menu splash
     this.load.image(
       "menuSplash",
-      "../../../../public/MORT/SPLASHART/Mort_Tings.png"
+      "../../../public/MORT/SPLASHART/Mort_Tings.png"
     );
 
     //battle backgrounds
@@ -92,10 +92,7 @@ class BootScene extends Phaser.Scene {
 
     this.load.image("spider", "../../../public/MORT/ENEMIES/79.png");
 
-    this.load.image(
-      "boss",
-      "../../../../public/MORT/PRINCESS/princessBoss.png"
-    );
+    this.load.image("boss", "../../../public/MORT/PRINCESS/princessBoss.png");
   }
 
   create() {
