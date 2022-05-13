@@ -30,16 +30,15 @@ class TowerScene extends Phaser.Scene {
 		collisionLayer.setCollisionByExclusion([-1])
 		doorLayer.setCollisionByProperty({ door: true })
 		exitLayer.setCollisionByProperty({ exit: true })
-    
-    //audio
-    this.music = this.sound.add("doomcastle");
-    this.music.play({ volume: 0.2 });
 
-    this.events.on("sleep", () => {
-      console.log(this.scene);
-      this.music.stop();
-    });
+		//audio
+		this.music = this.sound.add("doomcastle")
+		this.music.play({ volume: 0.2 })
 
+		this.events.on("sleep", () => {
+			console.log(this.scene)
+			this.music.stop()
+		})
 
 		//  animation with key 'left', we don't need left and right as we will use one and flip the sprite
 		this.anims.create({
@@ -165,7 +164,7 @@ class TowerScene extends Phaser.Scene {
 			"wake",
 			() => {
 				this.cameras.main.fadeIn(500, 0, 0, 0)
-        this.music.play({ volume: 0.2 })
+				this.music.play({ volume: 0.2 })
 			},
 			this
 		)
@@ -185,8 +184,12 @@ class TowerScene extends Phaser.Scene {
 
 	hitDoorLayer(player, target) {
 		this.cameras.main.fadeOut(500, 0, 0, 0)
-		// change context.currentScene to WORLD_SCENE
-    this.music.pause()
+
+		let context = this.registry.get("context")
+		context.currentScene = keys.WORLD_SCENE
+		this.registry.set("context", context)
+
+		this.music.pause()
 		this.scene.switch(keys.WORLD_SCENE)
 	}
 
