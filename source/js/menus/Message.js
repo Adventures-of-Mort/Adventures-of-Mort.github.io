@@ -19,14 +19,11 @@ export default class Message extends Phaser.GameObjects.Container {
 		}).setOrigin(0.5)
 		this.add(this.text)
 
-		console.log("Message Menu reporting in")
-
 		events.on("Message", this.showMessage, this)
 		this.visible = false
 	}
 
 	showMessage(text) {
-		console.log("Show menu method is being called")
 		this.text.setText(text)
 		this.visible = true
 		if (this.hideEvent) {

@@ -34,8 +34,8 @@ class WorldScene extends Phaser.Scene {
     this.anims.create({
       key: "left",
       frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -45,8 +45,8 @@ class WorldScene extends Phaser.Scene {
     this.anims.create({
       key: "right",
       frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -54,8 +54,8 @@ class WorldScene extends Phaser.Scene {
     this.anims.create({
       key: "up",
       frames: [
-        { key: "playerButz", frame: "MortWalkUp1.png" },
-        { key: "playerButz", frame: "MortWalkUp2.png" },
+        { key: "playerMort", frame: "MortWalkUp1.png" },
+        { key: "playerMort", frame: "MortWalkUp2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -63,16 +63,16 @@ class WorldScene extends Phaser.Scene {
     this.anims.create({
       key: "down",
       frames: [
-        { key: "playerButz", frame: "MortWalkDown1.png" },
-        { key: "playerButz", frame: "MortWalkDown2.png" },
+        { key: "playerMort", frame: "MortWalkDown1.png" },
+        { key: "playerMort", frame: "MortWalkDown2.png" },
       ],
       frameRate: 10,
       repeat: -1,
     });
 
-    // our player sprite created through the physics system
-    this.player = this.physics.add.sprite(490, 805, "playerButz");
-    const frameNames = this.textures.get("playerButz").getFrameNames();
+    // our player sprite created through the phycis system
+    this.player = this.physics.add.sprite(490, 805, "playerMort");
+    const frameNames = this.textures.get("playerMort").getFrameNames();
 
     // don't go out of the map
     this.physics.world.bounds.width = map.widthInPixels;
@@ -101,7 +101,6 @@ class WorldScene extends Phaser.Scene {
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
-
     for (var i = 0; i < 15; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
@@ -116,6 +115,12 @@ class WorldScene extends Phaser.Scene {
       false,
       this
     );
+
+    this.entrance = this.physics.add.group({
+      classType: Phaser.GameObjects.Zone,
+    });
+
+    // this.entrance.create(480, 375, 16, 16);
 
     this.physics.add.overlap(
       this.player,
@@ -147,13 +152,17 @@ class WorldScene extends Phaser.Scene {
   }
 
   hitDoorLayer(player, target) {
-    console.log("DOOR WORLD HIT");
+    let context = this.registry.get("context");
+    context.currentScene = keys.TOWER_SCENE;
+    this.registry.set("context", context);
     this.cameras.main.fadeOut(500, 0, 0, 0);
 
     this.scene.switch(keys.TOWER_SCENE);
   }
 
   update(time, delta) {
+    //    this.controls.update(delta);
+
     this.player.body.setVelocity(0);
 
     // Horizontal movement
