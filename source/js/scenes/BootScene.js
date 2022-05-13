@@ -54,6 +54,7 @@ class BootScene extends Phaser.Scene {
     this.load.audio("doomcastle", "../../../source/assets/audio/music/doomcastle.mp3");
 
     this.load.audio("door1", "../../../source/assets/audio/effects/door1.wav");
+    this.load.audio("door2", "../../../source/assets/audio/effects/door2.wav");
   }
 
   create() {

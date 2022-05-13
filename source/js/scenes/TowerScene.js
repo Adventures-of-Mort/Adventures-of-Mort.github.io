@@ -30,7 +30,7 @@ class TowerScene extends Phaser.Scene {
     doorLayer.setCollisionByProperty({ door: true });
 
     this.music = this.sound.add("doomcastle");
-    this.music.play({ volume: 0.04 });
+    this.music.play({ volume: 0.2 });
 
     this.events.on("sleep", () => {
       console.log(this.scene);
@@ -138,6 +138,7 @@ class TowerScene extends Phaser.Scene {
       "wake",
       () => {
         this.cameras.main.fadeIn(500, 0, 0, 0);
+        this.music.play({ volume: 0.2 });
       },
       this
     );

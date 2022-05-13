@@ -26,7 +26,7 @@ class WorldScene extends Phaser.Scene {
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
 
-    this.doorFX = this.sound.add("door1");
+    this.doorFX = this.sound.add("door2");
 
     // create animations
     this.createAnimations();
@@ -105,9 +105,10 @@ class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeOut(500, 0, 0, 0);
 
     this.doorFX.play({ volume: 0.2 });
-
+    this.scene.switch(keys.TOWER_SCENE);
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-      this.scene.switch(keys.TOWER_SCENE);
+      //this.scene.switch(keys.TOWER_SCENE);
+      // this.scene.sleep(keys.WORLD_SCENE).run(keys.TOWER_SCENE);
     });
   }
 
