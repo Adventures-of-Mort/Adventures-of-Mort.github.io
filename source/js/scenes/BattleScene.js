@@ -21,7 +21,25 @@ class BattleScene extends Phaser.Scene {
 		this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE)
 		this.battleSequence()
 		this.sys.events.on("wake", this.battleSequence, this)
+    
+    this.initializeAudio();
+    this.music.play({ volume: 0.2 });
+
+    this.events.on("wake", () => {
+    this.initializeAudio();
+    this.music.play({ volume: 0.2 });
+    });
+
+    this.events.on("sleep", () => {
+      this.music.stop();
+    });
 	}
+
+  initializeAudio() {
+    const songs = ["battle1", "battle2", "battle3"];
+    let index = Math.floor(Math.random() * songs.length);
+    this.music = this.sound.add(songs[index]);
+  }
 
 	battleSequence() {
 		let sceneContext = this.registry.get("context")

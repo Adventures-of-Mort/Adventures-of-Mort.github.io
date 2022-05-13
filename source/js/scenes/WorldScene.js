@@ -25,6 +25,8 @@ class WorldScene extends Phaser.Scene {
 		const debugGraphics = this.add.graphics().setAlpha(0.75)
 
 		this.cameras.main.fadeIn(500, 0, 0, 0)
+    
+    this.doorFX = this.sound.add("door2")
 
 		// make all tiles in obstacles collidable
 		collisionLayer.setCollisionByExclusion([-1])
@@ -137,6 +139,17 @@ class WorldScene extends Phaser.Scene {
 			},
 			this
 		)
+    
+    this.music = this.sound.add("world_theme");
+    this.music.play({ volume: 0.2 });
+
+    this.events.on("sleep", () => {
+      this.music.stop();
+    });
+
+    this.events.on("wake", () => {
+      this.music.play({ volume: 0.2 });
+    });
 	}
 
 	onMeetEnemy(player, zone) {
@@ -156,6 +169,7 @@ class WorldScene extends Phaser.Scene {
 		context.currentScene = keys.TOWER_SCENE
 		this.registry.set("context", context)
 		this.cameras.main.fadeOut(500, 0, 0, 0)
+    this.doorFX.play({ volume: 0.2 });
 
 		this.scene.switch(keys.TOWER_SCENE)
 	}
