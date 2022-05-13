@@ -6,6 +6,8 @@ import StartUIScene from "./scenes/StartUIScene.js";
 import BattleScene from "./scenes/BattleScene";
 import TowerScene from "./scenes/TowerScene";
 import FinalBossScene from "./scenes/FinalBossScene";
+import BossBattleScene from "./scenes/BossBattleScene";
+import BossBattleUIScene from "./scenes/BossBattleUIScene";
 
 const config = {
   type: Phaser.AUTO,
@@ -30,6 +32,8 @@ const config = {
     FinalBossScene,
     BattleScene,
     BattleUIScene,
+    BossBattleScene,
+    BossBattleUIScene,
   ],
 };
 export default config;

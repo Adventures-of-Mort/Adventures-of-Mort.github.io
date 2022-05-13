@@ -35,8 +35,8 @@ class TowerScene extends Phaser.Scene {
     this.anims.create({
       key: "left",
       frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -46,8 +46,8 @@ class TowerScene extends Phaser.Scene {
     this.anims.create({
       key: "right",
       frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -56,8 +56,8 @@ class TowerScene extends Phaser.Scene {
     this.anims.create({
       key: "up",
       frames: [
-        { key: "playerButz", frame: "MortWalkUp1.png" },
-        { key: "playerButz", frame: "MortWalkUp2.png" },
+        { key: "playerMort", frame: "MortWalkUp1.png" },
+        { key: "playerMort", frame: "MortWalkUp2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -66,8 +66,8 @@ class TowerScene extends Phaser.Scene {
     this.anims.create({
       key: "down",
       frames: [
-        { key: "playerButz", frame: "MortWalkDown1.png" },
-        { key: "playerButz", frame: "MortWalkDown2.png" },
+        { key: "playerMort", frame: "MortWalkDown1.png" },
+        { key: "playerMort", frame: "MortWalkDown2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -75,8 +75,8 @@ class TowerScene extends Phaser.Scene {
 
     // our player sprite created through the phycis system
     //OG Starting POINT 456,450
-    this.player = this.physics.add.sprite(455, 410, "playerButz");
-    const frameNames = this.textures.get("playerButz").getFrameNames();
+    this.player = this.physics.add.sprite(455, 410, "playerMort");
+    const frameNames = this.textures.get("playerMort").getFrameNames();
 
     // don't go out of the map
     this.physics.world.bounds.width = map.widthInPixels;
@@ -173,16 +173,14 @@ class TowerScene extends Phaser.Scene {
   }
 
   hitDoorLayer(player, target) {
-    console.log("DOOR TOWER HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
-
+    // change context.currentScene to WORLD_SCENE
     this.scene.switch(keys.WORLD_SCENE);
   }
 
   hitExitLayer(player, target) {
-    console.log("Exit TOWER HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
-
+    // change context.currentScene to FINAL_SCENE
     this.scene.switch(keys.FINAL_SCENE);
   }
 

@@ -1,15 +1,17 @@
-// import {Paladin, Wizard, Archer, Warrior} from ./enemies
+import { wolf, goblin, ghost, spider } from "../characters/enemies"
 import keys from "../scenes/keys"
 
 const context = {
 	currentScene: keys.WORLD_SCENE,
-	currentEnemies: this.enemiesList.filter(
-		(enemies) => enemies.zone === context.currentScene
-	),
 	enemiesList: [
-		{ zone: keys.WORLD_SCENE, localEnemies: [Warrior, Archer] },
-		{ zone: keys.TOWER_SCENE, localEnemies: [Paladin, Wizard] },
+		{ zone: keys.WORLD_SCENE, localEnemies: [wolf, goblin] },
+		{ zone: keys.TOWER_SCENE, localEnemies: [ghost, spider] },
 	],
+	currentEnemies: function () {
+		return this.enemiesList.filter((enemies) => {
+			return enemies.zone === this.currentScene
+		})
+	},
 }
 
 export default context

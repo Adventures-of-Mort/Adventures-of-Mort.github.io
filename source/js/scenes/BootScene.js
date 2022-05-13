@@ -1,5 +1,6 @@
 import * as Phaser from "../phaser.js";
 import keys from "./keys";
+import context from "../utilities/context";
 
 class BootScene extends Phaser.Scene {
   constructor() {
@@ -40,7 +41,7 @@ class BootScene extends Phaser.Scene {
 
     // our two characters
     this.load.atlas(
-      "battleButz",
+      "battleMort",
       "../../../public/MORT/MORT/BattleMortSpritesheet.png",
       "../../../public/MORT/MORT/BattleMortSpritesheet.json"
     );
@@ -51,20 +52,52 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/SKELEMAN/SkeleSpritesheet.json"
     );
 
-    this.load.image("goblin", "../../../public/MORT/ENEMIES/5.png");
-
     // butz overworld atlas
     this.load.atlas(
-      "playerButz",
+      "playerMort",
       "../../../public/MORT/MORT/OverworldMortSpritesheet.png",
       "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
     );
 
-    // white wolf enemy
+    //starting menu splash
+    this.load.image(
+      "menuSplash",
+      "../../../public/MORT/SPLASHART/Mort_Tings.png"
+    );
+
+    //battle backgrounds
+    this.load.image(
+      "WorldScene-battleBackground",
+      "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
+    );
+
+    this.load.image(
+      "TowerScene-battleBackground",
+      "../../../public/MORT/BATTLEBACKGROUNDS/21.png"
+    );
+
+    //final boss background
+    this.load.image(
+      "BossBattleScene-battleBackground",
+      "../../../public/MORT/BATTLEBACKGROUNDS/30.png"
+    );
+
+    //enemies
+
     this.load.image("whiteWolf", "../../../public/MORT/ENEMIES/10.png");
+
+    this.load.image("goblin", "../../../public/MORT/ENEMIES/5.png");
+
+    this.load.image("ghost", "../../../public/MORT/ENEMIES/46.png");
+
+    this.load.image("spider", "../../../public/MORT/ENEMIES/79.png");
+
+    this.load.image("boss", "../../../public/MORT/PRINCESS/princessBoss.png");
   }
 
   create() {
+    this.registry.set("context", context);
+
     this.scene.start(keys.START_SCENE);
   }
 }

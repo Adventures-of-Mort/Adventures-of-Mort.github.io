@@ -3,29 +3,24 @@ import Enemy from "../units/Enemy";
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import boss from "../characters/enemies";
 
-class BattleScene extends Phaser.Scene {
+class BossBattleScene extends Phaser.Scene {
   constructor() {
-    super({ key: keys.BATTLE_SCENE });
+    super({ key: keys.BOSS_SCENE });
   }
 
   create() {
-    this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
+    this.battleUIScene = this.scene.get(keys.BOSS_BATTLE_UI_SCENE);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
   }
 
   battleSequence() {
-    let sceneContext = this.registry.get("context");
-    let zoneEnemies = sceneContext.currentEnemies();
-
-    const firstEnemy = zoneEnemies[0].localEnemies[0];
-    const secondEnemy = zoneEnemies[0].localEnemies[1];
-
     let background = this.add.image(
       160,
       120,
-      `${sceneContext.currentScene}-battleBackground`
+      `BossBattleScene-battleBackground`
     );
     background.displayWidth = 320;
     background.displayHeight = 240;
@@ -63,44 +58,32 @@ class BattleScene extends Phaser.Scene {
     this.add.existing(mage);
 
     // non player character - goblin
-    const enemyOne = new Enemy(
+    const boss = new Enemy(
       this,
-      50,
-      50,
-      firstEnemy.texture,
-      null,
-      firstEnemy.type,
-      firstEnemy.hp,
-      firstEnemy.damage,
-      firstEnemy.hp
+      60,
+      70,
+      "boss",
+      0,
+      `'Evil' Princess`,
+      300,
+      35,
+      300
     );
-    this.add.existing(enemyOne);
 
-    // non player character - whiteWolf
-    const enemyTwo = new Enemy(
-      this,
-      50,
-      100,
-      secondEnemy.texture,
-      null,
-      secondEnemy.type,
-      secondEnemy.hp,
-      secondEnemy.damage,
-      secondEnemy.hp
-    );
-    this.add.existing(enemyTwo);
+    this.add.existing(boss);
 
     // array with enemies
-    this.enemies = [enemyOne, enemyTwo];
+    this.enemies = [boss];
     // array with heroes
     this.heroes = [warrior, mage];
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
+    console.log(this.units);
 
     this.index = -1;
     // Run UI Scene at the same time
-    this.scene.run(keys.BATTLE_UI_SCENE);
+    this.scene.run(keys.BOSS_BATTLE_UI_SCENE);
 
     //Timer to kill battle sequence for development purposes
 
@@ -182,7 +165,7 @@ class BattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
 
-    this.scene.sleep(keys.BATTLE_UI_SCENE);
+    this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
 
     this.scene.switch(sceneContext.currentScene);
   }
@@ -200,4 +183,4 @@ class BattleScene extends Phaser.Scene {
   }
 }
 
-export default BattleScene;
+export default BossBattleScene;

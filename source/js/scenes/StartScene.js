@@ -8,6 +8,11 @@ class StartScene extends Phaser.Scene {
 
   create() {
     this.scene.launch(keys.START_UI_SCENE);
+    this.background();
+  }
+
+  background() {
+    let background = this.add.image(159, 115, "menuSplash");
   }
 }
 
