@@ -10,7 +10,7 @@ class StartUIScene extends Phaser.Scene {
     // basic container to hold all menus
     this.menus = this.add.container();
 
-    this.startMenu = new StartMenu(0, 0, this);
+    this.startMenu = new StartMenu(33, 170, this);
 
     // the currently selected menu
     this.currentMenu = this.startMenu;

@@ -59,6 +59,12 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
     );
 
+    //starting menu splash
+    this.load.image(
+      "menuSplash",
+      "../../../public/MORT/SPLASHART/Mort_Tings.png"
+    );
+
     //battle backgrounds
     this.load.image(
       "WorldScene-battleBackground",

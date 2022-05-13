@@ -106,17 +106,6 @@ class FinalBossScene extends Phaser.Scene {
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    // where the enemies will be
-    this.spawns = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-    for (var i = 0; i < 15; i++) {
-      var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-      var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-      // parameters are x, y, width, height
-      this.spawns.create(x, y, 20, 20);
-    }
-
     // add collider
     this.physics.add.overlap(
       this.player,
