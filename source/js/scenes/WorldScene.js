@@ -72,7 +72,7 @@ class WorldScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // our player sprite created through the phycis system
+    // our player sprite created through the physics system
     this.player = this.physics.add.sprite(490, 805, "playerMort");
     const frameNames = this.textures.get("playerMort").getFrameNames();
 
