@@ -9,10 +9,12 @@ class BattleScene extends Phaser.Scene {
     super({ key: keys.BATTLE_SCENE });
   }
   preload() {
+
     this.load.image(
       "battleBackground",
       "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
     );
+
   }
   create() {
     // this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
@@ -23,7 +25,29 @@ class BattleScene extends Phaser.Scene {
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
+
+
+    this.initializeAudio();
+    this.music.play({ volume: 0.2 });
+
+    this.events.on("wake", () => {
+      this.initializeAudio();
+      this.music.play({ volume: 0.2 });
+    });
+
+    this.events.on("sleep", () => {
+      this.music.stop();
+    });
   }
+
+  initializeAudio() {
+    const songs = ["battle1", "battle2", "battle3"];
+    let index = Math.floor(Math.random() * songs.length);
+    this.music = this.sound.add(songs[index]);
+  }
+
+  }
+
 
   battleSequence() {
     // PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
@@ -49,7 +73,9 @@ class BattleScene extends Phaser.Scene {
       this, //scene
       250, //x coord
       100, //y coord
+
       "battleMort", //texture
+
       0, //frame
       "Mort", //type
       mort.currentHP, //HP
@@ -63,6 +89,7 @@ class BattleScene extends Phaser.Scene {
     this.add.existing(goblin);
 
     // non player character - whiteWolf
+
     const whiteWolf = new Enemy(
       this,
       50,
@@ -74,6 +101,7 @@ class BattleScene extends Phaser.Scene {
       3,
       50
     );
+
     this.add.existing(whiteWolf);
 
     // array with enemies

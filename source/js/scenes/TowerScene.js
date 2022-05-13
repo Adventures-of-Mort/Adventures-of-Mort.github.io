@@ -31,6 +31,14 @@ class TowerScene extends Phaser.Scene {
     doorLayer.setCollisionByProperty({ door: true });
     exitLayer.setCollisionByProperty({ exit: true });
 
+    this.music = this.sound.add("doomcastle");
+    this.music.play({ volume: 0.2 });
+
+    this.events.on("sleep", () => {
+      console.log(this.scene);
+      this.music.stop();
+    });
+
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
     this.anims.create({
       key: "left",
@@ -87,11 +95,7 @@ class TowerScene extends Phaser.Scene {
     this.physics.add.collider(this.player, collisionLayer);
 
     //set up collision detection for door
-    this.physics.add.collider(
-      this.player,
-      doorLayer,
-      this.hitDoorLayer.bind(this)
-    );
+    this.physics.add.collider(this.player, doorLayer, this.hitDoorLayer.bind(this));
 
     this.physics.add.collider(
       this.player,
@@ -119,13 +123,7 @@ class TowerScene extends Phaser.Scene {
     }
 
     // add collider
-    this.physics.add.overlap(
-      this.player,
-      this.spawns,
-      this.onMeetEnemy,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.entrance = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -134,6 +132,9 @@ class TowerScene extends Phaser.Scene {
     //doors to next level
     // this.entrance.create(455, 375, 16, 16);
     // this.entrance.create(48, 20, 16, 16);
+
+
+    
 
     this.physics.add.overlap(
       this.player,
@@ -151,10 +152,12 @@ class TowerScene extends Phaser.Scene {
       this
     );
 
+
     this.sys.events.on(
       "wake",
       () => {
         this.cameras.main.fadeIn(500, 0, 0, 0);
+        this.music.play({ volume: 0.2 });
       },
       this
     );
@@ -175,6 +178,8 @@ class TowerScene extends Phaser.Scene {
   hitDoorLayer(player, target) {
     console.log("DOOR TOWER HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
+    console.log("music", this.music);
+    this.music.pause();
 
     this.scene.switch(keys.WORLD_SCENE);
   }

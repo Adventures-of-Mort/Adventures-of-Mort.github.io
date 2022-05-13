@@ -26,11 +26,18 @@ class WorldScene extends Phaser.Scene {
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
 
+    this.doorFX = this.sound.add("door2");
+
+    // create animations
+    this.createAnimations();
+
+
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
 
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
+
     this.anims.create({
       key: "left",
       frames: [
@@ -83,6 +90,7 @@ class WorldScene extends Phaser.Scene {
     this.physics.add.collider(this.player, collisionLayer);
 
     //set up collision detection for door
+
     this.physics.add.collider(
       this.player,
       doorLayer,
@@ -101,12 +109,14 @@ class WorldScene extends Phaser.Scene {
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
+
     for (var i = 0; i < 15; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // parameters are x, y, width, height
       this.spawns.create(x, y, 20, 20);
     }
+
     // add collider
     this.physics.add.overlap(
       this.player,
@@ -119,6 +129,7 @@ class WorldScene extends Phaser.Scene {
     this.entrance = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
+
 
     // this.entrance.create(480, 375, 16, 16);
 
@@ -137,6 +148,30 @@ class WorldScene extends Phaser.Scene {
       },
       this
     );
+
+    this.music = this.sound.add("world_theme");
+    this.music.play({ volume: 0.2 });
+
+    this.events.on("sleep", () => {
+      this.music.stop();
+    });
+
+    this.events.on("wake", () => {
+      this.music.play({ volume: 0.2 });
+    });
+  }
+
+  hitDoorLayer(player, target) {
+    console.log("DOOR WORLD HIT");
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+
+    this.doorFX.play({ volume: 0.2 });
+    this.scene.switch(keys.TOWER_SCENE);
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+      //this.scene.switch(keys.TOWER_SCENE);
+      // this.scene.sleep(keys.WORLD_SCENE).run(keys.TOWER_SCENE);
+    });
+
   }
 
   onMeetEnemy(player, zone) {
@@ -150,6 +185,7 @@ class WorldScene extends Phaser.Scene {
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
   }
+
 
   hitDoorLayer(player, target) {
     console.log("DOOR WORLD HIT");
@@ -192,6 +228,9 @@ class WorldScene extends Phaser.Scene {
       this.player.anims.stop();
     }
   }
+
+
+  
 }
 
 export default WorldScene;
