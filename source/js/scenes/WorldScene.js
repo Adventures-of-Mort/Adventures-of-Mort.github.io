@@ -108,13 +108,7 @@ class WorldScene extends Phaser.Scene {
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-
-    // this.entrance.create(480, 375, 16, 16);
-
-    this.physics.add.overlap(this.player, this.entrance, this.HitDoorLayer, false, this);
+    this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
 
     this.sys.events.on(
       "wake",
@@ -162,8 +156,6 @@ class WorldScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    //    this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement

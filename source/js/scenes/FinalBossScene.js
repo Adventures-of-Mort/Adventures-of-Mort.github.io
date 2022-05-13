@@ -6,10 +6,7 @@ class FinalBossScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image(
-      "finalFloorBackground",
-      "../../../public/MORT/MAPS/Tilesets/stars.jpg"
-    );
+    this.load.image("finalFloorBackground", "../../../public/MORT/MAPS/Tilesets/stars.jpg");
   }
 
   create() {
@@ -79,7 +76,6 @@ class FinalBossScene extends Phaser.Scene {
     });
 
     // our player sprite created through the phycis system
-    //OG Starting POINT 456,450
     this.player = this.physics.add.sprite(385, 778, "playerMort");
     const frameNames = this.textures.get("playerMort").getFrameNames();
 
@@ -92,11 +88,7 @@ class FinalBossScene extends Phaser.Scene {
     this.physics.add.collider(this.player, collisionLayer);
 
     //set up collision detection for door
-    this.physics.add.collider(
-      this.player,
-      doorLayer,
-      this.hitDoorLayer.bind(this)
-    );
+    this.physics.add.collider(this.player, doorLayer, this.hitDoorLayer.bind(this));
 
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -107,22 +99,10 @@ class FinalBossScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // add collider
-    this.physics.add.overlap(
-      this.player,
-      this.spawns,
-      this.onMeetEnemy,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     //doors to next level
-    this.physics.add.overlap(
-      this.player,
-      this.entrance,
-      this.hitDoorLayer,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
 
     this.sys.events.on(
       "wake",
@@ -152,8 +132,6 @@ class FinalBossScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    // this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement

@@ -31,11 +31,6 @@ class TowerScene extends Phaser.Scene {
     doorLayer.setCollisionByProperty({ door: true });
     exitLayer.setCollisionByProperty({ exit: true });
 
-    // make all tiles in obstacles collidable
-    collisionLayer.setCollisionByExclusion([-1]);
-    doorLayer.setCollisionByProperty({ door: true });
-    exitLayer.setCollisionByProperty({ exit: true });
-
     //audio
     this.music = this.sound.add("doomcastle");
     this.music.play({ volume: 0.2 });
@@ -87,8 +82,7 @@ class TowerScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // our player sprite created through the phycis system
-    //OG Starting POINT 456,450
+    // our player sprite created through the physics system
     this.player = this.physics.add.sprite(455, 410, "playerMort");
     const frameNames = this.textures.get("playerMort").getFrameNames();
 
@@ -126,14 +120,6 @@ class TowerScene extends Phaser.Scene {
 
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
-
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-
-    //doors to next level
-    // this.entrance.create(455, 375, 16, 16);
-    // this.entrance.create(48, 20, 16, 16);
 
     this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
 
@@ -178,8 +164,6 @@ class TowerScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    // this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement
