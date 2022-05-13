@@ -42,7 +42,6 @@ class Menu extends Phaser.GameObjects.Container {
 		this.menuItemIndex = index
 
 		while (!this.menuItems[this.menuItemIndex].active) {
-			console.log("Menu : select")
 			this.menuItemIndex++
 			if (this.menuItemIndex >= this.menuItems.length) {
 				this.menuItemIndex = 0
@@ -65,7 +64,6 @@ class Menu extends Phaser.GameObjects.Container {
 	// }
 	clear() {
 		for (let i = 0; i < this.menuItems.length; i++) {
-			console.log("Menu : Clear")
 			this.menuItems[i].destroy()
 		}
 		this.menuItems.length = 0

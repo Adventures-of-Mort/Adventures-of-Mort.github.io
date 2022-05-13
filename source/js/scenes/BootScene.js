@@ -1,73 +1,87 @@
-import * as Phaser from "../phaser.js";
-import keys from "./keys";
+import * as Phaser from "../phaser.js"
+import keys from "./keys"
+import context from "../utilities/context"
 
 class BootScene extends Phaser.Scene {
-  constructor() {
-    super({ key: keys.BOOT_SCENE });
-  }
-  preload() {
-    // map tiles
+	constructor() {
+		super({ key: keys.BOOT_SCENE })
+	}
+	preload() {
+		// map tiles
+		this.load.image(
+			"tiles",
+			"../../../public/MORT/MAPS/Tilesets/Tileset 7.png"
+		)
 
-    this.load.image(
-      "tiles",
-      "../../../public/MORT/MAPS/Tilesets/Tileset 7.png"
-    );
+		this.load.image(
+			"floor1Tiles",
+			"../../../public/MORT/MAPS/Tilesets/Tileset 6+7.png"
+		)
 
-    this.load.image(
-      "floor1Tiles",
-      "../../../public/MORT/MAPS/Tilesets/Tileset 6+7.png"
-    );
+		this.load.image(
+			"finalFloorTiles",
+			"../../../public/MORT/MAPS/Tilesets/Tileset 1.png"
+		)
 
-    this.load.image(
-      "finalFloorTiles",
-      "../../../public/MORT/MAPS/Tilesets/Tileset 1.png"
-    );
+		// map in json format
+		this.load.tilemapTiledJSON(
+			"map",
+			"../../../public/MORT/MAPS/OverworldMapV2.json"
+		)
 
-    // map in json format
-    this.load.tilemapTiledJSON(
-      "map",
-      "../../../public/MORT/MAPS/OverworldMapV2.json"
-    );
+		this.load.tilemapTiledJSON(
+			"floor1",
+			"../../../public/MORT/MAPS/Tower1V2.json"
+		)
 
-    this.load.tilemapTiledJSON(
-      "floor1",
-      "../../../public/MORT/MAPS/Tower1V2.json"
-    );
+		this.load.tilemapTiledJSON(
+			"FinalTowerFloor",
+			"../../../public/MORT/MAPS/FinalFloor.json"
+		)
 
-    this.load.tilemapTiledJSON(
-      "FinalTowerFloor",
-      "../../../public/MORT/MAPS/FinalFloor.json"
-    );
+		// our two characters
+		this.load.atlas(
+			"battleMort",
+			"../../../public/MORT/MORT/BattleMortSpritesheet.png",
+			"../../../public/MORT/MORT/BattleMortSpritesheet.json"
+		)
 
-    // our two characters
-    this.load.atlas(
-      "battleMort",
+		this.load.atlas(
+			"skeleman",
+			"../../../public/MORT/SKELEMAN/SkeleSpritesheet.png",
+			"../../../public/MORT/SKELEMAN/SkeleSpritesheet.json"
+		)
 
-      "../../../public/MORT/MORT/BattleMortSpritesheet.png",
-      "../../../public/MORT/MORT/BattleMortSpritesheet.json"
-    );
+		// butz overworld atlas
+		this.load.atlas(
+			"playerMort",
+			"../../../public/MORT/MORT/OverworldMortSpritesheet.png",
+			"../../../public/MORT/MORT/OverworldMortSpritesheet.json"
+		)
 
-    this.load.atlas(
-      "skeleman",
-      "../../../public/MORT/SKELEMAN/SkeleSpritesheet.png",
-      "../../../public/MORT/SKELEMAN/SkeleSpritesheet.json"
-    );
+		//battle backgrounds
+		this.load.image(
+			"WorldScene-battleBackground",
+			"../../../public/MORT/BATTLEBACKGROUNDS/0.png"
+		)
 
-    this.load.image("goblin", "../../../public/MORT/ENEMIES/5.png");
+		this.load.image(
+			"TowerScene-battleBackground",
+			"../../../public/MORT/BATTLEBACKGROUNDS/21.png"
+		)
 
-    // butz overworld atlas
-    this.load.atlas(
+		//enemies
 
-      "playerMort",
+		this.load.image("whiteWolf", "../../../public/MORT/ENEMIES/10.png")
 
-      "../../../public/MORT/MORT/OverworldMortSpritesheet.png",
-      "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
-    );
+		this.load.image("goblin", "../../../public/MORT/ENEMIES/5.png")
 
-    // white wolf enemy
-    this.load.image("whiteWolf", "../../../public/MORT/ENEMIES/10.png");
+		this.load.image("ghost", "../../../public/MORT/ENEMIES/46.png")
 
-
+		this.load.image("spider", "../../../public/MORT/ENEMIES/79.png")
+    
+    //audio
+    
     this.load.audio("battle1", "../../../source/assets/audio/music/battle1.mp3");
     this.load.audio("battle2", "../../../source/assets/audio/music/battle2.mp3");
     this.load.audio("battle3", "../../../source/assets/audio/music/battle3.mp3");
@@ -78,15 +92,14 @@ class BootScene extends Phaser.Scene {
 
     this.load.audio("door1", "../../../source/assets/audio/effects/door1.wav");
     this.load.audio("door2", "../../../source/assets/audio/effects/door2.wav");
-  
+    
+	}
 
+	create() {
+		this.registry.set("context", context)
 
-  }
-
-
-  create() {
-    this.scene.start(keys.START_SCENE);
-  }
+		this.scene.start(keys.START_SCENE)
+	}
 }
 
-export default BootScene;
+export default BootScene

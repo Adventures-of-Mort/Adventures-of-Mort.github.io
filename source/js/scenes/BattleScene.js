@@ -3,20 +3,21 @@ import Enemy from "../units/Enemy";
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+// import context from "../utilities/context";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
     super({ key: keys.BATTLE_SCENE });
   }
-  preload() {
-    this.load.image("battleBackground", "../../../public/MORT/BATTLEBACKGROUNDS/0.png");
-  }
+  // preload() {
+  //   this.load.image(
+  //     "battleBackground",
+  //     "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
+  //   );
+  // }
   create() {
     // this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
 
-    let background = this.add.image(160, 120, "battleBackground");
-    background.displayWidth = 320;
-    background.displayHeight = 240;
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
@@ -41,6 +42,16 @@ class BattleScene extends Phaser.Scene {
   }
 
   battleSequence() {
+    let sceneContext = this.registry.get("context");
+    let zoneEnemies = sceneContext.currentEnemies();
+
+    const firstEnemy = zoneEnemies[0].localEnemies[0];
+    const secondEnemy = zoneEnemies[0].localEnemies[1];
+
+    let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
+    background.displayWidth = 320;
+    background.displayHeight = 240;
+
     // PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
 
     // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
@@ -64,9 +75,7 @@ class BattleScene extends Phaser.Scene {
       this, //scene
       250, //x coord
       100, //y coord
-
       "battleMort", //texture
-
       0, //frame
       "Mort", //type
       mort.currentHP, //HP
@@ -76,17 +85,35 @@ class BattleScene extends Phaser.Scene {
     this.add.existing(mage);
 
     // non player character - goblin
-    const goblin = new Enemy(this, 50, 50, "goblin", null, "Goblin", 50, 3, 50);
-    this.add.existing(goblin);
+    const enemyOne = new Enemy(
+      this,
+      50,
+      50,
+      firstEnemy.texture,
+      null,
+      firstEnemy.type,
+      firstEnemy.hp,
+      firstEnemy.damage,
+      firstEnemy.hp
+    );
+    this.add.existing(enemyOne);
 
     // non player character - whiteWolf
-
-    const whiteWolf = new Enemy(this, 50, 100, "whiteWolf", null, "White Wolf", 50, 3, 50);
-
-    this.add.existing(whiteWolf);
+    const enemyTwo = new Enemy(
+      this,
+      50,
+      100,
+      secondEnemy.texture,
+      null,
+      secondEnemy.type,
+      secondEnemy.hp,
+      secondEnemy.damage,
+      secondEnemy.hp
+    );
+    this.add.existing(enemyTwo);
 
     // array with enemies
-    this.enemies = [goblin, whiteWolf];
+    this.enemies = [enemyOne, enemyTwo];
     // array with heroes
     this.heroes = [warrior, mage];
 
@@ -94,7 +121,6 @@ class BattleScene extends Phaser.Scene {
     this.units = this.heroes.concat(this.enemies);
 
     this.index = -1;
-    console.log(this);
     // Run UI Scene at the same time
     this.scene.run(keys.BATTLE_UI_SCENE);
 
@@ -123,14 +149,12 @@ class BattleScene extends Phaser.Scene {
     }
     do {
       this.index++;
-      console.log("nextTurn : BattleScene");
       // Here is where we restart the turn order
       if (this.index >= this.units.length) this.index = 0;
     } while (!this.units[this.index].living);
 
     //checking to see if its a player character
     if (this.units[this.index] instanceof PlayerCharacter) {
-      console.log("Its a players turn");
       this.events.emit("PlayerSelect", this.index);
     } else {
       // if its an enemy
@@ -158,14 +182,12 @@ class BattleScene extends Phaser.Scene {
     let victory = true;
 
     for (let i = 0; i < this.enemies.length; i++) {
-      console.log("check end battle(victory) : battleScene");
       if (this.enemies[i].living) victory = false;
     }
 
     let gameOver = true;
 
     for (let i = 0; i < this.heroes.length; i++) {
-      console.log("check end battle(gameOver) : battleScene");
       if (this.heroes[i].living) gameOver = false;
     }
 
@@ -174,22 +196,21 @@ class BattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
+    let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;
     for (let i = 0; i < this.units.length; i++) {
-      console.log("endbattle : battleScene");
       this.units[i].destroy();
     }
     this.units.length = 0;
 
     this.scene.sleep(keys.BATTLE_UI_SCENE);
 
-    this.scene.switch(keys.WORLD_SCENE);
+    this.scene.switch(sceneContext.currentScene);
   }
 
   // where is this method being called?
   receivePlayerSelection(action, target) {
-    console.log("receiving player selection");
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
     }
@@ -198,11 +219,6 @@ class BattleScene extends Phaser.Scene {
       callback: this.nextTurn,
       callbackScope: this,
     });
-  }
-
-  exitBattle() {
-    this.scene.sleep(keys.BATTLE_UI_SCENE);
-    this.scene.switch(keys.WORLD_SCENE);
   }
 }
 
