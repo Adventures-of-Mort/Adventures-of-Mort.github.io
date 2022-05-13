@@ -28,6 +28,7 @@ class StartUIScene extends Phaser.Scene {
   onStartChoice(index) {
     // start choice
     this.events.off("StartMenuSelect");
+    this.startScene.music.stop();
     // start world scene
     if (index === 0) {
       this.scene.start(keys.WORLD_SCENE);

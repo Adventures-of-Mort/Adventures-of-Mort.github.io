@@ -13,6 +13,10 @@ class StartScene extends Phaser.Scene {
 
   background() {
     let background = this.add.image(159, 115, "menuSplash");
+
+    this.music = this.sound.add("main_theme");
+
+    this.music.play({ volume: 0.2 });
   }
 }
 

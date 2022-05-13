@@ -13,6 +13,24 @@ class BattleScene extends Phaser.Scene {
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
+
+    this.initializeAudio();
+    this.music.play({ volume: 0.2 });
+
+    this.events.on("wake", () => {
+      this.initializeAudio();
+      this.music.play({ volume: 0.2 });
+    });
+
+    this.events.on("sleep", () => {
+      this.music.stop();
+    });
+  }
+
+  initializeAudio() {
+    const songs = ["battle1", "battle2", "battle3"];
+    let index = Math.floor(Math.random() * songs.length);
+    this.music = this.sound.add(songs[index]);
   }
 
   battleSequence() {
@@ -22,11 +40,7 @@ class BattleScene extends Phaser.Scene {
     const firstEnemy = zoneEnemies[0].localEnemies[0];
     const secondEnemy = zoneEnemies[0].localEnemies[1];
 
-    let background = this.add.image(
-      160,
-      120,
-      `${sceneContext.currentScene}-battleBackground`
-    );
+    let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
     background.displayHeight = 240;
 
