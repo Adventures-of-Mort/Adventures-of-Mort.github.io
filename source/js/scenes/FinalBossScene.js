@@ -40,8 +40,8 @@ class FinalBossScene extends Phaser.Scene {
     this.anims.create({
       key: "left",
       frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -51,8 +51,8 @@ class FinalBossScene extends Phaser.Scene {
     this.anims.create({
       key: "right",
       frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -61,8 +61,8 @@ class FinalBossScene extends Phaser.Scene {
     this.anims.create({
       key: "up",
       frames: [
-        { key: "playerButz", frame: "MortWalkUp1.png" },
-        { key: "playerButz", frame: "MortWalkUp2.png" },
+        { key: "playerMort", frame: "MortWalkUp1.png" },
+        { key: "playerMort", frame: "MortWalkUp2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -71,8 +71,8 @@ class FinalBossScene extends Phaser.Scene {
     this.anims.create({
       key: "down",
       frames: [
-        { key: "playerButz", frame: "MortWalkDown1.png" },
-        { key: "playerButz", frame: "MortWalkDown2.png" },
+        { key: "playerMort", frame: "MortWalkDown1.png" },
+        { key: "playerMort", frame: "MortWalkDown2.png" },
       ],
       frameRate: 10,
       repeat: -1,
@@ -80,8 +80,8 @@ class FinalBossScene extends Phaser.Scene {
 
     // our player sprite created through the phycis system
     //OG Starting POINT 456,450
-    this.player = this.physics.add.sprite(455, 410, "playerButz");
-    const frameNames = this.textures.get("playerButz").getFrameNames();
+    this.player = this.physics.add.sprite(385, 778, "playerMort");
+    const frameNames = this.textures.get("playerMort").getFrameNames();
 
     // don't go out of the map
     this.physics.world.bounds.width = map.widthInPixels;
@@ -95,7 +95,7 @@ class FinalBossScene extends Phaser.Scene {
     this.physics.add.collider(
       this.player,
       doorLayer,
-      this.HitDoorLayer.bind(this)
+      this.hitDoorLayer.bind(this)
     );
 
     // limit camera to map
@@ -126,19 +126,20 @@ class FinalBossScene extends Phaser.Scene {
       this
     );
 
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-
     //doors to next level
-    this.entrance.create(455, 375, 16, 16);
-    this.entrance.create(48, 20, 16, 16);
-
     this.physics.add.overlap(
       this.player,
       this.entrance,
-      this.HitDoorLayer,
+      this.hitDoorLayer,
       false,
+      this
+    );
+
+    this.sys.events.on(
+      "wake",
+      () => {
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+      },
       this
     );
   }
@@ -155,16 +156,11 @@ class FinalBossScene extends Phaser.Scene {
     this.scene.switch(keys.BATTLE_SCENE);
   }
 
-  HitDoorLayer(player, target) {
+  hitDoorLayer(player, target) {
     console.log("DOOR HIT");
     this.cameras.main.fadeOut(500, 0, 0, 0);
 
-    this.cameras.main.once(
-      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      (cam, effect) => {
-        this.scene.switch(keys.WORLD_SCENE);
-      }
-    );
+    this.scene.switch(keys.TOWER_SCENE);
   }
 
   update(time, delta) {

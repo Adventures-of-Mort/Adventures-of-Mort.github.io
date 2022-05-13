@@ -31,15 +31,55 @@ class WorldScene extends Phaser.Scene {
     // create animations
     this.createAnimations();
 
+
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
 
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
 
+    this.anims.create({
+      key: "left",
+      frames: [
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
+      ],
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    // animation with key 'right'
+    this.anims.create({
+      key: "right",
+      frames: [
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
+      ],
+      frameRate: 10,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: "up",
+      frames: [
+        { key: "playerMort", frame: "MortWalkUp1.png" },
+        { key: "playerMort", frame: "MortWalkUp2.png" },
+      ],
+      frameRate: 10,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: "down",
+      frames: [
+        { key: "playerMort", frame: "MortWalkDown1.png" },
+        { key: "playerMort", frame: "MortWalkDown2.png" },
+      ],
+      frameRate: 10,
+      repeat: -1,
+    });
+
     // our player sprite created through the phycis system
-    this.player = this.physics.add.sprite(490, 805, "playerButz");
-    const frameNames = this.textures.get("playerButz").getFrameNames();
+    this.player = this.physics.add.sprite(490, 805, "playerMort");
+    const frameNames = this.textures.get("playerMort").getFrameNames();
 
     // don't go out of the map
     this.physics.world.bounds.width = map.widthInPixels;
@@ -50,7 +90,12 @@ class WorldScene extends Phaser.Scene {
     this.physics.add.collider(this.player, collisionLayer);
 
     //set up collision detection for door
-    this.physics.add.collider(this.player, doorLayer, this.hitDoorLayer.bind(this));
+
+    this.physics.add.collider(
+      this.player,
+      doorLayer,
+      this.hitDoorLayer.bind(this)
+    );
 
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -64,21 +109,37 @@ class WorldScene extends Phaser.Scene {
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
-    for (var i = 0; i < 30; i++) {
+
+    for (var i = 0; i < 15; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // parameters are x, y, width, height
       this.spawns.create(x, y, 20, 20);
     }
 
+    // add collider
+    this.physics.add.overlap(
+      this.player,
+      this.spawns,
+      this.onMeetEnemy,
+      false,
+      this
+    );
+
     this.entrance = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
 
-    // add collider
-    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
-    this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
+    // this.entrance.create(480, 375, 16, 16);
+
+    this.physics.add.overlap(
+      this.player,
+      this.entrance,
+      this.HitDoorLayer,
+      false,
+      this
+    );
 
     this.sys.events.on(
       "wake",
@@ -110,6 +171,7 @@ class WorldScene extends Phaser.Scene {
       //this.scene.switch(keys.TOWER_SCENE);
       // this.scene.sleep(keys.WORLD_SCENE).run(keys.TOWER_SCENE);
     });
+
   }
 
   onMeetEnemy(player, zone) {
@@ -123,6 +185,15 @@ class WorldScene extends Phaser.Scene {
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
   }
+
+
+  hitDoorLayer(player, target) {
+    console.log("DOOR WORLD HIT");
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+
+    this.scene.switch(keys.TOWER_SCENE);
+  }
+
   update(time, delta) {
     //    this.controls.update(delta);
 
@@ -158,46 +229,8 @@ class WorldScene extends Phaser.Scene {
     }
   }
 
-  createAnimations() {
-    this.anims.create({
-      key: "left",
-      frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
 
-    // animation with key 'right'
-    this.anims.create({
-      key: "right",
-      frames: [
-        { key: "playerButz", frame: "MortWalkSide1.png" },
-        { key: "playerButz", frame: "MortWalkSide2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: "up",
-      frames: [
-        { key: "playerButz", frame: "MortWalkUp1.png" },
-        { key: "playerButz", frame: "MortWalkUp2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: "down",
-      frames: [
-        { key: "playerButz", frame: "MortWalkDown1.png" },
-        { key: "playerButz", frame: "MortWalkDown2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
-  }
+  
 }
 
 export default WorldScene;
