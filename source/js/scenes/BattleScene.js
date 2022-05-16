@@ -19,20 +19,44 @@ class BattleScene extends Phaser.Scene {
     // this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
 
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
+
+    // this.initializeAudio();
+    // this.music.play({ volume: 0.2 });
+
+    // this.events.on("wake", () => {
+    // 	this.initializeAudio();
+    //   this.music.play({ volume: 0.2 });
+    // });
+
+    // this.events.on("sleep", () => {
+    // 	this.music.stop();
+    // });
+
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
+  }
 
-    this.initializeAudio();
-    this.music.play({ volume: 0.2 });
+  generateEnemies() {
+    let sceneContext = this.registry.get("context");
+    let zoneEnemies = sceneContext.currentEnemies();
+    let { localEnemies } = zoneEnemies[0];
 
-    this.events.on("wake", () => {
-      this.initializeAudio();
-      this.music.play({ volume: 0.2 });
-    });
+    const one = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
-    this.events.on("sleep", () => {
-      this.music.stop();
-    });
+    const enemyOne = new Enemy(this, 50, 60, one.texture, null, one.type, one.hp, one.damage, one.hp);
+    this.add.existing(enemyOne);
+
+    const two = localEnemies[Math.floor(Math.random() * localEnemies.length)];
+
+    const enemyTwo = new Enemy(this, 50, 85, two.texture, null, two.type, two.hp, two.damage, two.hp);
+    this.add.existing(enemyTwo);
+
+    const three = localEnemies[Math.floor(Math.random() * localEnemies.length)];
+
+    const enemyThree = new Enemy(this, 50, 110, three.texture, null, three.type, three.hp, three.damage, three.hp);
+    this.add.existing(enemyThree);
+
+    return [enemyOne, enemyTwo, enemyThree];
   }
 
   initializeAudio() {
@@ -42,11 +66,11 @@ class BattleScene extends Phaser.Scene {
   }
 
   battleSequence() {
-    let sceneContext = this.registry.get("context");
-    let zoneEnemies = sceneContext.currentEnemies();
+    this.initializeAudio();
+    this.music.play({ volume: 0.2 });
 
-    const firstEnemy = zoneEnemies[0].localEnemies[0];
-    const secondEnemy = zoneEnemies[0].localEnemies[1];
+    let sceneContext = this.registry.get("context");
+    console.log(sceneContext);
 
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
@@ -84,36 +108,9 @@ class BattleScene extends Phaser.Scene {
     );
     this.add.existing(mage);
 
-    // non player character - goblin
-    const enemyOne = new Enemy(
-      this,
-      50,
-      50,
-      firstEnemy.texture,
-      null,
-      firstEnemy.type,
-      firstEnemy.hp,
-      firstEnemy.damage,
-      firstEnemy.hp
-    );
-    this.add.existing(enemyOne);
-
-    // non player character - whiteWolf
-    const enemyTwo = new Enemy(
-      this,
-      50,
-      100,
-      secondEnemy.texture,
-      null,
-      secondEnemy.type,
-      secondEnemy.hp,
-      secondEnemy.damage,
-      secondEnemy.hp
-    );
-    this.add.existing(enemyTwo);
-
     // array with enemies
-    this.enemies = [enemyOne, enemyTwo];
+    this.enemies = this.generateEnemies();
+
     // array with heroes
     this.heroes = [warrior, mage];
 
@@ -205,6 +202,7 @@ class BattleScene extends Phaser.Scene {
     this.units.length = 0;
 
     this.scene.sleep(keys.BATTLE_UI_SCENE);
+    this.music.stop();
 
     this.scene.switch(sceneContext.currentScene);
   }

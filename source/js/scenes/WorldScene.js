@@ -155,10 +155,10 @@ class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeOut(500, 0, 0, 0);
     this.doorFX.play({ volume: 0.2 });
     this.scene.switch(keys.TOWER_SCENE);
-    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-      //this.scene.switch(keys.TOWER_SCENE);
-      // this.scene.sleep(keys.WORLD_SCENE).run(keys.TOWER_SCENE);
-    });
+    // this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+    //   //this.scene.switch(keys.TOWER_SCENE);
+    //   // this.scene.sleep(keys.WORLD_SCENE).run(keys.TOWER_SCENE);
+    // });
   }
 
   onMeetEnemy(player, zone) {
@@ -173,12 +173,12 @@ class WorldScene extends Phaser.Scene {
     this.scene.switch(keys.BATTLE_SCENE);
   }
 
-  hitDoorLayer(player, target) {
-    console.log("DOOR WORLD HIT");
-    this.cameras.main.fadeOut(500, 0, 0, 0);
+  // hitDoorLayer(player, target) {
+  //   console.log("DOOR WORLD HIT");
+  //   this.cameras.main.fadeOut(500, 0, 0, 0);
 
-    this.scene.switch(keys.TOWER_SCENE);
-  }
+  //   this.scene.switch(keys.TOWER_SCENE);
+  // }
 
   update(time, delta) {
     //    this.controls.update(delta);
