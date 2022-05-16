@@ -12,7 +12,7 @@ class TowerScene extends Phaser.Scene {
     const map = this.make.tilemap({ key: "floor1" });
 
     // first parameter is the name of the tilemap in tiled
-    // var tiles = map.addTilesetImage("Tileset 7", "tiles");
+
     const tiles = map.addTilesetImage("Floor1", "floor1Tiles");
 
     // creating the layers
