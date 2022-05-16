@@ -27,9 +27,9 @@ class BossBattleUIScene extends Phaser.Scene {
 
     this.menus = this.add.container();
 
-    this.heroesMenu = new HeroesMenu(200, 153, this);
-    this.actionsMenu = new ActionsMenu(132, 153, this);
-    this.enemiesMenu = new EnemiesMenu(10, 153, this);
+    this.heroesMenu = new HeroesMenu(200, 156, this);
+    this.actionsMenu = new ActionsMenu(132, 156, this);
+    this.enemiesMenu = new EnemiesMenu(10, 156, this);
 
     // the currently selected menu
     this.currentMenu = this.actionsMenu;

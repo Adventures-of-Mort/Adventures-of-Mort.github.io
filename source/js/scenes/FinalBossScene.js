@@ -128,9 +128,6 @@ class FinalBossScene extends Phaser.Scene {
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
-    // shake the world
-    this.cameras.main.shake(200);
-
     // start battle
     this.scene.switch(keys.BOSS_SCENE);
   }
