@@ -13,6 +13,12 @@ class StartScene extends Phaser.Scene {
 
     this.music.play({ volume: 0.2 });
   }
+
+  update() {
+    if (this.game.sound.context.state === "suspended") {
+      this.game.sound.context.resume();
+    }
+  }
 }
 
 export default StartScene;
