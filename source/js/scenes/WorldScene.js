@@ -152,7 +152,7 @@ class WorldScene extends Phaser.Scene {
 
     this.doorFX.play({ volume: 0.2 });
 
-    //   this.scene.switch(keys.TOWER_SCENE);
+    this.scene.switch(keys.TOWER_SCENE);
   }
 
   update(time, delta) {
