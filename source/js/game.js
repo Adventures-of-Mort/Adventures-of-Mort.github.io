@@ -1,6 +1,6 @@
-import config from "./config";
-import "./phaser.min.js";
+import config from "./config"
+import "./phaser.js"
 
-const game = new Phaser.Game(config);
+const game = new Phaser.Game(config)
 
-export default game;
+export default game

@@ -1,30 +1,44 @@
-const WorldScene = new Phaser.Class({
-  Extends: Phaser.Scene,
+import keys from "./keys";
+import Phaser from "../phaser";
 
-  initialize: function WorldScene() {
-    Phaser.Scene.call(this, { key: "WorldScene" });
-  },
+class WorldScene extends Phaser.Scene {
+  constructor() {
+    super({ key: keys.WORLD_SCENE });
+  }
+  preload() {}
 
-  preload: function () {},
-
-  create: function () {
+  create() {
     // create the map
     var map = this.make.tilemap({ key: "map" });
 
     // first parameter is the name of the tilemap in tiled
-    var tiles = map.addTilesetImage("spritesheet", "tiles");
+    var tiles = map.addTilesetImage("Tileset 7", "tiles");
 
     // creating the layers
-    var grass = map.createStaticLayer("Grass", tiles, 0, 0);
-    var obstacles = map.createStaticLayer("Obstacles", tiles, 0, 0);
+    const collisionLayer = map.createLayer("Collision", tiles);
+    const doorLayer = map.createLayer("door", tiles);
+    const waterLayer = map.createLayer("Water", tiles);
+    const landLayer = map.createLayer("Land", tiles);
+    const aboveLandLayer = map.createLayer("Above Land", tiles);
+    const towerTopLayer = map.createLayer("Tower Top", tiles);
+    towerTopLayer.setDepth(20);
+    const debugGraphics = this.add.graphics().setAlpha(0.75);
+
+    this.cameras.main.fadeIn(500, 0, 0, 0);
+
+    this.doorFX = this.sound.add("door2");
 
     // make all tiles in obstacles collidable
-    obstacles.setCollisionByExclusion([-1]);
+    collisionLayer.setCollisionByExclusion([-1]);
+    doorLayer.setCollisionByProperty({ door: true });
 
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
     this.anims.create({
       key: "left",
-      frames: this.anims.generateFrameNumbers("player", { frames: [1, 7, 1, 13] }),
+      frames: [
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
+      ],
       frameRate: 10,
       repeat: -1,
     });
@@ -32,33 +46,46 @@ const WorldScene = new Phaser.Class({
     // animation with key 'right'
     this.anims.create({
       key: "right",
-      frames: this.anims.generateFrameNumbers("player", { frames: [1, 7, 1, 13] }),
+      frames: [
+        { key: "playerMort", frame: "MortWalkSide1.png" },
+        { key: "playerMort", frame: "MortWalkSide2.png" },
+      ],
       frameRate: 10,
       repeat: -1,
     });
     this.anims.create({
       key: "up",
-      frames: this.anims.generateFrameNumbers("player", { frames: [2, 8, 2, 14] }),
+      frames: [
+        { key: "playerMort", frame: "MortWalkUp1.png" },
+        { key: "playerMort", frame: "MortWalkUp2.png" },
+      ],
       frameRate: 10,
       repeat: -1,
     });
     this.anims.create({
       key: "down",
-      frames: this.anims.generateFrameNumbers("player", { frames: [0, 6, 0, 12] }),
+      frames: [
+        { key: "playerMort", frame: "MortWalkDown1.png" },
+        { key: "playerMort", frame: "MortWalkDown2.png" },
+      ],
       frameRate: 10,
       repeat: -1,
     });
 
-    // our player sprite created through the phycis system
-    this.player = this.physics.add.sprite(50, 100, "player", 6);
+    // our player sprite created through the physics system
+    this.player = this.physics.add.sprite(490, 805, "playerMort");
+    const frameNames = this.textures.get("playerMort").getFrameNames();
 
     // don't go out of the map
     this.physics.world.bounds.width = map.widthInPixels;
     this.physics.world.bounds.height = map.heightInPixels;
     this.player.setCollideWorldBounds(true);
 
-    // don't walk on trees
-    this.physics.add.collider(this.player, obstacles);
+    // don't walk on into the water
+    this.physics.add.collider(this.player, collisionLayer);
+
+    //set up collision detection for door
+    this.physics.add.collider(this.player, doorLayer, this.hitDoorLayer.bind(this));
 
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -69,8 +96,10 @@ const WorldScene = new Phaser.Class({
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // where the enemies will be
-    this.spawns = this.physics.add.group({ classType: Phaser.GameObjects.Zone });
-    for (var i = 0; i < 30; i++) {
+    this.spawns = this.physics.add.group({
+      classType: Phaser.GameObjects.Zone,
+    });
+    for (var i = 0; i < 15; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // parameters are x, y, width, height
@@ -78,20 +107,55 @@ const WorldScene = new Phaser.Class({
     }
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
-  },
-  onMeetEnemy: function (player, zone) {
+
+    this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
+
+    this.sys.events.on(
+      "wake",
+      () => {
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+      },
+      this
+    );
+
+    this.music = this.sound.add("world_theme");
+    this.music.play({ volume: 0.2 });
+
+    this.events.on("sleep", () => {
+      this.music.stop();
+    });
+
+    this.events.on("wake", () => {
+      this.music.play({ volume: 0.2 });
+    });
+  }
+
+  onMeetEnemy(player, zone) {
     // we move the zone to some other location
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
     // shake the world
-    this.cameras.main.shake(300);
+    this.cameras.main.shake(200);
 
     // start battle
-  },
-  update: function (time, delta) {
-    //    this.controls.update(delta);
+    this.scene.switch(keys.BATTLE_SCENE);
+  }
 
+  hitDoorLayer(player, target) {
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+
+    let context = this.registry.get("context");
+    context.currentScene = keys.TOWER_SCENE;
+
+    this.registry.set("context", context);
+
+    this.doorFX.play({ volume: 0.2 });
+
+    //   this.scene.switch(keys.TOWER_SCENE);
+  }
+
+  update(time, delta) {
     this.player.body.setVelocity(0);
 
     // Horizontal movement
@@ -111,10 +175,10 @@ const WorldScene = new Phaser.Class({
     // Update the animation last and give left/right animations precedence over up/down animations
     if (this.cursors.left.isDown) {
       this.player.anims.play("left", true);
-      this.player.flipX = true;
+      this.player.flipX = false;
     } else if (this.cursors.right.isDown) {
       this.player.anims.play("right", true);
-      this.player.flipX = false;
+      this.player.flipX = true;
     } else if (this.cursors.up.isDown) {
       this.player.anims.play("up", true);
     } else if (this.cursors.down.isDown) {
@@ -122,7 +186,7 @@ const WorldScene = new Phaser.Class({
     } else {
       this.player.anims.stop();
     }
-  },
-});
+  }
+}
 
 export default WorldScene;
