@@ -6,6 +6,8 @@ import StartUIScene from "./scenes/StartUIScene.js";
 import BattleScene from "./scenes/BattleScene";
 import TowerScene from "./scenes/TowerScene";
 import FinalBossScene from "./scenes/FinalBossScene";
+import GameOverScene from "./scenes/GameOverScene";
+import BattleWonScene from "./scenes/BattleWonScene";
 
 const config = {
   type: Phaser.AUTO,
@@ -21,7 +23,18 @@ const config = {
       debug: true, // set to true to view zones
     },
   },
-  scene: [BootScene, StartScene, StartUIScene, WorldScene, TowerScene, FinalBossScene, BattleScene, BattleUIScene],
+  scene: [
+    BootScene,
+    StartScene,
+    StartUIScene,
+    WorldScene,
+    TowerScene,
+    FinalBossScene,
+    BattleScene,
+    BattleUIScene,
+    GameOverScene,
+    BattleWonScene,
+  ],
   callbacks: {
     preBoot: function (game) {
       //game.music = Phaser.Sound.SoundManagerCreator.create(game);

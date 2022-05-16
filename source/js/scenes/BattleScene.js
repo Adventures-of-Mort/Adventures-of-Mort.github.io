@@ -143,9 +143,15 @@ class BattleScene extends Phaser.Scene {
   // }
 
   nextTurn() {
-    if (this.checkEndBattle()) {
+    let outcome = this.checkEndBattle();
+    if (outcome === "victory") {
       this.endBattle();
       return;
+    } else if (outcome === "gameover") {
+      this.scene.sleep(keys.BATTLE_UI_SCENE);
+      this.scene.switch(keys.GAME_OVER_SCENE);
+      return;
+    } else {
     }
     do {
       this.index++;
@@ -191,7 +197,14 @@ class BattleScene extends Phaser.Scene {
       if (this.heroes[i].living) gameOver = false;
     }
 
-    return victory || gameOver;
+    //return victory || gameOver;
+    if (victory) {
+      return "victory";
+    } else if (gameOver) {
+      return "gameover";
+    } else {
+      return "continue";
+    }
   }
 
   endBattle() {
@@ -204,9 +217,13 @@ class BattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
 
+    //this.scene.sleep(keys.BATTLE_UI_SCENE);
+    this.music.stop();
     this.scene.sleep(keys.BATTLE_UI_SCENE);
+    console.log("got here");
+    this.scene.launch(keys.BATTLE_WON_SCENE);
 
-    this.scene.switch(sceneContext.currentScene);
+    //this.scene.switch(sceneContext.currentScene);
   }
 
   // where is this method being called?
