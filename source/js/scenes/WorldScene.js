@@ -72,7 +72,7 @@ class WorldScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // our player sprite created through the phycis system
+    // our player sprite created through the physics system
     this.player = this.physics.add.sprite(490, 805, "playerMort");
     const frameNames = this.textures.get("playerMort").getFrameNames();
 
@@ -108,13 +108,7 @@ class WorldScene extends Phaser.Scene {
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-
-    // this.entrance.create(480, 375, 16, 16);
-
-    this.physics.add.overlap(this.player, this.entrance, this.HitDoorLayer, false, this);
+    this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
 
     this.sys.events.on(
       "wake",
@@ -149,42 +143,19 @@ class WorldScene extends Phaser.Scene {
   }
 
   hitDoorLayer(player, target) {
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+
     let context = this.registry.get("context");
     context.currentScene = keys.TOWER_SCENE;
+
     this.registry.set("context", context);
-    this.cameras.main.fadeOut(500, 0, 0, 0);
+
     this.doorFX.play({ volume: 0.2 });
-    this.scene.switch(keys.TOWER_SCENE);
-    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-      //this.scene.switch(keys.TOWER_SCENE);
-      // this.scene.sleep(keys.WORLD_SCENE).run(keys.TOWER_SCENE);
-    });
-  }
-
-  onMeetEnemy(player, zone) {
-    // we move the zone to some other location
-    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-
-    // shake the world
-    this.cameras.main.shake(200);
-
-    // start battle
-    this.scene.switch(keys.BATTLE_SCENE);
-  }
-
-  hitDoorLayer(player, target) {
-    let context = this.registry.get("context");
-    context.currentScene = keys.TOWER_SCENE;
-    this.registry.set("context", context);
-    this.cameras.main.fadeOut(500, 0, 0, 0);
 
     this.scene.switch(keys.TOWER_SCENE);
   }
 
   update(time, delta) {
-    //    this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement

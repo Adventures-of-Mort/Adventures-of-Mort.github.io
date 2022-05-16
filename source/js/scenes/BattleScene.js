@@ -3,21 +3,13 @@ import Enemy from "../units/Enemy";
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
-// import context from "../utilities/context";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
     super({ key: keys.BATTLE_SCENE });
   }
-  // preload() {
-  //   this.load.image(
-  //     "battleBackground",
-  //     "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
-  //   );
-  // }
-  create() {
-    // this.cameras.main.setBackgroundColor("rgba(0, 200, 0, 0.5)");
 
+  create() {
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
@@ -65,7 +57,7 @@ class BattleScene extends Phaser.Scene {
       0,
       "Skeleman",
       skeleman.currentHP,
-      40,
+      20,
       skeleman.maxHP
     );
     this.add.existing(warrior);
@@ -79,7 +71,7 @@ class BattleScene extends Phaser.Scene {
       0, //frame
       "Mort", //type
       mort.currentHP, //HP
-      40, //Damage
+      20, //Damage
       mort.maxHP //maxHP
     );
     this.add.existing(mage);

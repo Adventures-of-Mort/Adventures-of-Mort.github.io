@@ -21,8 +21,6 @@ class BootScene extends Phaser.Scene {
 
     this.load.tilemapTiledJSON("FinalTowerFloor", "../../../public/MORT/MAPS/FinalFloor.json");
 
-    this.load.image("menuSplash", "../../../public/MORT/SPLASHART/Mort_Tings.png");
-
     // our two characters
     this.load.atlas(
       "battleMort",
@@ -43,10 +41,16 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
     );
 
+    //starting menu splash
+    this.load.image("menuSplash", "../../../public/MORT/SPLASHART/Mort_Tings.png");
+
     //battle backgrounds
     this.load.image("WorldScene-battleBackground", "../../../public/MORT/BATTLEBACKGROUNDS/0.png");
 
     this.load.image("TowerScene-battleBackground", "../../../public/MORT/BATTLEBACKGROUNDS/21.png");
+
+    //final boss background
+    this.load.image("BossBattleScene-battleBackground", "../../../public/MORT/BATTLEBACKGROUNDS/30.png");
 
     //enemies
 
@@ -57,6 +61,8 @@ class BootScene extends Phaser.Scene {
     this.load.image("ghost", "../../../public/MORT/ENEMIES/46.png");
 
     this.load.image("spider", "../../../public/MORT/ENEMIES/79.png");
+
+    this.load.image("boss", "../../../public/MORT/PRINCESS/princessBoss.png");
 
     //audio
 

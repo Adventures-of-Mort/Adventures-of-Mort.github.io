@@ -21,11 +21,14 @@ class FinalBossScene extends Phaser.Scene {
     let background = this.add.image(500, 500, "finalFloorBackground");
     background.displayWidth = 1000;
     background.displayHeight = 1000;
-    // const stars = map.createLayer("Image Layer 1");
     const collisionLayer = map.createLayer("Collision", tiles);
     const doorLayer = map.createLayer("door", tiles);
     const groundLayer = map.createLayer("Base Floor", tiles);
     const statueLayer = map.createLayer("Statues", tiles);
+
+    let princess = this.add.image(385, 325, "boss");
+    princess.displayHeight = 100;
+    princess.displayWidth = 100;
 
     const debugGraphics = this.add.graphics().setAlpha(0.75);
 
@@ -75,8 +78,7 @@ class FinalBossScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // our player sprite created through the phycis system
-    //OG Starting POINT 456,450
+    // our player sprite created through the physics system
     this.player = this.physics.add.sprite(385, 778, "playerMort");
     const frameNames = this.textures.get("playerMort").getFrameNames();
 
@@ -99,19 +101,14 @@ class FinalBossScene extends Phaser.Scene {
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    // where the enemies will be
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
-    for (var i = 0; i < 15; i++) {
-      var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-      var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-      // parameters are x, y, width, height
-      this.spawns.create(x, y, 20, 20);
-    }
+    // parameters are x, y, width, height
+    this.spawns.create(385, 325, 85, 85);
 
     // add collider
-    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
+    this.physics.add.overlap(this.player, this.spawns, this.onMeetBoss, false, this);
 
     //doors to next level
     this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
@@ -125,16 +122,13 @@ class FinalBossScene extends Phaser.Scene {
     );
   }
 
-  onMeetEnemy(player, zone) {
+  onMeetBoss(player, zone) {
     // we move the zone to some other location
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
-    // shake the world
-    this.cameras.main.shake(200);
-
     // start battle
-    this.scene.switch(keys.BATTLE_SCENE);
+    this.scene.switch(keys.BOSS_SCENE);
   }
 
   hitDoorLayer(player, target) {
@@ -144,8 +138,6 @@ class FinalBossScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    // this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement

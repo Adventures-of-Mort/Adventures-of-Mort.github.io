@@ -12,7 +12,7 @@ class TowerScene extends Phaser.Scene {
     const map = this.make.tilemap({ key: "floor1" });
 
     // first parameter is the name of the tilemap in tiled
-    // var tiles = map.addTilesetImage("Tileset 7", "tiles");
+
     const tiles = map.addTilesetImage("Floor1", "floor1Tiles");
 
     // creating the layers
@@ -25,11 +25,6 @@ class TowerScene extends Phaser.Scene {
     const debugGraphics = this.add.graphics().setAlpha(0.75);
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
-
-    // make all tiles in obstacles collidable
-    collisionLayer.setCollisionByExclusion([-1]);
-    doorLayer.setCollisionByProperty({ door: true });
-    exitLayer.setCollisionByProperty({ exit: true });
 
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
@@ -87,8 +82,7 @@ class TowerScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // our player sprite created through the phycis system
-    //OG Starting POINT 456,450
+    // our player sprite created through the physics system
     this.player = this.physics.add.sprite(455, 410, "playerMort");
     const frameNames = this.textures.get("playerMort").getFrameNames();
 
@@ -127,14 +121,6 @@ class TowerScene extends Phaser.Scene {
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
-    this.entrance = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
-
-    //doors to next level
-    // this.entrance.create(455, 375, 16, 16);
-    // this.entrance.create(48, 20, 16, 16);
-
     this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
 
     this.physics.add.overlap(this.player, this.entrance, this.hitExitLayer, false, this);
@@ -143,7 +129,6 @@ class TowerScene extends Phaser.Scene {
       "wake",
       () => {
         this.cameras.main.fadeIn(500, 0, 0, 0);
-        this.music.play({ volume: 0.2 });
       },
       this
     );
@@ -179,8 +164,6 @@ class TowerScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    // this.controls.update(delta);
-
     this.player.body.setVelocity(0);
 
     // Horizontal movement

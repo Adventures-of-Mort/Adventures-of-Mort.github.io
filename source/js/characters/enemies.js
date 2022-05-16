@@ -5,15 +5,6 @@ export const wolf = {
   damage: 10,
   experience: 10,
 };
-
-export const boss = {
-  texture: "boss",
-  type: `'Evil' Princess`,
-  hp: 300,
-  damage: 35,
-  experience: 9999,
-};
-
 export const goblin = {
   texture: "goblin",
   type: "Goblin",
@@ -34,4 +25,11 @@ export const spider = {
   hp: 40,
   damage: 8,
   experience: 10,
+};
+export const boss = {
+  texture: "boss",
+  type: `'Evil' Princess`,
+  hp: 300,
+  damage: 35,
+  experience: 9999,
 };
