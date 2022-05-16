@@ -65,6 +65,8 @@ class BootScene extends Phaser.Scene {
     this.load.audio("main_theme", "../../../source/assets/audio/music/main_theme.mp3");
     this.load.audio("boss1", "../../../source/assets/audio/music/bossbattle.mp3");
     this.load.audio("doomcastle", "../../../source/assets/audio/music/doomcastle.mp3");
+    this.load.audio("gameover", "../../../source/assets/audio/music/gameover.mp3");
+    this.load.audio("victory", "../../../source/assets/audio/music/victoryfanfare.mp3");
 
     this.load.audio("door1", "../../../source/assets/audio/effects/door1.wav");
     this.load.audio("door2", "../../../source/assets/audio/effects/door2.wav");
