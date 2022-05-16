@@ -163,16 +163,12 @@ class TowerScene extends Phaser.Scene {
 
   hitDoorLayer(player, target) {
     this.cameras.main.fadeOut(500, 0, 0, 0);
-<<<<<<< HEAD
-    // change context.currentScene to WORLD_SCENE
-=======
 
     let context = this.registry.get("context");
     context.currentScene = keys.WORLD_SCENE;
     this.registry.set("context", context);
 
     this.music.pause();
->>>>>>> 6d28c384928ade5ee7a34cc48a43474c4dcb9ea6
     this.scene.switch(keys.WORLD_SCENE);
   }
 

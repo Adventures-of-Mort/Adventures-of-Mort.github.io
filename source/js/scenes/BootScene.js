@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import * as Phaser from "../phaser.js";
 import keys from "./keys";
 import context from "../utilities/context";
@@ -9,36 +8,18 @@ class BootScene extends Phaser.Scene {
   }
   preload() {
     // map tiles
-    this.load.image(
-      "tiles",
-      "../../../public/MORT/MAPS/Tilesets/Tileset 7.png"
-    );
+    this.load.image("tiles", "../../../public/MORT/MAPS/Tilesets/Tileset 7.png");
 
-    this.load.image(
-      "floor1Tiles",
-      "../../../public/MORT/MAPS/Tilesets/Tileset 6+7.png"
-    );
+    this.load.image("floor1Tiles", "../../../public/MORT/MAPS/Tilesets/Tileset 6+7.png");
 
-    this.load.image(
-      "finalFloorTiles",
-      "../../../public/MORT/MAPS/Tilesets/Tileset 1.png"
-    );
+    this.load.image("finalFloorTiles", "../../../public/MORT/MAPS/Tilesets/Tileset 1.png");
 
     // map in json format
-    this.load.tilemapTiledJSON(
-      "map",
-      "../../../public/MORT/MAPS/OverworldMapV2.json"
-    );
+    this.load.tilemapTiledJSON("map", "../../../public/MORT/MAPS/OverworldMapV2.json");
 
-    this.load.tilemapTiledJSON(
-      "floor1",
-      "../../../public/MORT/MAPS/Tower1V2.json"
-    );
+    this.load.tilemapTiledJSON("floor1", "../../../public/MORT/MAPS/Tower1V2.json");
 
-    this.load.tilemapTiledJSON(
-      "FinalTowerFloor",
-      "../../../public/MORT/MAPS/FinalFloor.json"
-    );
+    this.load.tilemapTiledJSON("FinalTowerFloor", "../../../public/MORT/MAPS/FinalFloor.json");
 
     // our two characters
     this.load.atlas(
@@ -60,28 +41,10 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/MORT/OverworldMortSpritesheet.json"
     );
 
-    //starting menu splash
-    this.load.image(
-      "menuSplash",
-      "../../../public/MORT/SPLASHART/Mort_Tings.png"
-    );
-
     //battle backgrounds
-    this.load.image(
-      "WorldScene-battleBackground",
-      "../../../public/MORT/BATTLEBACKGROUNDS/0.png"
-    );
+    this.load.image("WorldScene-battleBackground", "../../../public/MORT/BATTLEBACKGROUNDS/0.png");
 
-    this.load.image(
-      "TowerScene-battleBackground",
-      "../../../public/MORT/BATTLEBACKGROUNDS/21.png"
-    );
-
-    //final boss background
-    this.load.image(
-      "BossBattleScene-battleBackground",
-      "../../../public/MORT/BATTLEBACKGROUNDS/30.png"
-    );
+    this.load.image("TowerScene-battleBackground", "../../../public/MORT/BATTLEBACKGROUNDS/21.png");
 
     //enemies
 
@@ -93,99 +56,8 @@ class BootScene extends Phaser.Scene {
 
     this.load.image("spider", "../../../public/MORT/ENEMIES/79.png");
 
-    this.load.image("boss", "../../../public/MORT/PRINCESS/princessBoss.png");
-  }
-
-  create() {
-    this.registry.set("context", context);
-
-    this.scene.start(keys.START_SCENE);
-  }
-=======
-import * as Phaser from "../phaser.js"
-import keys from "./keys"
-import context from "../utilities/context"
-
-class BootScene extends Phaser.Scene {
-	constructor() {
-		super({ key: keys.BOOT_SCENE })
-	}
-	preload() {
-		// map tiles
-		this.load.image(
-			"tiles",
-			"../../../public/MORT/MAPS/Tilesets/Tileset 7.png"
-		)
-
-		this.load.image(
-			"floor1Tiles",
-			"../../../public/MORT/MAPS/Tilesets/Tileset 6+7.png"
-		)
-
-		this.load.image(
-			"finalFloorTiles",
-			"../../../public/MORT/MAPS/Tilesets/Tileset 1.png"
-		)
-
-		// map in json format
-		this.load.tilemapTiledJSON(
-			"map",
-			"../../../public/MORT/MAPS/OverworldMapV2.json"
-		)
-
-		this.load.tilemapTiledJSON(
-			"floor1",
-			"../../../public/MORT/MAPS/Tower1V2.json"
-		)
-
-		this.load.tilemapTiledJSON(
-			"FinalTowerFloor",
-			"../../../public/MORT/MAPS/FinalFloor.json"
-		)
-
-		// our two characters
-		this.load.atlas(
-			"battleMort",
-			"../../../public/MORT/MORT/BattleMortSpritesheet.png",
-			"../../../public/MORT/MORT/BattleMortSpritesheet.json"
-		)
-
-		this.load.atlas(
-			"skeleman",
-			"../../../public/MORT/SKELEMAN/SkeleSpritesheet.png",
-			"../../../public/MORT/SKELEMAN/SkeleSpritesheet.json"
-		)
-
-		// butz overworld atlas
-		this.load.atlas(
-			"playerMort",
-			"../../../public/MORT/MORT/OverworldMortSpritesheet.png",
-			"../../../public/MORT/MORT/OverworldMortSpritesheet.json"
-		)
-
-		//battle backgrounds
-		this.load.image(
-			"WorldScene-battleBackground",
-			"../../../public/MORT/BATTLEBACKGROUNDS/0.png"
-		)
-
-		this.load.image(
-			"TowerScene-battleBackground",
-			"../../../public/MORT/BATTLEBACKGROUNDS/21.png"
-		)
-
-		//enemies
-
-		this.load.image("whiteWolf", "../../../public/MORT/ENEMIES/10.png")
-
-		this.load.image("goblin", "../../../public/MORT/ENEMIES/5.png")
-
-		this.load.image("ghost", "../../../public/MORT/ENEMIES/46.png")
-
-		this.load.image("spider", "../../../public/MORT/ENEMIES/79.png")
-    
     //audio
-    
+
     this.load.audio("battle1", "../../../source/assets/audio/music/battle1.mp3");
     this.load.audio("battle2", "../../../source/assets/audio/music/battle2.mp3");
     this.load.audio("battle3", "../../../source/assets/audio/music/battle3.mp3");
@@ -196,15 +68,13 @@ class BootScene extends Phaser.Scene {
 
     this.load.audio("door1", "../../../source/assets/audio/effects/door1.wav");
     this.load.audio("door2", "../../../source/assets/audio/effects/door2.wav");
-    
-	}
+  }
 
-	create() {
-		this.registry.set("context", context)
+  create() {
+    this.registry.set("context", context);
 
-		this.scene.start(keys.START_SCENE)
-	}
->>>>>>> 6d28c384928ade5ee7a34cc48a43474c4dcb9ea6
+    this.scene.start(keys.START_SCENE);
+  }
 }
 
-export default BootScene
+export default BootScene;

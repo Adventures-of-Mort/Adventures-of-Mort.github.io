@@ -23,20 +23,6 @@ const config = {
       debug: true, // set to true to view zones
     },
   },
-<<<<<<< HEAD
-  scene: [
-    BootScene,
-    StartScene,
-    StartUIScene,
-    WorldScene,
-    TowerScene,
-    FinalBossScene,
-    BattleScene,
-    BattleUIScene,
-    BossBattleScene,
-    BossBattleUIScene,
-  ],
-=======
   scene: [BootScene, StartScene, StartUIScene, WorldScene, TowerScene, FinalBossScene, BattleScene, BattleUIScene],
   callbacks: {
     preBoot: function (game) {
@@ -44,6 +30,5 @@ const config = {
       //game.FX = Phaser
     },
   },
->>>>>>> 6d28c384928ade5ee7a34cc48a43474c4dcb9ea6
 };
 export default config;

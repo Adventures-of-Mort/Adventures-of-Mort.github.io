@@ -3,22 +3,12 @@ import Enemy from "../units/Enemy";
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
-<<<<<<< HEAD
-=======
 // import context from "../utilities/context";
->>>>>>> 6d28c384928ade5ee7a34cc48a43474c4dcb9ea6
 
 class BattleScene extends Phaser.Scene {
   constructor() {
     super({ key: keys.BATTLE_SCENE });
   }
-<<<<<<< HEAD
-
-  create() {
-    this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
-    this.battleSequence();
-    this.sys.events.on("wake", this.battleSequence, this);
-=======
   // preload() {
   //   this.load.image(
   //     "battleBackground",
@@ -49,7 +39,6 @@ class BattleScene extends Phaser.Scene {
     const songs = ["battle1", "battle2", "battle3"];
     let index = Math.floor(Math.random() * songs.length);
     this.music = this.sound.add(songs[index]);
->>>>>>> 6d28c384928ade5ee7a34cc48a43474c4dcb9ea6
   }
 
   battleSequence() {
@@ -59,15 +48,7 @@ class BattleScene extends Phaser.Scene {
     const firstEnemy = zoneEnemies[0].localEnemies[0];
     const secondEnemy = zoneEnemies[0].localEnemies[1];
 
-<<<<<<< HEAD
-    let background = this.add.image(
-      160,
-      120,
-      `${sceneContext.currentScene}-battleBackground`
-    );
-=======
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
->>>>>>> 6d28c384928ade5ee7a34cc48a43474c4dcb9ea6
     background.displayWidth = 320;
     background.displayHeight = 240;
 
