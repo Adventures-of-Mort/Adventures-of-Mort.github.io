@@ -57,7 +57,7 @@ class BattleScene extends Phaser.Scene {
       0,
       "Skeleman",
       skeleman.currentHP,
-      40,
+      20,
       skeleman.maxHP
     );
     this.add.existing(warrior);
@@ -71,7 +71,7 @@ class BattleScene extends Phaser.Scene {
       0, //frame
       "Mort", //type
       mort.currentHP, //HP
-      40, //Damage
+      20, //Damage
       mort.maxHP //maxHP
     );
     this.add.existing(mage);
