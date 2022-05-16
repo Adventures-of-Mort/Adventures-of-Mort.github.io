@@ -1,4 +1,5 @@
 export const wolf = {
+<<<<<<< HEAD
   texture: "whiteWolf",
   type: "Wolf",
   hp: 40,
@@ -33,3 +34,32 @@ export const boss = {
   damage: 35,
   experience: 9999,
 };
+=======
+	texture: "whiteWolf",
+	type: "Wolf",
+	hp: 40,
+	damage: 10,
+	experience: 10,
+}
+export const goblin = {
+	texture: "goblin",
+	type: "Goblin",
+	hp: 50,
+	damage: 8,
+	experience: 10,
+}
+export const ghost = {
+	texture: "ghost",
+	type: "Ghost",
+	hp: 40,
+	damage: 8,
+	experience: 10,
+}
+export const spider = {
+	texture: "spider",
+	type: "Spider",
+	hp: 40,
+	damage: 8,
+	experience: 10,
+}
+>>>>>>> 6d28c384928ade5ee7a34cc48a43474c4dcb9ea6

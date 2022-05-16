@@ -26,6 +26,8 @@ class WorldScene extends Phaser.Scene {
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
 
+    this.doorFX = this.sound.add("door2");
+
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
@@ -83,11 +85,7 @@ class WorldScene extends Phaser.Scene {
     this.physics.add.collider(this.player, collisionLayer);
 
     //set up collision detection for door
-    this.physics.add.collider(
-      this.player,
-      doorLayer,
-      this.hitDoorLayer.bind(this)
-    );
+    this.physics.add.collider(this.player, doorLayer, this.hitDoorLayer.bind(this));
 
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -108,13 +106,7 @@ class WorldScene extends Phaser.Scene {
       this.spawns.create(x, y, 20, 20);
     }
     // add collider
-    this.physics.add.overlap(
-      this.player,
-      this.spawns,
-      this.onMeetEnemy,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.entrance = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -122,13 +114,7 @@ class WorldScene extends Phaser.Scene {
 
     // this.entrance.create(480, 375, 16, 16);
 
-    this.physics.add.overlap(
-      this.player,
-      this.entrance,
-      this.HitDoorLayer,
-      false,
-      this
-    );
+    this.physics.add.overlap(this.player, this.entrance, this.HitDoorLayer, false, this);
 
     this.sys.events.on(
       "wake",
@@ -137,6 +123,42 @@ class WorldScene extends Phaser.Scene {
       },
       this
     );
+
+    this.music = this.sound.add("world_theme");
+    this.music.play({ volume: 0.2 });
+
+    this.events.on("sleep", () => {
+      this.music.stop();
+    });
+
+    this.events.on("wake", () => {
+      this.music.play({ volume: 0.2 });
+    });
+  }
+
+  onMeetEnemy(player, zone) {
+    // we move the zone to some other location
+    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+
+    // shake the world
+    this.cameras.main.shake(200);
+
+    // start battle
+    this.scene.switch(keys.BATTLE_SCENE);
+  }
+
+  hitDoorLayer(player, target) {
+    let context = this.registry.get("context");
+    context.currentScene = keys.TOWER_SCENE;
+    this.registry.set("context", context);
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+    this.doorFX.play({ volume: 0.2 });
+    this.scene.switch(keys.TOWER_SCENE);
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+      //this.scene.switch(keys.TOWER_SCENE);
+      // this.scene.sleep(keys.WORLD_SCENE).run(keys.TOWER_SCENE);
+    });
   }
 
   onMeetEnemy(player, zone) {
