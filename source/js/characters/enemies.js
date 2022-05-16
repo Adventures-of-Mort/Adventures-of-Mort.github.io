@@ -9,7 +9,7 @@ export const goblin = {
   texture: "goblin",
   type: "Goblin",
   hp: 50,
-  damage: 80000,
+  damage: 8,
   experience: 10,
 };
 export const ghost = {
@@ -32,4 +32,39 @@ export const boss = {
   hp: 300,
   damage: 35,
   experience: 9999,
+};
+export const warrior = {
+  texture: "warrior",
+  type: "Warrior",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+export const whiteMage = {
+  texture: "whiteMage",
+  type: "White Mage",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+export const rogue = {
+  texture: "rogue",
+  type: "Rogue",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+export const redMage = {
+  texture: "redMage",
+  type: "Red Mage",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+export const monk = {
+  texture: "monk",
+  type: "Monk",
+  hp: 40,
+  damage: 8,
+  experience: 10,
 };
