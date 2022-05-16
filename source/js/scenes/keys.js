@@ -8,6 +8,7 @@ const keys = {
   TOWER_SCENE: "TowerScene",
   FINAL_SCENE: "FinalBossScene",
   GAME_OVER_SCENE: "GameOverScene",
+  BATTLE_WON_SCENE: "BattleWonScene",
 };
 
 export default keys;
