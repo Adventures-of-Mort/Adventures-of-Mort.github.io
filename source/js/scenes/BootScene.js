@@ -80,7 +80,7 @@ class BootScene extends Phaser.Scene {
   create() {
     this.registry.set("context", context);
 
-    this.scene.start(keys.WORLD_SCENE);
+    this.scene.start(keys.START_SCENE);
   }
 }
 
