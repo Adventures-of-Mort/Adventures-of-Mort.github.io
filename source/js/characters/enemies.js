@@ -9,7 +9,7 @@ export const goblin = {
   texture: "goblin",
   type: "Goblin",
   hp: 50,
-  damage: 8,
+  damage: 80000,
   experience: 10,
 };
 export const ghost = {
