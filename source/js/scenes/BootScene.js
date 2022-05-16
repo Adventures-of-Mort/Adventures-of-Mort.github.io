@@ -21,6 +21,8 @@ class BootScene extends Phaser.Scene {
 
     this.load.tilemapTiledJSON("FinalTowerFloor", "../../../public/MORT/MAPS/FinalFloor.json");
 
+    this.load.image("menuSplash", "../../../public/MORT/SPLASHART/Mort_Tings.png");
+
     // our two characters
     this.load.atlas(
       "battleMort",

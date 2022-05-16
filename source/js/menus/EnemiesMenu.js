@@ -1,7 +1,6 @@
 import Menu from "./Menu";
 
 class EnemiesMenu extends Menu {
-<<<<<<< HEAD
   constructor(x, y, scene) {
     super(x, y, scene);
   }
@@ -9,8 +8,7 @@ class EnemiesMenu extends Menu {
     this.menuItems[this.menuItemIndex].deselect();
     do {
       this.menuItemIndex--;
-      if (this.menuItemIndex < 0)
-        this.menuItemIndex = this.menuItems.length - 1;
+      if (this.menuItemIndex < 0) this.menuItemIndex = this.menuItems.length - 1;
     } while (!this.menuItems[this.menuItemIndex].active);
     this.menuItems[this.menuItemIndex].select();
   }
@@ -34,41 +32,6 @@ class EnemiesMenu extends Menu {
     }
     this.menuItemIndex = 0;
   }
-=======
-	constructor(x, y, scene) {
-		super(x, y, scene)
-	}
-	moveSelectionUp() {
-		this.menuItems[this.menuItemIndex].deselect()
-		do {
-			this.menuItemIndex--
-			if (this.menuItemIndex < 0)
-				this.menuItemIndex = this.menuItems.length - 1
-		} while (!this.menuItems[this.menuItemIndex].active)
-		this.menuItems[this.menuItemIndex].select()
-	}
-	moveSelectionDown() {
-		this.menuItems[this.menuItemIndex].deselect()
-		do {
-			this.menuItemIndex++
-			if (this.menuItemIndex >= this.menuItems.length)
-				this.menuItemIndex = 0
-		} while (!this.menuItems[this.menuItemIndex].active)
-		this.menuItems[this.menuItemIndex].select()
-	}
-	confirm() {
-		// emits when player selects enemy to attack
-		this.scene.events.emit("Enemy", this.menuItemIndex)
-	}
-	remap(units) {
-		this.clear()
-		for (let i = 0; i < units.length; i++) {
-			const unit = units[i]
-			unit.setMenuItem(this.addMenuItem(unit.type))
-		}
-		this.menuItemIndex = 0
-	}
->>>>>>> 6d28c384928ade5ee7a34cc48a43474c4dcb9ea6
 }
 
 export default EnemiesMenu;
