@@ -2,6 +2,7 @@ import keys from "./keys";
 import Phaser from "../phaser";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import Message from "../menus/Message";
 
 class WorldScene extends Phaser.Scene {
   constructor() {
@@ -138,6 +139,11 @@ class WorldScene extends Phaser.Scene {
     this.events.on("wake", () => {
       this.music.play({ volume: 0.2 });
     });
+
+    // information message
+    this.message = new Message(this, this.events);
+    this.message.setDepth(1000);
+    this.add.existing(this.message);
   }
 
   onMeetEnemy(player, zone) {
@@ -157,6 +163,7 @@ class WorldScene extends Phaser.Scene {
       mort.currentHP = mort.maxHP;
       skeleman.currentHP = skeleman.maxHP;
       this.cameras.main.flash(200);
+      this.events.emit("Message", "Your party has been fully healed. Thanks for visiting!");
     }
   }
 
