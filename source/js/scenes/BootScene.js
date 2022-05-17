@@ -64,6 +64,8 @@ class BootScene extends Phaser.Scene {
 
     this.load.image("boss", "../../../public/MORT/PRINCESS/princessBoss.png");
 
+    this.load.image("dragon", "../../../public/MORT/ENEMIES/107.png");
+
     //worldscene-hero-enemies
 
     this.load.image("warrior", "../../../public/MORT/heroEnemies/warrior-0.png");
@@ -102,7 +104,7 @@ class BootScene extends Phaser.Scene {
   create() {
     this.registry.set("context", context);
 
-    this.scene.start(keys.START_SCENE);
+    this.scene.start(keys.FINAL_SCENE);
   }
 }
 
