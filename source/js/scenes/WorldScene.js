@@ -31,6 +31,8 @@ class WorldScene extends Phaser.Scene {
 
     this.doorFX = this.sound.add("door2");
 
+    this.scene.launch(keys.NOTIFICATION_SCENE);
+
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
