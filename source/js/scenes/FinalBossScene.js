@@ -127,6 +127,8 @@ class FinalBossScene extends Phaser.Scene {
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
+    //fades to final boss
+    this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle
     this.scene.switch(keys.BOSS_SCENE);
   }

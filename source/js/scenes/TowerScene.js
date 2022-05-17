@@ -139,8 +139,8 @@ class TowerScene extends Phaser.Scene {
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
-    // shake the world
-    this.cameras.main.shake(200);
+    // fades out to battle
+    this.cameras.main.fadeOut(500, 0, 0, 0);
 
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
