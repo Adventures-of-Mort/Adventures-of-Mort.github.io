@@ -54960,7 +54960,7 @@
             this.load.audio("door2", "../../../source/assets/audio/effects/door2.wav");
         }
         create() {
-          this.registry.set("context", v), this.scene.start(s);
+          this.registry.set("context", v), this.scene.start(l);
         }
       }
       const m = g;
@@ -54970,9 +54970,9 @@
         }
         preload() {}
         create() {
-          var t = this.make.tilemap({ key: "map" }),
-            i = t.addTilesetImage("Tileset 7", "tiles");
-          const n = t.createLayer("Collision", i),
+          const t = this.make.tilemap({ key: "map" }),
+            i = t.addTilesetImage("Tileset 7", "tiles"),
+            n = t.createLayer("Collision", i),
             s = t.createLayer("door", i);
           t.createLayer("Water", i),
             t.createLayer("Land", i),
@@ -55057,7 +55057,7 @@
         onMeetEnemy(t, i) {
           (i.x = e().Math.RND.between(0, this.physics.world.bounds.width)),
             (i.y = e().Math.RND.between(0, this.physics.world.bounds.height)),
-            this.cameras.main.shake(200),
+            this.cameras.main.fadeOut(500, 0, 0, 0),
             this.scene.switch(r);
         }
         hitDoorLayer(t, e) {
@@ -55362,30 +55362,10 @@
         }
       }
       const k = D,
-        F = {
-          texture: "texture",
-          frame: 0,
-          type: "Mort",
-          currentHP: 130,
-          maxHP: 130,
-          attack: 100,
-          experience: 0,
-          toNextLevel: 60,
-          level: 1,
-        },
-        I = {
-          texture: "texture",
-          frame: 0,
-          type: "Skeleman",
-          currentHP: 70,
-          maxHP: 70,
-          attack: 250,
-          experience: 0,
-          toNextLevel: 60,
-          level: 1,
-        };
+        F = { texture: "texture", frame: 0, type: "Mort", currentHP: 130, maxHP: 130, exp: 0, level: 1 },
+        I = { texture: "texture", frame: 0, type: "Skeleman", currentHP: 70, maxHP: 70, exp: 0, level: 1 };
       class B extends Phaser.GameObjects.Sprite {
-        constructor(t, e, i, n, s, r, o, a, h, l, u) {
+        constructor(t, e, i, n, s, r, o, a, h) {
           super(t, e, i, n, s),
             (this.type = r),
             (this.maxHP = h),
@@ -55413,39 +55393,16 @@
               (this.visible = !1),
               (this.menuItem = null));
         }
-        earnExp(t) {
-          (F.experience += t), (I.experience += t);
-        }
-        levelUp() {
-          let t = Math.ceil(0.15 * F.maxHP);
-          (F.maxHP += t),
-            (t = Math.ceil(0.15 * F.attack)),
-            (F.attack += t),
-            (t = Math.ceil(0.2 * F.toNextLevel)),
-            (F.toNextLevel += t);
-          let e = Math.ceil(0.15 * I.maxHP);
-          (I.maxHP += e),
-            (e = Math.ceil(0.15 * I.attack)),
-            (I.attack += e),
-            (e = Math.ceil(0.2 * I.toNextLevel)),
-            (I.toNextLevel += e),
-            (F.currentHP = F.maxHP),
-            (I.currentHP = I.maxHP),
-            F.level++,
-            I.level++,
-            (F.experience = 0),
-            (I.experience = 0);
-        }
       }
       const N = B,
         Y = class extends N {
-          constructor(t, e, i, n, s, r, o, a, h, l, u) {
+          constructor(t, e, i, n, s, r, o, a, h) {
             super(t, e, i, n, s, r, o, a, h);
           }
         },
         U = class extends N {
-          constructor(t, e, i, n, s, r, o, a, h, l) {
-            super(t, e, i, n, s, r, o, a, h), (this.experience = l);
+          constructor(t, e, i, n, s, r, o, a, h) {
+            super(t, e, i, n, s, r, o, a, h);
           }
         };
       class X extends Phaser.Scene {
@@ -55454,6 +55411,7 @@
         }
         create() {
           (this.battleUIScene = this.scene.get(o)),
+            this.cameras.main.fadeIn(500, 0, 0, 0),
             this.battleSequence(),
             this.sys.events.on("wake", this.battleSequence, this);
         }
@@ -55461,13 +55419,13 @@
           let t = this.registry.get("context").currentEnemies(),
             { localEnemies: e } = t[0];
           const i = e[Math.floor(Math.random() * e.length)],
-            n = new U(this, 50, 60, i.texture, null, i.type, i.hp, i.damage, i.hp, i.experience);
+            n = new U(this, 50, 60, i.texture, null, i.type, i.hp, i.damage, i.hp);
           this.add.existing(n);
           const s = e[Math.floor(Math.random() * e.length)],
-            r = new U(this, 50, 85, s.texture, null, s.type, s.hp, s.damage, s.hp, s.experience);
+            r = new U(this, 50, 85, s.texture, null, s.type, s.hp, s.damage, s.hp);
           this.add.existing(r);
           const o = e[Math.floor(Math.random() * e.length)],
-            a = new U(this, 50, 110, o.texture, null, o.type, o.hp, o.damage, o.hp, o.experience);
+            a = new U(this, 50, 110, o.texture, null, o.type, o.hp, o.damage, o.hp);
           return this.add.existing(a), [n, r, a];
         }
         initializeAudio() {
@@ -55481,9 +55439,9 @@
           console.log(t);
           let e = this.add.image(160, 120, `${t.currentScene}-battleBackground`);
           (e.displayWidth = 320), (e.displayHeight = 240);
-          const i = new Y(this, 250, 50, "skeleman", 0, "Skeleman", I.currentHP, I.attack, I.maxHP);
-          this.add.existing(i), console.log(F);
-          const n = new Y(this, 250, 100, "battleMort", 0, "Mort", F.currentHP, F.attack, F.maxHP);
+          const i = new Y(this, 250, 50, "skeleman", 0, "Skeleman", I.currentHP, 20, I.maxHP);
+          this.add.existing(i);
+          const n = new Y(this, 250, 100, "battleMort", 0, "Mort", F.currentHP, 20, F.maxHP);
           this.add.existing(n),
             (this.enemies = this.generateEnemies()),
             (this.heroes = [i, n]),
@@ -55516,17 +55474,7 @@
           for (let e = 0; e < this.enemies.length; e++) this.enemies[e].living && (t = !1);
           let e = !0;
           for (let t = 0; t < this.heroes.length; t++) this.heroes[t].living && (e = !1);
-          if (t) {
-            let t = 0;
-            console.log(`exp before ${F.experience}`);
-            for (let e = 0; e < this.enemies.length; e++) t += this.enemies[e].experience;
-            return (
-              this.heroes[0].earnExp(t),
-              F.toNextLevel <= F.experience && (this.heroes[0].levelUp(), console.log(F)),
-              "victory"
-            );
-          }
-          return e ? "gameover" : "continue";
+          return t ? "victory" : e ? "gameover" : "continue";
         }
         endBattle() {
           this.registry.get("context"), (this.heroes.length = 0), (this.enemies.length = 0);
@@ -55634,7 +55582,7 @@
         onMeetEnemy(t, e) {
           (e.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width)),
             (e.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height)),
-            this.cameras.main.shake(200),
+            this.cameras.main.fadeOut(500, 0, 0, 0),
             this.scene.switch(r);
         }
         hitDoorLayer(t, e) {
@@ -55748,6 +55696,7 @@
         onMeetBoss(t, e) {
           (e.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width)),
             (e.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height)),
+            this.cameras.main.fadeOut(500, 0, 0, 0),
             this.scene.switch(p);
         }
         hitDoorLayer(t, e) {
@@ -55809,6 +55758,7 @@
         }
         create() {
           (this.battleUIScene = this.scene.get(a)),
+            this.cameras.main.fadeIn(500, 0, 0, 0),
             this.battleSequence(),
             this.sys.events.on("wake", this.battleSequence, this);
         }

@@ -12,10 +12,10 @@ class WorldScene extends Phaser.Scene {
 
   create() {
     // create the map
-    var map = this.make.tilemap({ key: "map" });
+    const map = this.make.tilemap({ key: "map" });
 
     // first parameter is the name of the tilemap in tiled
-    var tiles = map.addTilesetImage("Tileset 7", "tiles");
+    const tiles = map.addTilesetImage("Tileset 7", "tiles");
 
     // creating the layers
     const collisionLayer = map.createLayer("Collision", tiles);
@@ -153,9 +153,8 @@ class WorldScene extends Phaser.Scene {
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
-    // shake the world
-    this.cameras.main.shake(200);
-
+    // fades out to battle
+    this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
   }

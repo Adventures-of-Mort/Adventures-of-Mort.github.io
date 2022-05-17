@@ -12,6 +12,7 @@ class BossBattleScene extends Phaser.Scene {
 
   create() {
     this.battleUIScene = this.scene.get(keys.BOSS_BATTLE_UI_SCENE);
+    this.cameras.main.fadeIn(500, 0, 0, 0);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
 

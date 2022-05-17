@@ -23,7 +23,7 @@ class BattleScene extends Phaser.Scene {
     // this.events.on("sleep", () => {
     // 	this.music.stop();
     // });
-
+    this.cameras.main.fadeIn(500, 0, 0, 0);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
   }
@@ -195,7 +195,6 @@ class BattleScene extends Phaser.Scene {
       if (this.heroes[i].living) gameOver = false;
     }
 
-    //return victory || gameOver;
     if (victory) {
       let expTally = 0;
       console.log(`exp before ${mort.experience}`);
@@ -226,13 +225,10 @@ class BattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
 
-    //this.scene.sleep(keys.BATTLE_UI_SCENE);
     this.music.stop();
     this.scene.sleep(keys.BATTLE_UI_SCENE);
     console.log("got here");
     this.scene.launch(keys.BATTLE_WON_SCENE);
-
-    //this.scene.switch(sceneContext.currentScene);
   }
 
   // where is this method being called?
