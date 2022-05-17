@@ -38,7 +38,7 @@ class StartUIScene extends Phaser.Scene {
     // debug choice
     if (index === 1) {
       this.events.off("StartMenuSelect", this.onStartChoice);
-      this.scene.start(keys.BATTLE_SCENE);
+      this.scene.start(keys.BOSS_SCENE);
     }
   }
 

@@ -14,14 +14,13 @@ class BossBattleScene extends Phaser.Scene {
     this.battleUIScene = this.scene.get(keys.BOSS_BATTLE_UI_SCENE);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
+
+    this.music = this.sound.add("for_achieve");
+    this.music.play({ volume: 1, loop: true });
   }
 
   battleSequence() {
-    let background = this.add.image(
-      160,
-      120,
-      `BossBattleScene-battleBackground`
-    );
+    let background = this.add.image(160, 120, `BossBattleScene-battleBackground`);
     background.displayWidth = 320;
     background.displayHeight = 240;
 
@@ -58,17 +57,7 @@ class BossBattleScene extends Phaser.Scene {
     this.add.existing(mage);
 
     // non player character - goblin
-    const boss = new Enemy(
-      this,
-      60,
-      70,
-      "boss",
-      0,
-      `'Evil' Princess`,
-      300,
-      35,
-      300
-    );
+    const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 300, 35, 300);
 
     this.add.existing(boss);
 
