@@ -7,7 +7,6 @@ class GameOverScene extends Phaser.Scene {
   preload() {}
 
   create() {
-    console.log("launched");
     this.music = this.sound.add("gameover");
 
     this.music.play({ volume: 0.2 });

@@ -48,7 +48,9 @@ typings/
 *.tsbuildinfo
 
 # Webpack Bundle
+bundle.js
 bundle.js.map
+.DS_store
 
 # Optional npm cache directory
 .npm
