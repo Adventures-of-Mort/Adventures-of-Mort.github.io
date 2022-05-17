@@ -1,5 +1,8 @@
 import keys from "./keys";
 import Phaser from "../phaser";
+import mort from "../characters/mort";
+import skeleman from "../characters/skelemen";
+import Message from "../menus/Message";
 
 class WorldScene extends Phaser.Scene {
   constructor() {
@@ -9,10 +12,10 @@ class WorldScene extends Phaser.Scene {
 
   create() {
     // create the map
-    var map = this.make.tilemap({ key: "map" });
+    const map = this.make.tilemap({ key: "map" });
 
     // first parameter is the name of the tilemap in tiled
-    var tiles = map.addTilesetImage("Tileset 7", "tiles");
+    const tiles = map.addTilesetImage("Tileset 7", "tiles");
 
     // creating the layers
     const collisionLayer = map.createLayer("Collision", tiles);
@@ -27,6 +30,8 @@ class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeIn(500, 0, 0, 0);
 
     this.doorFX = this.sound.add("door2");
+
+    this.scene.launch(keys.NOTIFICATION_SCENE);
 
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
@@ -95,6 +100,12 @@ class WorldScene extends Phaser.Scene {
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    // town healing collision
+    this.town = this.physics.add.group({
+      classType: Phaser.GameObjects.Zone,
+    });
+    this.town.create(640, 650, 40, 20);
+
     // where the enemies will be
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -106,6 +117,8 @@ class WorldScene extends Phaser.Scene {
       this.spawns.create(x, y, 20, 20);
     }
     // add collider
+    this.physics.add.overlap(this.player, this.town, this.healParty, false, this);
+
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
@@ -128,6 +141,11 @@ class WorldScene extends Phaser.Scene {
     this.events.on("wake", () => {
       this.music.play({ volume: 0.2 });
     });
+
+    // information message
+    this.message = new Message(this, this.events);
+    this.message.setDepth(1000);
+    this.add.existing(this.message);
   }
 
   onMeetEnemy(player, zone) {
@@ -135,11 +153,19 @@ class WorldScene extends Phaser.Scene {
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
-    // shake the world
-    this.cameras.main.shake(200);
-
+    // fades out to battle
+    this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
+  }
+
+  healParty() {
+    if (mort.currentHP !== mort.maxHP || skeleman.currentHP !== skeleman.maxHP) {
+      mort.currentHP = mort.maxHP;
+      skeleman.currentHP = skeleman.maxHP;
+      this.cameras.main.flash(200);
+      this.events.emit("Message", "Your party has been fully healed. Thanks for visiting!");
+    }
   }
 
   hitDoorLayer(player, target) {

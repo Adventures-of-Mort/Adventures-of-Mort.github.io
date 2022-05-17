@@ -61,9 +61,46 @@ export const redMage = {
   damage: 8,
   experience: 10,
 };
+
 export const monk = {
   texture: "monk",
   type: "Monk",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+
+export const knight = {
+  texture: "knight",
+  type: "Knight",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+export const master = {
+  texture: "master",
+  type: "Master",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+export const ninja = {
+  texture: "ninja",
+  type: "Ninja",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+export const redWizard = {
+  texture: "redWizard",
+  type: "Red Wizard",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+export const whiteWizard = {
+  texture: "whiteWizard",
+  type: "White Wizard",
   hp: 40,
   damage: 8,
   experience: 10,

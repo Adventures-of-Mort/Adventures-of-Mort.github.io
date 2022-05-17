@@ -36,8 +36,11 @@ class TowerScene extends Phaser.Scene {
     this.music.play({ volume: 0.2 });
 
     this.events.on("sleep", () => {
-      console.log(this.scene);
       this.music.stop();
+    });
+
+    this.events.on("wake", () => {
+      this.music.play({ volume: 0.2 });
     });
 
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
@@ -139,8 +142,8 @@ class TowerScene extends Phaser.Scene {
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
-    // shake the world
-    this.cameras.main.shake(200);
+    // fades out to battle
+    this.cameras.main.fadeOut(500, 0, 0, 0);
 
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);

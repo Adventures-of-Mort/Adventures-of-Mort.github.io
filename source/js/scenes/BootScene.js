@@ -63,13 +63,22 @@ class BootScene extends Phaser.Scene {
     this.load.image("spider", "../../../public/MORT/ENEMIES/79.png");
 
     this.load.image("boss", "../../../public/MORT/PRINCESS/princessBoss.png");
-    //hero-enemies
+
+    //worldscene-hero-enemies
 
     this.load.image("warrior", "../../../public/MORT/heroEnemies/warrior-0.png");
     this.load.image("whiteMage", "../../../public/MORT/heroEnemies/whiteMage-2.png");
     this.load.image("rogue", "../../../public/MORT/heroEnemies/rogue-2.png");
     this.load.image("redMage", "../../../public/MORT/heroEnemies/redMage-3.png");
     this.load.image("monk", "../../../public/MORT/heroEnemies/monk-2.png");
+
+    //towerscene-hero-enemies
+
+    this.load.image("knight", "../../../public/MORT/heroEnemies/knight-3.png");
+    this.load.image("master", "../../../public/MORT/heroEnemies/master-2.png");
+    this.load.image("ninja", "../../../public/MORT/heroEnemies/ninja-2.png");
+    this.load.image("redWizard", "../../../public/MORT/heroEnemies/redWizard-3.png");
+    this.load.image("whiteWizard", "../../../public/MORT/heroEnemies/whiteWizard-2.png");
 
     //audio
 
@@ -82,6 +91,9 @@ class BootScene extends Phaser.Scene {
     this.load.audio("doomcastle", "../../../source/assets/audio/music/doomcastle.mp3");
     this.load.audio("gameover", "../../../source/assets/audio/music/gameover.mp3");
     this.load.audio("victory", "../../../source/assets/audio/music/victoryfanfare.mp3");
+    this.load.audio("confusing_melody", "../../../source/assets/audio/music/confusing_melody.mp3");
+    this.load.audio("for_achieve", "../../../source/assets/audio/music/for_achieve.mp3");
+    this.load.audio("ending", "../../../source/assets/audio/music/ending.mp3");
 
     this.load.audio("door1", "../../../source/assets/audio/effects/door1.wav");
     this.load.audio("door2", "../../../source/assets/audio/effects/door2.wav");
