@@ -36,8 +36,11 @@ class TowerScene extends Phaser.Scene {
     this.music.play({ volume: 0.2 });
 
     this.events.on("sleep", () => {
-      console.log(this.scene);
       this.music.stop();
+    });
+
+    this.events.on("wake", () => {
+      this.music.play({ volume: 0.2 });
     });
 
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite

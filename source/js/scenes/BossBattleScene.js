@@ -14,14 +14,13 @@ class BossBattleScene extends Phaser.Scene {
     this.battleUIScene = this.scene.get(keys.BOSS_BATTLE_UI_SCENE);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
+
+    this.music = this.sound.add("for_achieve");
+    this.music.play({ volume: 1, loop: true });
   }
 
   battleSequence() {
-    let background = this.add.image(
-      160,
-      120,
-      `BossBattleScene-battleBackground`
-    );
+    let background = this.add.image(160, 120, `BossBattleScene-battleBackground`);
     background.displayWidth = 320;
     background.displayHeight = 240;
 
@@ -58,17 +57,7 @@ class BossBattleScene extends Phaser.Scene {
     this.add.existing(mage);
 
     // non player character - goblin
-    const boss = new Enemy(
-      this,
-      60,
-      70,
-      "boss",
-      0,
-      `'Evil' Princess`,
-      300,
-      35,
-      300
-    );
+    const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 300, 35, 300);
 
     this.add.existing(boss);
 
@@ -157,6 +146,7 @@ class BossBattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
+    console.log("the battle is done lads");
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;
@@ -165,9 +155,13 @@ class BossBattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
 
-    this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
+    //this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
 
-    this.scene.switch(sceneContext.currentScene);
+    //this.scene.switch(sceneContext.currentScene);
+    this.music.stop();
+    this.scene.stop(keys.BOSS_SCENE);
+    this.scene.stop(keys.BOSS_BATTLE_UI_SCENE);
+    this.scene.run(keys.GAME_WON_SCENE);
   }
 
   // where is this method being called?
