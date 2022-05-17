@@ -11,11 +11,8 @@ const keys = {
   GAME_OVER_SCENE: "GameOverScene",
   BATTLE_WON_SCENE: "BattleWonScene",
   BOSS_SCENE: "BossBattleScene",
-<<<<<<< HEAD
   GAME_WON_SCENE: "GameWonScene",
-=======
   NOTIFICATION_SCENE: "NotificationScene",
->>>>>>> 42b3ad89184a68bb090fecca460c69a33c264def
 };
 
 export default keys;
