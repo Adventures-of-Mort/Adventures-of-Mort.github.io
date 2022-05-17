@@ -61,6 +61,15 @@ export const redMage = {
   damage: 8,
   experience: 10,
 };
+
+export const monk = {
+  texture: "monk",
+  type: "Monk",
+  hp: 40,
+  damage: 8,
+  experience: 10,
+};
+
 export const knight = {
   texture: "knight",
   type: "Knight",

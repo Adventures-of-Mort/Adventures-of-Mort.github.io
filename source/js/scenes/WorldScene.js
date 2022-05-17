@@ -1,5 +1,7 @@
 import keys from "./keys";
 import Phaser from "../phaser";
+import mort from "../characters/mort";
+import skeleman from "../characters/skelemen";
 
 class WorldScene extends Phaser.Scene {
   constructor() {
@@ -95,6 +97,12 @@ class WorldScene extends Phaser.Scene {
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    // town healing collision
+    this.town = this.physics.add.group({
+      classType: Phaser.GameObjects.Zone,
+    });
+    this.town.create(640, 650, 40, 20);
+
     // where the enemies will be
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -106,6 +114,8 @@ class WorldScene extends Phaser.Scene {
       this.spawns.create(x, y, 20, 20);
     }
     // add collider
+    this.physics.add.overlap(this.player, this.town, this.healParty, false, this);
+
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
@@ -140,6 +150,14 @@ class WorldScene extends Phaser.Scene {
 
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
+  }
+
+  healParty() {
+    if (mort.currentHP !== mort.maxHP || skeleman.currentHP !== skeleman.maxHP) {
+      mort.currentHP = mort.maxHP;
+      skeleman.currentHP = skeleman.maxHP;
+      this.cameras.main.flash(200);
+    }
   }
 
   hitDoorLayer(player, target) {
