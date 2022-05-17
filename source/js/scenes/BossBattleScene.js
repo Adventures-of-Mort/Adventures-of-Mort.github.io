@@ -146,6 +146,7 @@ class BossBattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
+    console.log("the battle is done lads");
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;
@@ -154,9 +155,13 @@ class BossBattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
 
-    this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
+    //this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
 
-    this.scene.switch(sceneContext.currentScene);
+    //this.scene.switch(sceneContext.currentScene);
+    this.music.stop();
+    this.scene.stop(keys.BOSS_SCENE);
+    this.scene.stop(keys.BOSS_BATTLE_UI_SCENE);
+    this.scene.run(keys.GAME_WON_SCENE);
   }
 
   // where is this method being called?

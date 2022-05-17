@@ -10,6 +10,7 @@ import GameOverScene from "./scenes/GameOverScene";
 import BattleWonScene from "./scenes/BattleWonScene";
 import BossBattleScene from "./scenes/BossBattleScene";
 import BossBattleUIScene from "./scenes/BossBattleUIScene";
+import GameWonScene from "./scenes/GameWonScene";
 
 const config = {
   type: Phaser.AUTO,
@@ -38,6 +39,7 @@ const config = {
     BattleWonScene,
     BossBattleScene,
     BossBattleUIScene,
+    GameWonScene,
   ],
   callbacks: {
     preBoot: function (game) {
