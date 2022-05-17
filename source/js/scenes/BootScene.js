@@ -78,7 +78,7 @@ class BootScene extends Phaser.Scene {
     this.load.image("master", "../../../public/MORT/heroEnemies/master-2.png");
     this.load.image("ninja", "../../../public/MORT/heroEnemies/ninja-2.png");
     this.load.image("redWizard", "../../../public/MORT/heroEnemies/redWizard-3.png");
-    this.load.image("whiteWizard", "../../../public/MORT/heroEnemies/whiteWizard-3.png");
+    this.load.image("whiteWizard", "../../../public/MORT/heroEnemies/whiteWizard-2.png");
 
     //audio
 
