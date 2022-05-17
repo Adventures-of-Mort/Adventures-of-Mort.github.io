@@ -35,19 +35,29 @@ class BattleScene extends Phaser.Scene {
 
     const one = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
-    const enemyOne = new Enemy(this, 50, 60, one.texture, null, one.type, one.hp, one.damage, one.hp);
+    const enemyOne = new Enemy(this, 50, 60, one.texture, null, one.type, one.hp, one.damage, one.hp, one.experience);
     this.add.existing(enemyOne);
 
     const two = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
-    const enemyTwo = new Enemy(this, 50, 85, two.texture, null, two.type, two.hp, two.damage, two.hp);
+    const enemyTwo = new Enemy(this, 50, 85, two.texture, null, two.type, two.hp, two.damage, two.hp, two.experience);
     this.add.existing(enemyTwo);
 
     const three = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
-    const enemyThree = new Enemy(this, 50, 110, three.texture, null, three.type, three.hp, three.damage, three.hp);
+    const enemyThree = new Enemy(
+      this,
+      50,
+      110,
+      three.texture,
+      null,
+      three.type,
+      three.hp,
+      three.damage,
+      three.hp,
+      three.experience
+    );
     this.add.existing(enemyThree);
-
     return [enemyOne, enemyTwo, enemyThree];
   }
 
@@ -81,11 +91,11 @@ class BattleScene extends Phaser.Scene {
       0,
       "Skeleman",
       skeleman.currentHP,
-      20,
+      skeleman.attack,
       skeleman.maxHP
     );
     this.add.existing(warrior);
-
+    console.log(mort);
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
@@ -95,7 +105,7 @@ class BattleScene extends Phaser.Scene {
       0, //frame
       "Mort", //type
       mort.currentHP, //HP
-      20, //Damage
+      mort.attack, //Damage
       mort.maxHP //maxHP
     );
     this.add.existing(mage);
@@ -187,6 +197,16 @@ class BattleScene extends Phaser.Scene {
 
     //return victory || gameOver;
     if (victory) {
+      let expTally = 0;
+      console.log(`exp before ${mort.experience}`);
+      for (let i = 0; i < this.enemies.length; i++) {
+        expTally += this.enemies[i].experience;
+      }
+      this.heroes[0].earnExp(expTally);
+      if (mort.toNextLevel <= mort.experience) {
+        this.heroes[0].levelUp();
+        console.log(mort);
+      }
       return "victory";
     } else if (gameOver) {
       return "gameover";
@@ -197,6 +217,7 @@ class BattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
+
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;

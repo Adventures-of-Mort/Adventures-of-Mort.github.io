@@ -1,9 +1,9 @@
-import Unit from "./Unit"
+import Unit from "./Unit";
 
 class Player extends Unit {
-	constructor(scene, x, y, texture, frame, type, hp, damage, maxHP) {
-		super(scene, x, y, texture, frame, type, hp, damage, maxHP)
-	}
+  constructor(scene, x, y, texture, frame, type, hp, damage, maxHP, experience, attack) {
+    super(scene, x, y, texture, frame, type, hp, damage, maxHP);
+  }
 }
 
-export default Player
+export default Player;

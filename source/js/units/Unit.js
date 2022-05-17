@@ -2,7 +2,7 @@ import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
 
 class Unit extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, texture, frame, type, hp, damage, maxHP) {
+  constructor(scene, x, y, texture, frame, type, hp, damage, maxHP, experience, attack) {
     super(scene, x, y, texture, frame);
     this.type = type;
     this.maxHP = maxHP;
@@ -32,6 +32,30 @@ class Unit extends Phaser.GameObjects.Sprite {
       this.visible = false;
       this.menuItem = null;
     }
+  }
+  earnExp(experience) {
+    mort.experience += experience;
+    skeleman.experience += experience;
+  }
+  levelUp() {
+    let mortIncrease = Math.ceil(mort.maxHP * 0.15);
+    mort.maxHP += mortIncrease;
+    mortIncrease = Math.ceil(mort.attack * 0.15);
+    mort.attack += mortIncrease;
+    mortIncrease = Math.ceil(mort.toNextLevel * 0.2);
+    mort.toNextLevel += mortIncrease;
+    let skelemanIncrease = Math.ceil(skeleman.maxHP * 0.15);
+    skeleman.maxHP += skelemanIncrease;
+    skelemanIncrease = Math.ceil(skeleman.attack * 0.15);
+    skeleman.attack += skelemanIncrease;
+    skelemanIncrease = Math.ceil(skeleman.toNextLevel * 0.2);
+    skeleman.toNextLevel += skelemanIncrease;
+    mort.currentHP = mort.maxHP;
+    skeleman.currentHP = skeleman.maxHP;
+    mort.level++;
+    skeleman.level++;
+    mort.experience = 0;
+    skeleman.experience = 0;
   }
 }
 
