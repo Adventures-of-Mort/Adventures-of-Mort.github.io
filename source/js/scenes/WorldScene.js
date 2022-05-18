@@ -1,13 +1,10 @@
 import keys from "./keys";
 import Phaser from "../phaser";
-<<<<<<< HEAD
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
 import Message from "../menus/Message";
 import spawnGenerator from "../utilities/spawnGenerator";
 import BaseMapScene from "./BaseMapScene";
-=======
->>>>>>> 89c52a93479a9e2e887434cd9ad13e30405f3745
 
 class WorldScene extends BaseMapScene {
   constructor() {
@@ -67,7 +64,6 @@ class WorldScene extends BaseMapScene {
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
 
-<<<<<<< HEAD
     // town healing collision
     this.town = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -80,8 +76,6 @@ class WorldScene extends BaseMapScene {
     this.west = 230;
     this.south = 770;
 
-=======
->>>>>>> 89c52a93479a9e2e887434cd9ad13e30405f3745
     // where the enemies will be
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -95,6 +89,7 @@ class WorldScene extends BaseMapScene {
     // }
 
     // add collider
+    this.physics.add.overlap(this.player, this.town, this.healParty, false, this);
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
