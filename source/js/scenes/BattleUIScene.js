@@ -3,11 +3,13 @@ import ActionsMenu from "../menus/ActionsMenu";
 import EnemiesMenu from "../menus/EnemiesMenu";
 import Message from "../menus/Message";
 import keys from "./keys";
+import BattleScene from "./BattleScene";
 
 class BattleUIScene extends Phaser.Scene {
   constructor() {
     super({ key: keys.BATTLE_UI_SCENE });
   }
+
   create() {
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(1, 0xffffff);
@@ -82,9 +84,15 @@ class BattleUIScene extends Phaser.Scene {
     this.currentMenu = this.actionsMenu;
   }
 
-  onSelectAction() {
-    this.currentMenu = this.enemiesMenu;
-    this.enemiesMenu.select(0);
+  onSelectAction({ action }) {
+    console.log(action);
+    if (action === "Attack") {
+      this.currentMenu = this.enemiesMenu;
+      this.enemiesMenu.select(0);
+    }
+    if (action === "Flee") {
+      this.battleScene.fleeBattle();
+    }
   }
 
   onKeyInput(event) {
@@ -105,7 +113,7 @@ class BattleUIScene extends Phaser.Scene {
     this.actionsMenu.deselect();
     this.enemiesMenu.deselect();
     this.currentMenu = null;
-    this.battleScene.receivePlayerSelection("attack", index);
+    this.battleScene.receivePlayerSelection("Attack", index);
   }
 
   remapHeroes() {

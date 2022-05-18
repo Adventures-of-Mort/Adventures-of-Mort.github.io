@@ -12,17 +12,6 @@ class BattleScene extends Phaser.Scene {
   create() {
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
-    // this.initializeAudio();
-    // this.music.play({ volume: 0.2 });
-
-    // this.events.on("wake", () => {
-    // 	this.initializeAudio();
-    //   this.music.play({ volume: 0.2 });
-    // });
-
-    // this.events.on("sleep", () => {
-    // 	this.music.stop();
-    // });
     this.cameras.main.fadeIn(500, 0, 0, 0);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
@@ -122,24 +111,7 @@ class BattleScene extends Phaser.Scene {
     this.index = -1;
     // Run UI Scene at the same time
     this.scene.run(keys.BATTLE_UI_SCENE);
-
-    //Timer to kill battle sequence for development purposes
-
-    // const timeEvent = this.time.addEvent({
-    // 	delay: 2000,
-    // 	callback: this.exitBattle,
-    // 	callbackScope: this,
-    // })
   }
-
-  // wake() {
-  // 	this.scene.run("BattleUIScene")
-  // 	this.time.addEvent({
-  // 		delay: 2000,
-  // 		callback: this.exitBattle,
-  // 		callbackScope: this,
-  // 	})
-  // }
 
   nextTurn() {
     let outcome = this.checkEndBattle();
@@ -168,6 +140,7 @@ class BattleScene extends Phaser.Scene {
         target = Math.floor(Math.random() * this.heroes.length);
       } while (!this.heroes[target].living);
       // ATTACK!
+
       this.units[this.index].attack(this.heroes[target]);
       let currentTarget = this.heroes[target];
       // if (currentTarget.type === mort.type)
@@ -227,15 +200,27 @@ class BattleScene extends Phaser.Scene {
 
     this.music.stop();
     this.scene.sleep(keys.BATTLE_UI_SCENE);
-    console.log("got here");
     this.scene.launch(keys.BATTLE_WON_SCENE);
   }
 
-  // where is this method being called?
-  receivePlayerSelection(action, target) {
-    if (action === "attack") {
-      this.units[this.index].attack(this.enemies[target]);
+  fleeBattle() {
+    let sceneContext = this.registry.get("context");
+    this.heroes.length = 0;
+    this.enemies.length = 0;
+    for (let i = 0; i < this.units.length; i++) {
+      this.units[i].destroy();
     }
+    this.units.length = 0;
+
+    this.music.stop();
+    this.scene.sleep(keys.BATTLE_UI_SCENE);
+    console.log("flee battle");
+    this.scene.switch(sceneContext.currentScene);
+  }
+
+  receivePlayerSelection(action, target) {
+    this.units[this.index].attack(this.enemies[target]);
+
     this.time.addEvent({
       delay: 3000,
       callback: this.nextTurn,
