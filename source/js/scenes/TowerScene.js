@@ -1,4 +1,5 @@
 import keys from "./keys";
+import spawnGenerator from "../utilities/spawnGenerator";
 
 class TowerScene extends Phaser.Scene {
   constructor() {
@@ -114,12 +115,13 @@ class TowerScene extends Phaser.Scene {
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
-    for (var i = 0; i < 15; i++) {
-      var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-      var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-      // parameters are x, y, width, height
-      this.spawns.create(x, y, 20, 20);
-    }
+    spawnGenerator(0, 390, 0, this.physics.world.bounds.width, 15, this.spawns);
+    // for (let i = 0; i < 15; i++) {
+    //   let x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+    //   let y = Phaser.Math.RND.between(0, 390);
+    //   // parameters are x, y, width, height
+    //   this.spawns.create(x, y, 20, 20);
+    // }
 
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);

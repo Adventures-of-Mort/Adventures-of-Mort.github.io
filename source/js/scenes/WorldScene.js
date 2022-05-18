@@ -3,6 +3,7 @@ import Phaser from "../phaser";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
 import Message from "../menus/Message";
+import spawnGenerator from "../utilities/spawnGenerator";
 
 class WorldScene extends Phaser.Scene {
   constructor() {
@@ -106,16 +107,24 @@ class WorldScene extends Phaser.Scene {
     });
     this.town.create(640, 650, 40, 20);
 
+    // shorelines
+    this.north = 280;
+    this.east = 730;
+    this.west = 230;
+    this.south = 770;
+
     // where the enemies will be
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
-    for (var i = 0; i < 15; i++) {
-      var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-      var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-      // parameters are x, y, width, height
-      this.spawns.create(x, y, 20, 20);
-    }
+    spawnGenerator(this.north, this.south, this.east, this.west, 20, this.spawns);
+    // for (let i = 0; i < 15; i++) {
+    //   let y = Phaser.Math.RND.between(this.north, this.south);
+    //   let x = Phaser.Math.RND.between(this.west, this.east);
+    //   // parameters are x, y, width, height
+    //   this.spawns.create(x, y, 20, 20);
+    // }
+
     // add collider
     this.physics.add.overlap(this.player, this.town, this.healParty, false, this);
 
@@ -149,9 +158,9 @@ class WorldScene extends Phaser.Scene {
   }
 
   onMeetEnemy(player, zone) {
-    // we move the zone to some other location
-    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+    // relocate encounter
+    zone.y = Phaser.Math.RND.between(this.north, this.south);
+    zone.x = Phaser.Math.RND.between(this.west, this.east);
 
     // fades out to battle
     this.cameras.main.fadeOut(500, 0, 0, 0);
