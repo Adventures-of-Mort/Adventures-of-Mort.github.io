@@ -1,6 +1,7 @@
 import keys from "./keys";
+import BaseMapScene from "./BaseMapScene";
 
-class FinalBossScene extends Phaser.Scene {
+class FinalBossScene extends BaseMapScene {
   constructor() {
     super({ key: keys.FINAL_SCENE });
   }
@@ -39,48 +40,6 @@ class FinalBossScene extends Phaser.Scene {
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
-
-    //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
-    this.anims.create({
-      key: "left",
-      frames: [
-        { key: "playerMort", frame: "MortWalkSide1.png" },
-        { key: "playerMort", frame: "MortWalkSide2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    // animation with key 'right'
-    this.anims.create({
-      key: "right",
-      frames: [
-        { key: "playerMort", frame: "MortWalkSide1.png" },
-        { key: "playerMort", frame: "MortWalkSide2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "up",
-      frames: [
-        { key: "playerMort", frame: "MortWalkUp1.png" },
-        { key: "playerMort", frame: "MortWalkUp2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "down",
-      frames: [
-        { key: "playerMort", frame: "MortWalkDown1.png" },
-        { key: "playerMort", frame: "MortWalkDown2.png" },
-      ],
-      frameRate: 10,
-      repeat: -1,
-    });
 
     // our player sprite created through the physics system
     this.player = this.physics.add.sprite(385, 778, "playerMort");
@@ -153,39 +112,6 @@ class FinalBossScene extends Phaser.Scene {
     this.cameras.main.fadeOut(500, 0, 0, 0);
 
     this.scene.switch(keys.TOWER_SCENE);
-  }
-
-  update(time, delta) {
-    this.player.body.setVelocity(0);
-
-    // Horizontal movement
-    if (this.cursors.left.isDown) {
-      this.player.body.setVelocityX(-80);
-    } else if (this.cursors.right.isDown) {
-      this.player.body.setVelocityX(80);
-    }
-
-    // Vertical movement
-    if (this.cursors.up.isDown) {
-      this.player.body.setVelocityY(-80);
-    } else if (this.cursors.down.isDown) {
-      this.player.body.setVelocityY(80);
-    }
-
-    // Update the animation last and give left/right animations precedence over up/down animations
-    if (this.cursors.left.isDown) {
-      this.player.anims.play("left", true);
-      this.player.flipX = false;
-    } else if (this.cursors.right.isDown) {
-      this.player.anims.play("right", true);
-      this.player.flipX = true;
-    } else if (this.cursors.up.isDown) {
-      this.player.anims.play("up", true);
-    } else if (this.cursors.down.isDown) {
-      this.player.anims.play("down", true);
-    } else {
-      this.player.anims.stop();
-    }
   }
 }
 

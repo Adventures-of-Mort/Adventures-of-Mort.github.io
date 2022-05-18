@@ -250,7 +250,10 @@ class BattleScene extends Phaser.Scene {
     this.units.length = 0;
 
     this.music.stop();
+
     this.scene.sleep(keys.BATTLE_UI_SCENE);
+
+
     this.scene.launch(keys.BATTLE_WON_SCENE);
   }
 
