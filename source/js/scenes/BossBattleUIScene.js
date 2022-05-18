@@ -3,6 +3,7 @@ import ActionsMenu from "../menus/ActionsMenu";
 import EnemiesMenu from "../menus/EnemiesMenu";
 import Message from "../menus/Message";
 import keys from "./keys";
+import BossBattleScene from "./BossBattleScene";
 
 class BossBattleUIScene extends Phaser.Scene {
   constructor() {
@@ -82,9 +83,14 @@ class BossBattleUIScene extends Phaser.Scene {
     this.currentMenu = this.actionsMenu;
   }
 
-  onSelectAction() {
-    this.currentMenu = this.enemiesMenu;
-    this.enemiesMenu.select(0);
+  onSelectAction({ action }) {
+    if (action === "Attack") {
+      this.currentMenu = this.enemiesMenu;
+      this.enemiesMenu.select(0);
+    }
+    if (action === "Flee") {
+      this.battleScene.fleeBattle();
+    }
   }
 
   onKeyInput(event) {
