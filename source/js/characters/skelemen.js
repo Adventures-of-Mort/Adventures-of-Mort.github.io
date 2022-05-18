@@ -4,7 +4,7 @@ const skeleman = {
   type: "Skeleman",
   currentHP: 70,
   maxHP: 70,
-  attack: 250,
+  attack: 25,
   experience: 0,
   toNextLevel: 60,
   level: 1,
