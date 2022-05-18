@@ -11,13 +11,17 @@ class BattleWonScene extends Phaser.Scene {
     this.music = this.sound.add("victory");
     this.music.play({ volume: 0.2 });
 
+    this.battleScene = this.scene.get(keys.BATTLE_SCENE);
+    this.battleScene.events.emit("Message", "You Won! Press enter to continue.");
+
     let sceneContext = this.registry.get("context");
 
     let enterKey = this.input.keyboard.addKey("ENTER");
     enterKey.on("down", () => {
       this.music.stop();
-      this.scene.stop(keys.BATTLE_WON_SCENE);
-      this.scene.stop(keys.BATTLE_SCENE);
+      this.scene.sleep(keys.BATTLE_UI_SCENE);
+      // this.scene.stop(keys.BATTLE_WON_SCENE);
+      this.scene.sleep(keys.BATTLE_SCENE);
       this.scene.switch(sceneContext.currentScene);
     });
   }
