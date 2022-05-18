@@ -35,6 +35,8 @@ class WorldScene extends BaseMapScene {
 
     this.doorFX = this.sound.add("door2");
 
+    this.scene.launch(keys.NOTIFICATION_SCENE);
+
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
     doorLayer.setCollisionByProperty({ door: true });
@@ -109,13 +111,23 @@ class WorldScene extends BaseMapScene {
       this.music.stop();
     });
 
+    this.events.on("shutdown", () => {
+      this.music.stop();
+    });
+
     this.events.on("wake", () => {
       this.music.play({ volume: 0.2 });
     });
+
+    // information message
+    this.message = new Message(this, this.events);
+    this.message.setDepth(1000);
+    this.add.existing(this.message);
   }
 
   onMeetEnemy(player, zone) {
     // relocate encounter
+
     zone.y = Phaser.Math.RND.between(this.north, this.south);
     zone.x = Phaser.Math.RND.between(this.west, this.east);
 
@@ -123,6 +135,15 @@ class WorldScene extends BaseMapScene {
     this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
+  }
+
+  healParty() {
+    if (mort.currentHP !== mort.maxHP || skeleman.currentHP !== skeleman.maxHP) {
+      mort.currentHP = mort.maxHP;
+      skeleman.currentHP = skeleman.maxHP;
+      this.cameras.main.flash(200);
+      this.events.emit("Message", "Your party has been fully healed. Thanks for visiting!");
+    }
   }
 
   hitDoorLayer(player, target) {
