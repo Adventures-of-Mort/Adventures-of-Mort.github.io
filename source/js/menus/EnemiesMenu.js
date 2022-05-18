@@ -28,7 +28,7 @@ class EnemiesMenu extends Menu {
     this.clear();
     for (let i = 0; i < units.length; i++) {
       const unit = units[i];
-      unit.setMenuItem(this.addMenuItem(unit.type));
+      unit.setMenuItem(this.addMenuItem(`${unit.type} lvl${unit.level}`));
     }
     this.menuItemIndex = 0;
   }
