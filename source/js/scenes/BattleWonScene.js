@@ -13,7 +13,7 @@ class BattleWonScene extends Phaser.Scene {
 
     let sceneContext = this.registry.get("context");
 
-    let enterKey = this.input.keyboard.addKey("ENTER");
+    let enterKey = this.input.keyboard.addKey("Space");
     enterKey.on("down", () => {
       this.music.stop();
       this.scene.stop(keys.BATTLE_WON_SCENE);

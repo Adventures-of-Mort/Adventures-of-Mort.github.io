@@ -100,7 +100,7 @@ class BattleScene extends Phaser.Scene {
       this.add.existing(allEnemies[i]);
       attackingEnemies.push(allEnemies[i]);
     }
-    console.log(enemyOne);
+
     return attackingEnemies;
   }
 
@@ -115,7 +115,6 @@ class BattleScene extends Phaser.Scene {
     this.music.play({ volume: 0.2 });
 
     let sceneContext = this.registry.get("context");
-    console.log(sceneContext);
 
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
@@ -138,7 +137,7 @@ class BattleScene extends Phaser.Scene {
       skeleman.maxHP
     );
     this.add.existing(warrior);
-    console.log(mort);
+
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
@@ -224,14 +223,13 @@ class BattleScene extends Phaser.Scene {
 
     if (victory) {
       let expTally = 0;
-      console.log(`exp before ${mort.experience}`);
+
       for (let i = 0; i < this.enemies.length; i++) {
         expTally += this.enemies[i].experience;
       }
       this.heroes[0].earnExp(expTally);
       if (mort.toNextLevel <= mort.experience) {
         this.heroes[0].levelUp();
-        console.log(mort);
       }
       return "victory";
     } else if (gameOver) {
