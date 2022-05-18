@@ -214,7 +214,6 @@ class BattleScene extends Phaser.Scene {
 
     this.music.stop();
     this.scene.sleep(keys.BATTLE_UI_SCENE);
-    console.log("flee battle");
     this.scene.switch(sceneContext.currentScene);
   }
 

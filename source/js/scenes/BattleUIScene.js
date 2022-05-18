@@ -85,7 +85,6 @@ class BattleUIScene extends Phaser.Scene {
   }
 
   onSelectAction({ action }) {
-    console.log(action);
     if (action === "Attack") {
       this.currentMenu = this.enemiesMenu;
       this.enemiesMenu.select(0);
