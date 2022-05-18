@@ -1,3 +1,9 @@
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 export const wolf = {
   texture: "whiteWolf",
   type: "Wolf",
@@ -29,6 +35,7 @@ export const spider = {
 export const boss = {
   texture: "boss",
   type: `'Evil' Princess`,
+  level: 100,
   hp: 300,
   damage: 35,
   experience: 9999,
@@ -36,6 +43,7 @@ export const boss = {
 export const warrior = {
   texture: "warrior",
   type: "Warrior",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -43,6 +51,7 @@ export const warrior = {
 export const whiteMage = {
   texture: "whiteMage",
   type: "White Mage",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -50,6 +59,7 @@ export const whiteMage = {
 export const rogue = {
   texture: "rogue",
   type: "Rogue",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -57,6 +67,7 @@ export const rogue = {
 export const redMage = {
   texture: "redMage",
   type: "Red Mage",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -65,6 +76,7 @@ export const redMage = {
 export const monk = {
   texture: "monk",
   type: "Monk",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -73,6 +85,7 @@ export const monk = {
 export const knight = {
   texture: "knight",
   type: "Knight",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -80,6 +93,7 @@ export const knight = {
 export const master = {
   texture: "master",
   type: "Master",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -87,6 +101,7 @@ export const master = {
 export const ninja = {
   texture: "ninja",
   type: "Ninja",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -94,6 +109,7 @@ export const ninja = {
 export const redWizard = {
   texture: "redWizard",
   type: "Red Wizard",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,
@@ -101,6 +117,7 @@ export const redWizard = {
 export const whiteWizard = {
   texture: "whiteWizard",
   type: "White Wizard",
+  level: 1,
   hp: 40,
   damage: 8,
   experience: 10,

@@ -39,14 +39,42 @@ class BattleScene extends Phaser.Scene {
       return Math.floor(Math.random() * (max - min) + min);
     }
     let randomNum = getRandomInt(2, 5);
+    let enemyOneLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
+    let enemyTwoLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
+    let enemyThreeLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
+    let enemyFourLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
 
     const one = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
-    const enemyOne = new Enemy(this, 50, 60, one.texture, null, one.type, one.hp, one.damage, one.hp, one.experience);
+    const enemyOne = new Enemy(
+      this,
+      50,
+      60,
+      one.texture,
+      null,
+      one.type,
+      one.level + enemyOneLvl,
+      one.hp + enemyOneLvl * 5,
+      one.damage + enemyOneLvl * 2,
+      one.hp + enemyOneLvl * 5,
+      one.experience + enemyOneLvl * 10
+    );
 
     const two = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
-    const enemyTwo = new Enemy(this, 50, 85, two.texture, null, two.type, two.hp, two.damage, two.hp, two.experience);
+    const enemyTwo = new Enemy(
+      this,
+      50,
+      85,
+      two.texture,
+      null,
+      two.type,
+      two.level + enemyTwoLvl,
+      two.hp + enemyTwoLvl * 5,
+      two.damage + enemyTwoLvl * 2,
+      two.hp + enemyTwoLvl * 5,
+      two.experience + enemyTwoLvl * 10
+    );
 
     const three = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
@@ -57,10 +85,11 @@ class BattleScene extends Phaser.Scene {
       three.texture,
       null,
       three.type,
-      three.hp,
-      three.damage,
-      three.hp,
-      three.experience
+      three.level + enemyThreeLvl,
+      three.hp + enemyThreeLvl * 5,
+      three.damage + enemyThreeLvl * 2,
+      three.hp + enemyThreeLvl * 5,
+      three.experience + enemyThreeLvl * 10
     );
 
     const four = localEnemies[Math.floor(Math.random() * localEnemies.length)];
@@ -71,17 +100,18 @@ class BattleScene extends Phaser.Scene {
       four.texture,
       null,
       four.type,
-      four.hp,
-      four.damage,
-      four.hp,
-      four.experience
+      four.level + enemyFourLvl,
+      four.hp + enemyFourLvl * 5,
+      four.damage + enemyFourLvl * 2,
+      four.hp + enemyFourLvl * 5,
+      four.experience + enemyFourLvl * 10
     );
     let allEnemies = [enemyOne, enemyTwo, enemyThree, enemyFour];
     for (let i = 0; i < randomNum; i++) {
       this.add.existing(allEnemies[i]);
       attackingEnemies.push(allEnemies[i]);
     }
-
+    console.log(enemyOne);
     return attackingEnemies;
   }
 
