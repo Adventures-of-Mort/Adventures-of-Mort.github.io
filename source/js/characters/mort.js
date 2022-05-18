@@ -4,7 +4,7 @@ const mort = {
   type: "Mort",
   currentHP: 130,
   maxHP: 130,
-  attack: 100,
+  attack: 15,
   experience: 0,
   toNextLevel: 60,
   level: 1,
