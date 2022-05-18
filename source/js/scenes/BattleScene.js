@@ -32,16 +32,21 @@ class BattleScene extends Phaser.Scene {
     let sceneContext = this.registry.get("context");
     let zoneEnemies = sceneContext.currentEnemies();
     let { localEnemies } = zoneEnemies[0];
+    let attackingEnemies = [];
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+    let randomNum = getRandomInt(2, 5);
 
     const one = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
     const enemyOne = new Enemy(this, 50, 60, one.texture, null, one.type, one.hp, one.damage, one.hp, one.experience);
-    this.add.existing(enemyOne);
 
     const two = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
     const enemyTwo = new Enemy(this, 50, 85, two.texture, null, two.type, two.hp, two.damage, two.hp, two.experience);
-    this.add.existing(enemyTwo);
 
     const three = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
@@ -57,8 +62,27 @@ class BattleScene extends Phaser.Scene {
       three.hp,
       three.experience
     );
-    this.add.existing(enemyThree);
-    return [enemyOne, enemyTwo, enemyThree];
+
+    const four = localEnemies[Math.floor(Math.random() * localEnemies.length)];
+    const enemyFour = new Enemy(
+      this,
+      50,
+      135,
+      four.texture,
+      null,
+      four.type,
+      four.hp,
+      four.damage,
+      four.hp,
+      four.experience
+    );
+    let allEnemies = [enemyOne, enemyTwo, enemyThree, enemyFour];
+    for (let i = 0; i < randomNum; i++) {
+      this.add.existing(allEnemies[i]);
+      attackingEnemies.push(allEnemies[i]);
+    }
+
+    return attackingEnemies;
   }
 
   initializeAudio() {
