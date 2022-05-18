@@ -12,17 +12,6 @@ class BattleScene extends Phaser.Scene {
   create() {
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
-    // this.initializeAudio();
-    // this.music.play({ volume: 0.2 });
-
-    // this.events.on("wake", () => {
-    // 	this.initializeAudio();
-    //   this.music.play({ volume: 0.2 });
-    // });
-
-    // this.events.on("sleep", () => {
-    // 	this.music.stop();
-    // });
     this.cameras.main.fadeIn(500, 0, 0, 0);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
@@ -111,7 +100,7 @@ class BattleScene extends Phaser.Scene {
       this.add.existing(allEnemies[i]);
       attackingEnemies.push(allEnemies[i]);
     }
-    console.log(enemyOne);
+
     return attackingEnemies;
   }
 
@@ -126,7 +115,6 @@ class BattleScene extends Phaser.Scene {
     this.music.play({ volume: 0.2 });
 
     let sceneContext = this.registry.get("context");
-    console.log(sceneContext);
 
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
@@ -149,7 +137,7 @@ class BattleScene extends Phaser.Scene {
       skeleman.maxHP
     );
     this.add.existing(warrior);
-    console.log(mort);
+
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
@@ -176,24 +164,7 @@ class BattleScene extends Phaser.Scene {
     this.index = -1;
     // Run UI Scene at the same time
     this.scene.run(keys.BATTLE_UI_SCENE);
-
-    //Timer to kill battle sequence for development purposes
-
-    // const timeEvent = this.time.addEvent({
-    // 	delay: 2000,
-    // 	callback: this.exitBattle,
-    // 	callbackScope: this,
-    // })
   }
-
-  // wake() {
-  // 	this.scene.run("BattleUIScene")
-  // 	this.time.addEvent({
-  // 		delay: 2000,
-  // 		callback: this.exitBattle,
-  // 		callbackScope: this,
-  // 	})
-  // }
 
   nextTurn() {
     let outcome = this.checkEndBattle();
@@ -222,6 +193,7 @@ class BattleScene extends Phaser.Scene {
         target = Math.floor(Math.random() * this.heroes.length);
       } while (!this.heroes[target].living);
       // ATTACK!
+
       this.units[this.index].attack(this.heroes[target]);
       let currentTarget = this.heroes[target];
       // if (currentTarget.type === mort.type)
@@ -251,14 +223,13 @@ class BattleScene extends Phaser.Scene {
 
     if (victory) {
       let expTally = 0;
-      console.log(`exp before ${mort.experience}`);
+
       for (let i = 0; i < this.enemies.length; i++) {
         expTally += this.enemies[i].experience;
       }
       this.heroes[0].earnExp(expTally);
       if (mort.toNextLevel <= mort.experience) {
         this.heroes[0].levelUp();
-        console.log(mort);
       }
       return "victory";
     } else if (gameOver) {
@@ -270,7 +241,6 @@ class BattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
-
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;
@@ -280,16 +250,32 @@ class BattleScene extends Phaser.Scene {
     this.units.length = 0;
 
     this.music.stop();
+<<<<<<< HEAD
     //this.scene.sleep(keys.BATTLE_UI_SCENE);
     console.log("got here");
+=======
+    this.scene.sleep(keys.BATTLE_UI_SCENE);
+>>>>>>> 89c52a93479a9e2e887434cd9ad13e30405f3745
     this.scene.launch(keys.BATTLE_WON_SCENE);
   }
 
-  // where is this method being called?
-  receivePlayerSelection(action, target) {
-    if (action === "attack") {
-      this.units[this.index].attack(this.enemies[target]);
+  fleeBattle() {
+    let sceneContext = this.registry.get("context");
+    this.heroes.length = 0;
+    this.enemies.length = 0;
+    for (let i = 0; i < this.units.length; i++) {
+      this.units[i].destroy();
     }
+    this.units.length = 0;
+
+    this.music.stop();
+    this.scene.sleep(keys.BATTLE_UI_SCENE);
+    this.scene.switch(sceneContext.currentScene);
+  }
+
+  receivePlayerSelection(action, target) {
+    this.units[this.index].attack(this.enemies[target]);
+
     this.time.addEvent({
       delay: 3000,
       callback: this.nextTurn,
