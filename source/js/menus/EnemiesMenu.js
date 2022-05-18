@@ -28,7 +28,11 @@ class EnemiesMenu extends Menu {
     this.clear();
     for (let i = 0; i < units.length; i++) {
       const unit = units[i];
-      unit.setMenuItem(this.addMenuItem(unit.type));
+      if (unit.type === `'Evil' Princess`) {
+        unit.setMenuItem(this.addMenuItem(`${unit.type}`));
+      } else {
+        unit.setMenuItem(this.addMenuItem(`${unit.type} | lvl ${unit.level}`));
+      }
     }
     this.menuItemIndex = 0;
   }
