@@ -12,6 +12,7 @@ import BossBattleScene from "./scenes/BossBattleScene";
 import BossBattleUIScene from "./scenes/BossBattleUIScene";
 import GameWonScene from "./scenes/GameWonScene";
 import NotificationScene from "./scenes/NotificationsScene";
+import BaseMapScene from "./scenes/BaseMapScene";
 
 const config = {
   type: Phaser.AUTO,
