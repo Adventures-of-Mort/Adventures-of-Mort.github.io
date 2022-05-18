@@ -16,7 +16,7 @@ class BattleWonScene extends Phaser.Scene {
 
     let sceneContext = this.registry.get("context");
 
-    let enterKey = this.input.keyboard.addKey("Space");
+    let enterKey = this.input.keyboard.addKey("ENTER");
     enterKey.on("down", () => {
       this.music.stop();
       this.scene.sleep(keys.BATTLE_UI_SCENE);

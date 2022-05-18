@@ -27,13 +27,9 @@ class FinalBossScene extends BaseMapScene {
     const groundLayer = map.createLayer("Base Floor", tiles);
     const statueLayer = map.createLayer("Statues", tiles);
 
-    let princess = this.add.image(385, 355, "boss");
+    let princess = this.add.image(385, 325, "boss");
     princess.displayHeight = 100;
     princess.displayWidth = 100;
-
-    let dragon = this.add.image(385, 255, "dragon");
-    dragon.displayHeight = 45;
-    dragon.displayWidth = 45;
 
     const debugGraphics = this.add.graphics().setAlpha(0.75);
 
@@ -72,7 +68,7 @@ class FinalBossScene extends BaseMapScene {
       classType: Phaser.GameObjects.Zone,
     });
     // parameters are x, y, width, height
-    this.spawns.create(385, 325, 105, 194);
+    this.spawns.create(385, 325, 85, 85);
 
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetBoss, false, this);
@@ -101,6 +97,7 @@ class FinalBossScene extends BaseMapScene {
     // we move the zone to some other location
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+
     //fades to final boss
     this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle

@@ -6,7 +6,6 @@ import Message from "../menus/Message";
 import spawnGenerator from "../utilities/spawnGenerator";
 import BaseMapScene from "./BaseMapScene";
 
-
 class WorldScene extends BaseMapScene {
   constructor() {
     super({ key: keys.WORLD_SCENE });
@@ -35,6 +34,8 @@ class WorldScene extends BaseMapScene {
     this.cameras.main.fadeIn(500, 0, 0, 0);
 
     this.doorFX = this.sound.add("door2");
+
+    this.scene.launch(keys.NOTIFICATION_SCENE);
 
     // make all tiles in obstacles collidable
     collisionLayer.setCollisionByExclusion([-1]);
@@ -65,7 +66,6 @@ class WorldScene extends BaseMapScene {
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
 
-
     // town healing collision
     this.town = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
@@ -77,7 +77,6 @@ class WorldScene extends BaseMapScene {
     this.east = 730;
     this.west = 230;
     this.south = 770;
-
 
     // where the enemies will be
     this.spawns = this.physics.add.group({
@@ -92,6 +91,8 @@ class WorldScene extends BaseMapScene {
     // }
 
     // add collider
+    this.physics.add.overlap(this.player, this.town, this.healParty, false, this);
+
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.physics.add.overlap(this.player, this.entrance, this.hitDoorLayer, false, this);
@@ -114,6 +115,11 @@ class WorldScene extends BaseMapScene {
     this.events.on("wake", () => {
       this.music.play({ volume: 0.2 });
     });
+
+    // information message
+    this.message = new Message(this, this.events);
+    this.message.setDepth(1000);
+    this.add.existing(this.message);
   }
 
   onMeetEnemy(player, zone) {
@@ -125,6 +131,15 @@ class WorldScene extends BaseMapScene {
     this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle
     this.scene.switch(keys.BATTLE_SCENE);
+  }
+
+  healParty() {
+    if (mort.currentHP !== mort.maxHP || skeleman.currentHP !== skeleman.maxHP) {
+      mort.currentHP = mort.maxHP;
+      skeleman.currentHP = skeleman.maxHP;
+      this.cameras.main.flash(200);
+      this.events.emit("Message", "Your party has been fully healed. Thanks for visiting!");
+    }
   }
 
   hitDoorLayer(player, target) {
