@@ -19,9 +19,9 @@ class BattleWonScene extends Phaser.Scene {
     let enterKey = this.input.keyboard.addKey("ENTER");
     enterKey.on("down", () => {
       this.music.stop();
-      this.scene.stop(keys.BATTLE_UI_SCENE);
-      this.scene.stop(keys.BATTLE_WON_SCENE);
-      this.scene.stop(keys.BATTLE_SCENE);
+      this.scene.sleep(keys.BATTLE_UI_SCENE);
+      // this.scene.stop(keys.BATTLE_WON_SCENE);
+      this.scene.sleep(keys.BATTLE_SCENE);
       this.scene.switch(sceneContext.currentScene);
     });
   }
