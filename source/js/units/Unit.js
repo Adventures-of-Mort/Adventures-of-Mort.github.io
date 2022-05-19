@@ -35,13 +35,12 @@ class Unit extends Phaser.GameObjects.Sprite {
     }
   }
 
-  heal(maxHP, index) {
+  heal(maxHP) {
     let healAmount = Math.ceil((maxHP - this.hp) * 0.25);
 
     if (this.hp === maxHP) {
       this.scene.events.emit("Message", `You can't rest. HP is already full!`);
-      console.log(index);
-      this.scene.events.emit("HealSelect", index);
+      this.scene.events.emit("HealSelect");
     } else {
       this.hp += healAmount;
 
