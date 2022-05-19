@@ -20,6 +20,7 @@ class Unit extends Phaser.GameObjects.Sprite {
       this.scene.events.emit("Message", this.type + " attacks " + target.type + " for " + this.damage + " damage");
     }
   }
+
   takeDamage(damage) {
     this.hp -= damage;
     if (this.type === mort.type) mort.currentHP -= damage;
@@ -33,10 +34,55 @@ class Unit extends Phaser.GameObjects.Sprite {
       this.menuItem = null;
     }
   }
+
+  heal(maxHP) {
+    let healAmount = Math.ceil(this.hp * 0.25);
+    console.log(mort.currentHP);
+
+    if (this.hp === maxHP) {
+      console.log(`maxed hp`);
+      this.scene.events.emit("Message", `You can't rest. HP is already full!`);
+    } else {
+      this.hp += healAmount;
+
+      if (this.type === mort.type) {
+        mort.currentHP += healAmount;
+        if (this.hp > maxHP) {
+          this.hp = maxHP;
+          mort.currentHP = maxHP;
+        }
+
+        this.scene.events.emit("Message", `${this.type} healed for ${healAmount} hp!`);
+      }
+
+      if (this.type === skeleman.type) {
+        skeleman.currentHP += healAmount;
+        if (this.hp > maxHP) {
+          this.hp = maxHP;
+          skeleman.currentHP = maxHP;
+        }
+        this.scene.events.emit("Message", `${this.type} healed for ${healAmount} hp!`);
+        // this.scene.events.emit("PlayerSelect", this.index);
+      }
+
+      // else {
+      // }
+
+      // if (this.hp === maxHP) {
+      //   this.scene.events.emit("Message", `You can't rest. HP is already full!`);
+      // } else {
+      //   if (this.hp > maxHP) {
+      //     this.hp = maxHP;
+      //   }
+      // }
+    }
+  }
+
   earnExp(experience) {
     mort.experience += experience;
     skeleman.experience += experience;
   }
+
   levelUp() {
     let mortIncrease = Math.ceil(mort.maxHP * 0.15);
     mort.maxHP += mortIncrease;

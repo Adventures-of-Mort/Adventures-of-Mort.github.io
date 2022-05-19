@@ -33,11 +33,13 @@ class BattleScene extends Phaser.Scene {
     let zoneEnemies = sceneContext.currentEnemies();
     let { localEnemies } = zoneEnemies[0];
     let attackingEnemies = [];
+
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min) + min);
     }
+
     let randomNum = getRandomInt(2, 5);
     let enemyOneLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
     let enemyTwoLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
@@ -106,12 +108,12 @@ class BattleScene extends Phaser.Scene {
       four.hp + enemyFourLvl * 5,
       four.experience + enemyFourLvl * 10
     );
+
     let allEnemies = [enemyOne, enemyTwo, enemyThree, enemyFour];
     for (let i = 0; i < randomNum; i++) {
       this.add.existing(allEnemies[i]);
       attackingEnemies.push(allEnemies[i]);
     }
-    console.log(enemyOne);
     return attackingEnemies;
   }
 
@@ -131,8 +133,6 @@ class BattleScene extends Phaser.Scene {
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
     background.displayHeight = 240;
-
-    // PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
 
     // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
 
@@ -226,8 +226,6 @@ class BattleScene extends Phaser.Scene {
       // ATTACK!
       this.units[this.index].attack(this.heroes[target]);
       let currentTarget = this.heroes[target];
-      // if (currentTarget.type === mort.type)
-      // 	currentTarget.hp === mort.currentHP
       this.battleUIScene.remapHeroes();
       // This is to add time between attacks to provide smoother gameplay loop
       this.time.addEvent({
@@ -286,7 +284,18 @@ class BattleScene extends Phaser.Scene {
     this.scene.launch(keys.BATTLE_WON_SCENE);
   }
 
-  // where is this method being called?
+  restUp() {
+    this.units[this.index].heal(this.units[this.index].maxHP);
+
+    this.battleUIScene.remapHeroes();
+
+    this.time.addEvent({
+      delay: 3000,
+      callback: this.nextTurn,
+      callbackScope: this,
+    });
+  }
+
   receivePlayerSelection(action, target) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);

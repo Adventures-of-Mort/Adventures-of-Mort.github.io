@@ -40,46 +40,35 @@ class Menu extends Phaser.GameObjects.Container {
 
 		this.menuItems[this.menuItemIndex].deselect()
 		this.menuItemIndex = index
+    while (!this.menuItems[this.menuItemIndex].active) {
+      this.menuItemIndex++;
+      if (this.menuItemIndex >= this.menuItems.length) {
+        this.menuItemIndex = 0;
+      }
+      if (this.menuItemIndex === index) {
+        return;
+      }
+    }
+    this.menuItems[this.menuItemIndex].select();
+    this.selected = true;
+  }
+  // deselect this menu
+  deselect() {
+    this.menuItems[this.menuItemIndex].deselect();
+    this.menuItemIndex = 0;
+    this.selected = false;
+  }
+  // confirm() {
+  // 	// wen the player confirms his slection, do the action
+  // }
+  clear() {
+    for (let i = 0; i < this.menuItems.length; i++) {
+      this.menuItems[i].destroy();
+    }
+    this.menuItems.length = 0;
+    this.menuItemIndex = 0;
+  }
 
-		while (!this.menuItems[this.menuItemIndex].active) {
-			this.menuItemIndex++
-			if (this.menuItemIndex >= this.menuItems.length) {
-				this.menuItemIndex = 0
-			}
-			if (this.menuItemIndex === index) {
-				return
-			}
-		}
-		this.menuItems[this.menuItemIndex].select()
-		this.selected = true
-	}
-	// deselect this menu
-	deselect() {
-		this.menuItems[this.menuItemIndex].deselect()
-		this.menuItemIndex = 0
-		this.selected = false
-	}
-	// confirm() {
-	// 	// wen the player confirms his slection, do the action
-	// }
-	clear() {
-		for (let i = 0; i < this.menuItems.length; i++) {
-			this.menuItems[i].destroy()
-		}
-		this.menuItems.length = 0
-		this.menuItemIndex = 0
-	}
-	// remap(units) {
-	// 	this.clear()
-	// 	for (let i = 0; i < units.length; i++) {
-	// 		console.log("Menu : Remap")
-	// 		const unit = units[i]
-	// 		unit.setMenuItem(
-	// 			this.addMenuItem(`${unit.type} | ${unit.hp} / ${unit.maxHP}`)
-	// 		)
-	// 	}
-	// 	this.menuItemIndex = 0
-	// }
 }
 
 export default Menu

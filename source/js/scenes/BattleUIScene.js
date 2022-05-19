@@ -49,7 +49,7 @@ class BattleUIScene extends Phaser.Scene {
     this.battleScene.events.on("PlayerSelect", this.onPlayerSelect, this);
 
     // when the action on the menu is selected
-    //for now we have only one action so we dont send an action ID
+
     this.events.on("SelectAction", this.onSelectAction, this);
 
     // when an enemy is selected
@@ -82,9 +82,21 @@ class BattleUIScene extends Phaser.Scene {
     this.currentMenu = this.actionsMenu;
   }
 
-  onSelectAction() {
-    this.currentMenu = this.enemiesMenu;
-    this.enemiesMenu.select(0);
+  onSelectAction({ action }) {
+    if (action === "Attack") {
+      this.currentMenu = this.enemiesMenu;
+      this.enemiesMenu.select(0);
+    }
+    if (action === "Rest") {
+      this.heroesMenu.deselect();
+      this.actionsMenu.deselect();
+      this.enemiesMenu.deselect();
+      this.currentMenu = null;
+      this.battleScene.restUp();
+    }
+    if (action === "Flee") {
+      this.battleScene.fleeBattle();
+    }
   }
 
   onKeyInput(event) {
