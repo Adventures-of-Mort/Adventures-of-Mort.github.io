@@ -170,12 +170,6 @@ class BossBattleScene extends Phaser.Scene {
 
   fleeBattle() {
     let sceneContext = this.registry.get("context");
-    this.heroes.length = 0;
-    this.enemies.length = 0;
-    for (let i = 0; i < this.units.length; i++) {
-      this.units[i].destroy();
-    }
-    this.units.length = 0;
 
     this.music.stop();
     this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);

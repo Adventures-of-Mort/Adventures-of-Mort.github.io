@@ -249,13 +249,8 @@ class BattleScene extends Phaser.Scene {
 
   fleeBattle() {
     let sceneContext = this.registry.get("context");
-    this.heroes.length = 0;
-    this.enemies.length = 0;
-    for (let i = 0; i < this.units.length; i++) {
-      this.units[i].destroy();
-    }
-    this.units.length = 0;
 
+    this.index--;
     this.music.stop();
     this.scene.sleep(keys.BATTLE_UI_SCENE);
     this.scene.switch(sceneContext.currentScene);
@@ -267,7 +262,7 @@ class BattleScene extends Phaser.Scene {
     this.battleUIScene.remapHeroes();
 
     this.time.addEvent({
-      delay: 3000,
+      delay: 2000,
       callback: this.nextTurn,
       callbackScope: this,
     });
