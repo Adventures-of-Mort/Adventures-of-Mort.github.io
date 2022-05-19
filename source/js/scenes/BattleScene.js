@@ -267,7 +267,7 @@ class BattleScene extends Phaser.Scene {
   }
 
   restUp() {
-    this.units[this.index].heal(this.units[this.index].maxHP, this.index);
+    this.units[this.index].heal(this.units[this.index].maxHP);
 
     this.battleUIScene.remapHeroes();
 
