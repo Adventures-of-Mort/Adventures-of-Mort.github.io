@@ -284,18 +284,6 @@ class BattleScene extends Phaser.Scene {
     this.scene.launch(keys.BATTLE_WON_SCENE);
   }
 
-  restUp() {
-    this.units[this.index].heal(this.units[this.index].maxHP);
-
-    this.battleUIScene.remapHeroes();
-
-    this.time.addEvent({
-      delay: 3000,
-      callback: this.nextTurn,
-      callbackScope: this,
-    });
-  }
-
   fleeBattle() {
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
@@ -308,6 +296,18 @@ class BattleScene extends Phaser.Scene {
     this.music.stop();
     this.scene.sleep(keys.BATTLE_UI_SCENE);
     this.scene.switch(sceneContext.currentScene);
+  }
+
+  restUp() {
+    this.units[this.index].heal(this.units[this.index].maxHP, this.index);
+
+    this.battleUIScene.remapHeroes();
+
+    this.time.addEvent({
+      delay: 3000,
+      callback: this.nextTurn,
+      callbackScope: this,
+    });
   }
 
   receivePlayerSelection(action, target) {
