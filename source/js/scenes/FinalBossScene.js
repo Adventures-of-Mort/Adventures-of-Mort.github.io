@@ -31,6 +31,10 @@ class FinalBossScene extends BaseMapScene {
     princess.displayHeight = 100;
     princess.displayWidth = 100;
 
+    let dragon = this.add.image(385, 255, "dragon");
+    dragon.displayHeight = 45;
+    dragon.displayWidth = 45;
+
     const debugGraphics = this.add.graphics().setAlpha(0.75);
 
     // make all tiles in obstacles collidable
@@ -68,7 +72,7 @@ class FinalBossScene extends BaseMapScene {
       classType: Phaser.GameObjects.Zone,
     });
     // parameters are x, y, width, height
-    this.spawns.create(385, 325, 85, 85);
+    this.spawns.create(385, 325, 105, 194);
 
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetBoss, false, this);
