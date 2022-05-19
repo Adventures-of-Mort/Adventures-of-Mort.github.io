@@ -296,6 +296,20 @@ class BattleScene extends Phaser.Scene {
     });
   }
 
+  fleeBattle() {
+    let sceneContext = this.registry.get("context");
+    this.heroes.length = 0;
+    this.enemies.length = 0;
+    for (let i = 0; i < this.units.length; i++) {
+      this.units[i].destroy();
+    }
+    this.units.length = 0;
+
+    this.music.stop();
+    this.scene.sleep(keys.BATTLE_UI_SCENE);
+    this.scene.switch(sceneContext.currentScene);
+  }
+
   receivePlayerSelection(action, target) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
