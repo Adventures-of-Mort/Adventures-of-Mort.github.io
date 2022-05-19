@@ -27,7 +27,7 @@ class FinalBossScene extends BaseMapScene {
     const groundLayer = map.createLayer("Base Floor", tiles);
     const statueLayer = map.createLayer("Statues", tiles);
 
-    let princess = this.add.image(385, 325, "boss");
+    let princess = this.add.image(385, 355, "boss");
     princess.displayHeight = 100;
     princess.displayWidth = 100;
 
