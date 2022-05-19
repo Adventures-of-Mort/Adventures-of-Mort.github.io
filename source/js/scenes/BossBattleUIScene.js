@@ -48,6 +48,8 @@ class BossBattleUIScene extends Phaser.Scene {
     //when its the players turn
     this.battleScene.events.on("PlayerSelect", this.onPlayerSelect, this);
 
+    this.battleScene.events.on("HealSelect", this.onHealSelect, this);
+
     // when the action on the menu is selected
     //for now we have only one action so we dont send an action ID
     this.events.on("SelectAction", this.onSelectAction, this);
@@ -82,6 +84,11 @@ class BossBattleUIScene extends Phaser.Scene {
     this.currentMenu = this.actionsMenu;
   }
 
+  onHealSelect() {
+    this.battleScene.index--;
+    this.onPlayerSelect();
+  }
+
   onSelectAction({ action }) {
     if (action === "Attack") {
       this.currentMenu = this.enemiesMenu;
@@ -97,7 +104,6 @@ class BossBattleUIScene extends Phaser.Scene {
     if (action === "Flee") {
       this.battleScene.fleeBattle();
     }
-
   }
 
   onKeyInput(event) {

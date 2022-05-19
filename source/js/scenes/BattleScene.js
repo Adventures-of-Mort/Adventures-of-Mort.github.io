@@ -125,18 +125,7 @@ class BattleScene extends Phaser.Scene {
     // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
 
     // player character - warrior
-    const warrior = new PlayerCharacter(
-      this,
-      250,
-      50,
-      "skeleman",
-      0,
-      "Skeleman",
-      //change back
-      1,
-      skeleman.attack,
-      skeleman.maxHP
-    );
+    const warrior = new PlayerCharacter(this, 250, 50, "skeleman", 0, "Skeleman", 70, skeleman.attack, skeleman.maxHP);
     this.add.existing(warrior);
 
     // player character - mage
@@ -147,23 +136,16 @@ class BattleScene extends Phaser.Scene {
       "battleMort", //texture
       0, //frame
       "Mort", //type
-      1, //HP
+      130, //HP
       mort.attack, //Damage
       mort.maxHP //maxHP
     );
     this.add.existing(mage);
 
-    // console.log(`currentHP ${mage.hp}`);
-    // console.log(`maxHP ${mage.maxHP}`);
-    // array with enemies
     this.enemies = this.generateEnemies();
 
     // array with heroes
     this.heroes = [warrior, mage];
-
-    // this.heroes
-    // this.mort = mage;
-    // this.skeleman = warrior;
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
@@ -185,11 +167,11 @@ class BattleScene extends Phaser.Scene {
       skeleman.currentHP = skeleman.maxHP;
 
       this.battleUIScene.remapHeroes();
-      this.scene.stop(keys.BATTLE_UI_SCENE);
-      this.scene.stop(keys.BATTLE_SCENE);
+      this.scene.sleep(keys.BATTLE_UI_SCENE);
       this.scene.stop(keys.WORLD_SCENE);
       this.scene.stop(keys.TOWER_SCENE);
       this.scene.stop(keys.FINAL_SCENE);
+      this.scene.stop(keys.BATTLE_SCENE);
       this.scene.start(keys.GAME_OVER_SCENE);
       return;
     }
