@@ -1,6 +1,16 @@
+import keys from "./keys";
+
 class BaseMapScene extends Phaser.Scene {
   create() {
-    this.createAnimations();
+    //this.createAnimations();
+    //this.mapKeys();
+  }
+
+  mapKeys() {
+    let key = this.input.keyboard.addKey("TAB");
+    key.on("down", () => {
+      this.scene.switch(keys.STATUS_SCENE);
+    });
   }
 
   createAnimations() {
