@@ -35,13 +35,13 @@ class Unit extends Phaser.GameObjects.Sprite {
     }
   }
 
-  heal(maxHP) {
-    let healAmount = Math.ceil(this.hp * 0.25);
-    console.log(mort.currentHP);
+  heal(maxHP, index) {
+    let healAmount = Math.ceil((maxHP - this.hp) * 0.25);
 
     if (this.hp === maxHP) {
-      console.log(`maxed hp`);
       this.scene.events.emit("Message", `You can't rest. HP is already full!`);
+      console.log(index);
+      this.scene.events.emit("HealSelect", index);
     } else {
       this.hp += healAmount;
 
@@ -62,19 +62,7 @@ class Unit extends Phaser.GameObjects.Sprite {
           skeleman.currentHP = maxHP;
         }
         this.scene.events.emit("Message", `${this.type} healed for ${healAmount} hp!`);
-        // this.scene.events.emit("PlayerSelect", this.index);
       }
-
-      // else {
-      // }
-
-      // if (this.hp === maxHP) {
-      //   this.scene.events.emit("Message", `You can't rest. HP is already full!`);
-      // } else {
-      //   if (this.hp > maxHP) {
-      //     this.hp = maxHP;
-      //   }
-      // }
     }
   }
 

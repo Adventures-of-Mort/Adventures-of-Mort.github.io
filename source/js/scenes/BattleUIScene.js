@@ -50,6 +50,9 @@ class BattleUIScene extends Phaser.Scene {
     //when its the players turn
     this.battleScene.events.on("PlayerSelect", this.onPlayerSelect, this);
 
+    //cant heal go again turn
+    this.battleScene.events.on("HealSelect", this.onHealSelect, this);
+
     // when the action on the menu is selected
 
     this.events.on("SelectAction", this.onSelectAction, this);
@@ -82,6 +85,11 @@ class BattleUIScene extends Phaser.Scene {
     this.heroesMenu.select(id);
     this.actionsMenu.select(0);
     this.currentMenu = this.actionsMenu;
+  }
+
+  onHealSelect() {
+    this.battleScene.index--;
+    this.onPlayerSelect();
   }
 
   onSelectAction({ action }) {
