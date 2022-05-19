@@ -30,7 +30,8 @@ class StatusScene extends Phaser.Scene {
 
     let key = this.input.keyboard.addKey("TAB");
     key.on("down", () => {
-      this.scene.switch(sceneContext.currentScene);
+      this.scene.stop();
+      this.scene.run(sceneContext.currentScene);
     });
   }
 }

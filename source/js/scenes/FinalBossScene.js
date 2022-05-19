@@ -11,6 +11,12 @@ class FinalBossScene extends BaseMapScene {
   }
 
   create() {
+    // create controls
+    this.mapKeys();
+    // crate scene context
+    let context = this.registry.get("context");
+    context.currentScene = keys.FINAL_SCENE;
+
     // create the map
     const map = this.make.tilemap({ key: "FinalTowerFloor" });
 
