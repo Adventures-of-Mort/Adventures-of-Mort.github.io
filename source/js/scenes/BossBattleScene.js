@@ -58,7 +58,7 @@ class BossBattleScene extends Phaser.Scene {
     this.add.existing(mage);
 
     // non player character - goblin
-    const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 300, 35, 300);
+    const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 100, 300, 35, 300);
 
     this.add.existing(boss);
 
@@ -165,7 +165,32 @@ class BossBattleScene extends Phaser.Scene {
     this.scene.run(keys.GAME_WON_SCENE);
   }
 
-  // where is this method being called?
+  fleeBattle() {
+    let sceneContext = this.registry.get("context");
+    this.heroes.length = 0;
+    this.enemies.length = 0;
+    for (let i = 0; i < this.units.length; i++) {
+      this.units[i].destroy();
+    }
+    this.units.length = 0;
+
+    this.music.stop();
+    this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
+    this.scene.switch(sceneContext.currentScene);
+  }
+
+  restUp() {
+    this.units[this.index].heal(this.units[this.index].maxHP);
+
+    this.battleUIScene.remapHeroes();
+
+    this.time.addEvent({
+      delay: 3000,
+      callback: this.nextTurn,
+      callbackScope: this,
+    });
+  }
+
   receivePlayerSelection(action, target) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);

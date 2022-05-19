@@ -32,16 +32,51 @@ class BattleScene extends Phaser.Scene {
     let sceneContext = this.registry.get("context");
     let zoneEnemies = sceneContext.currentEnemies();
     let { localEnemies } = zoneEnemies[0];
+    let attackingEnemies = [];
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    let randomNum = getRandomInt(2, 5);
+    let enemyOneLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
+    let enemyTwoLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
+    let enemyThreeLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
+    let enemyFourLvl = getRandomInt(zoneEnemies[0].minLevel, zoneEnemies[0].maxLevel);
 
     const one = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
-    const enemyOne = new Enemy(this, 50, 60, one.texture, null, one.type, one.hp, one.damage, one.hp, one.experience);
-    this.add.existing(enemyOne);
+    const enemyOne = new Enemy(
+      this,
+      50,
+      60,
+      one.texture,
+      null,
+      one.type,
+      one.level + enemyOneLvl,
+      one.hp + enemyOneLvl * 5,
+      one.damage + enemyOneLvl * 2,
+      one.hp + enemyOneLvl * 5,
+      one.experience + enemyOneLvl * 10
+    );
 
     const two = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
-    const enemyTwo = new Enemy(this, 50, 85, two.texture, null, two.type, two.hp, two.damage, two.hp, two.experience);
-    this.add.existing(enemyTwo);
+    const enemyTwo = new Enemy(
+      this,
+      50,
+      85,
+      two.texture,
+      null,
+      two.type,
+      two.level + enemyTwoLvl,
+      two.hp + enemyTwoLvl * 5,
+      two.damage + enemyTwoLvl * 2,
+      two.hp + enemyTwoLvl * 5,
+      two.experience + enemyTwoLvl * 10
+    );
 
     const three = localEnemies[Math.floor(Math.random() * localEnemies.length)];
 
@@ -52,13 +87,34 @@ class BattleScene extends Phaser.Scene {
       three.texture,
       null,
       three.type,
-      three.hp,
-      three.damage,
-      three.hp,
-      three.experience
+      three.level + enemyThreeLvl,
+      three.hp + enemyThreeLvl * 5,
+      three.damage + enemyThreeLvl * 2,
+      three.hp + enemyThreeLvl * 5,
+      three.experience + enemyThreeLvl * 10
     );
-    this.add.existing(enemyThree);
-    return [enemyOne, enemyTwo, enemyThree];
+
+    const four = localEnemies[Math.floor(Math.random() * localEnemies.length)];
+    const enemyFour = new Enemy(
+      this,
+      50,
+      135,
+      four.texture,
+      null,
+      four.type,
+      four.level + enemyFourLvl,
+      four.hp + enemyFourLvl * 5,
+      four.damage + enemyFourLvl * 2,
+      four.hp + enemyFourLvl * 5,
+      four.experience + enemyFourLvl * 10
+    );
+
+    let allEnemies = [enemyOne, enemyTwo, enemyThree, enemyFour];
+    for (let i = 0; i < randomNum; i++) {
+      this.add.existing(allEnemies[i]);
+      attackingEnemies.push(allEnemies[i]);
+    }
+    return attackingEnemies;
   }
 
   initializeAudio() {
@@ -77,8 +133,6 @@ class BattleScene extends Phaser.Scene {
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
     background.displayHeight = 240;
-
-    // PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
 
     // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
 
@@ -144,9 +198,11 @@ class BattleScene extends Phaser.Scene {
   nextTurn() {
     let outcome = this.checkEndBattle();
     if (outcome === "victory") {
+      this.music.stop();
       this.endBattle();
       return;
     } else if (outcome === "gameover") {
+      this.music.stop();
       this.scene.sleep(keys.BATTLE_UI_SCENE);
       this.scene.switch(keys.GAME_OVER_SCENE);
       return;
@@ -170,8 +226,6 @@ class BattleScene extends Phaser.Scene {
       // ATTACK!
       this.units[this.index].attack(this.heroes[target]);
       let currentTarget = this.heroes[target];
-      // if (currentTarget.type === mort.type)
-      // 	currentTarget.hp === mort.currentHP
       this.battleUIScene.remapHeroes();
       // This is to add time between attacks to provide smoother gameplay loop
       this.time.addEvent({
@@ -224,14 +278,38 @@ class BattleScene extends Phaser.Scene {
       this.units[i].destroy();
     }
     this.units.length = 0;
-
     this.music.stop();
-    this.scene.sleep(keys.BATTLE_UI_SCENE);
+    //this.scene.sleep(keys.BATTLE_UI_SCENE);
     console.log("got here");
     this.scene.launch(keys.BATTLE_WON_SCENE);
   }
 
-  // where is this method being called?
+  fleeBattle() {
+    let sceneContext = this.registry.get("context");
+    this.heroes.length = 0;
+    this.enemies.length = 0;
+    for (let i = 0; i < this.units.length; i++) {
+      this.units[i].destroy();
+    }
+    this.units.length = 0;
+
+    this.music.stop();
+    this.scene.sleep(keys.BATTLE_UI_SCENE);
+    this.scene.switch(sceneContext.currentScene);
+  }
+
+  restUp() {
+    this.units[this.index].heal(this.units[this.index].maxHP);
+
+    this.battleUIScene.remapHeroes();
+
+    this.time.addEvent({
+      delay: 3000,
+      callback: this.nextTurn,
+      callbackScope: this,
+    });
+  }
+
   receivePlayerSelection(action, target) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);

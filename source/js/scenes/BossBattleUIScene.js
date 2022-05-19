@@ -82,9 +82,22 @@ class BossBattleUIScene extends Phaser.Scene {
     this.currentMenu = this.actionsMenu;
   }
 
-  onSelectAction() {
-    this.currentMenu = this.enemiesMenu;
-    this.enemiesMenu.select(0);
+  onSelectAction({ action }) {
+    if (action === "Attack") {
+      this.currentMenu = this.enemiesMenu;
+      this.enemiesMenu.select(0);
+    }
+    if (action === "Rest") {
+      this.heroesMenu.deselect();
+      this.actionsMenu.deselect();
+      this.enemiesMenu.deselect();
+      this.currentMenu = null;
+      this.battleScene.restUp();
+    }
+    if (action === "Flee") {
+      this.battleScene.fleeBattle();
+    }
+
   }
 
   onKeyInput(event) {
@@ -109,12 +122,12 @@ class BossBattleUIScene extends Phaser.Scene {
   }
 
   remapHeroes() {
-    var heroes = this.battleScene.heroes;
+    let heroes = this.battleScene.heroes;
     this.heroesMenu.remap(heroes);
   }
 
   remapEnemies() {
-    var enemies = this.battleScene.enemies;
+    let enemies = this.battleScene.enemies;
     this.enemiesMenu.remap(enemies);
   }
 }

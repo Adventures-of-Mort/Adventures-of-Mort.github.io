@@ -13,13 +13,13 @@ class BattleUIScene extends Phaser.Scene {
     this.graphics.lineStyle(1, 0xffffff);
     this.graphics.fillStyle(0x031f4c, 1);
 
-    // Enemy Menu
-    this.graphics.strokeRect(1, 150, 120, 100);
-    this.graphics.fillRect(0, 150, 120, 100);
+    //enemy menu
+    this.graphics.strokeRect(1, 150, 125, 100);
+    this.graphics.fillRect(0, 150, 125, 100);
 
     // Action Menu
-    this.graphics.strokeRect(100, 150, 90, 100);
-    this.graphics.fillRect(100, 150, 90, 100);
+    this.graphics.strokeRect(125, 150, 95, 100);
+    this.graphics.fillRect(125, 150, 95, 100);
 
     // Player Character Menu
     this.graphics.strokeRect(190, 150, 130, 100);
@@ -27,9 +27,9 @@ class BattleUIScene extends Phaser.Scene {
 
     this.menus = this.add.container();
 
-    this.heroesMenu = new HeroesMenu(200, 156, this);
-    this.actionsMenu = new ActionsMenu(124, 156, this);
-    this.enemiesMenu = new EnemiesMenu(20, 156, this);
+    this.heroesMenu = new HeroesMenu(196, 156, this);
+    this.actionsMenu = new ActionsMenu(139, 156, this);
+    this.enemiesMenu = new EnemiesMenu(11, 156, this);
 
     // the currently selected menu
     this.currentMenu = this.actionsMenu;
@@ -48,8 +48,11 @@ class BattleUIScene extends Phaser.Scene {
     //when its the players turn
     this.battleScene.events.on("PlayerSelect", this.onPlayerSelect, this);
 
+    //cant heal go again turn
+    this.battleScene.events.on("HealSelect", this.onHealSelect, this);
+
     // when the action on the menu is selected
-    //for now we have only one action so we dont send an action ID
+
     this.events.on("SelectAction", this.onSelectAction, this);
 
     // when an enemy is selected
@@ -82,9 +85,26 @@ class BattleUIScene extends Phaser.Scene {
     this.currentMenu = this.actionsMenu;
   }
 
-  onSelectAction() {
-    this.currentMenu = this.enemiesMenu;
-    this.enemiesMenu.select(0);
+  onHealSelect() {
+    this.battleScene.index--;
+    this.onPlayerSelect();
+  }
+
+  onSelectAction({ action }) {
+    if (action === "Attack") {
+      this.currentMenu = this.enemiesMenu;
+      this.enemiesMenu.select(0);
+    }
+    if (action === "Rest") {
+      this.heroesMenu.deselect();
+      this.actionsMenu.deselect();
+      this.enemiesMenu.deselect();
+      this.currentMenu = null;
+      this.battleScene.restUp();
+    }
+    if (action === "Flee") {
+      this.battleScene.fleeBattle();
+    }
   }
 
   onKeyInput(event) {
@@ -109,12 +129,12 @@ class BattleUIScene extends Phaser.Scene {
   }
 
   remapHeroes() {
-    var heroes = this.battleScene.heroes;
+    let heroes = this.battleScene.heroes;
     this.heroesMenu.remap(heroes);
   }
 
   remapEnemies() {
-    var enemies = this.battleScene.enemies;
+    let enemies = this.battleScene.enemies;
     this.enemiesMenu.remap(enemies);
   }
 }
