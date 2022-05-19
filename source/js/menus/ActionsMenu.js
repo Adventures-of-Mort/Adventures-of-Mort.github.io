@@ -5,6 +5,7 @@ class ActionsMenu extends Menu {
     super(x, y, scene);
     this.battleScene = scene;
     this.addMenuItem("Attack");
+    this.addMenuItem("Rest");
     this.addMenuItem("Flee");
   }
 

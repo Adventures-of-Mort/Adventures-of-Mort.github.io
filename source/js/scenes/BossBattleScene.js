@@ -152,6 +152,18 @@ class BossBattleScene extends Phaser.Scene {
     this.scene.switch(sceneContext.currentScene);
   }
 
+  restUp() {
+    this.units[this.index].heal(this.units[this.index].maxHP);
+
+    this.battleUIScene.remapHeroes();
+
+    this.time.addEvent({
+      delay: 3000,
+      callback: this.nextTurn,
+      callbackScope: this,
+    });
+  }
+
   receivePlayerSelection(action, target) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);

@@ -88,6 +88,13 @@ class BossBattleUIScene extends Phaser.Scene {
       this.currentMenu = this.enemiesMenu;
       this.enemiesMenu.select(0);
     }
+    if (action === "Rest") {
+      this.heroesMenu.deselect();
+      this.actionsMenu.deselect();
+      this.enemiesMenu.deselect();
+      this.currentMenu = null;
+      this.battleScene.restUp();
+    }
     if (action === "Flee") {
       this.battleScene.fleeBattle();
     }
