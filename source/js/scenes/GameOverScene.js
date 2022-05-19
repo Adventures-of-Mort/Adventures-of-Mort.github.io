@@ -17,7 +17,12 @@ class GameOverScene extends Phaser.Scene {
 
     enterKey.on("down", () => {
       this.music.stop();
-      this.scene.stop(keys.GAME_OVER_SCENE);
+
+      let context = this.registry.get("context");
+      context.currentScene = keys.WORLD_SCENE;
+
+      this.registry.set("context", context);
+
       this.scene.start(keys.START_SCENE);
     });
   }
