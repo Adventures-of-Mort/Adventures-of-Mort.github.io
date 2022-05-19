@@ -3,19 +3,17 @@ import ActionsMenu from "../menus/ActionsMenu";
 import EnemiesMenu from "../menus/EnemiesMenu";
 import Message from "../menus/Message";
 import keys from "./keys";
-import BattleScene from "./BattleScene";
 
 class BattleUIScene extends Phaser.Scene {
   constructor() {
     super({ key: keys.BATTLE_UI_SCENE });
   }
-
   create() {
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(1, 0xffffff);
     this.graphics.fillStyle(0x031f4c, 1);
 
-    // Enemy Menu
+    //enemy menu
     this.graphics.strokeRect(1, 150, 125, 100);
     this.graphics.fillRect(0, 150, 125, 100);
 
@@ -127,16 +125,16 @@ class BattleUIScene extends Phaser.Scene {
     this.actionsMenu.deselect();
     this.enemiesMenu.deselect();
     this.currentMenu = null;
-    this.battleScene.receivePlayerSelection("Attack", index);
+    this.battleScene.receivePlayerSelection("attack", index);
   }
 
   remapHeroes() {
-    var heroes = this.battleScene.heroes;
+    let heroes = this.battleScene.heroes;
     this.heroesMenu.remap(heroes);
   }
 
   remapEnemies() {
-    var enemies = this.battleScene.enemies;
+    let enemies = this.battleScene.enemies;
     this.enemiesMenu.remap(enemies);
   }
 }

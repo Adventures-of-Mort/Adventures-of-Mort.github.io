@@ -15,7 +15,7 @@ import keys from "../scenes/keys";
 const context = {
   currentScene: keys.WORLD_SCENE,
   enemiesList: [
-    { zone: keys.WORLD_SCENE, localEnemies: [whiteMage, redMage, rogue, warrior, monk], minLevel: 1, maxLevel: 6 },
+    { zone: keys.WORLD_SCENE, localEnemies: [whiteMage, redMage, rogue, warrior, monk], minLevel: 1, maxLevel: 5 },
     {
       zone: keys.TOWER_SCENE,
       localEnemies: [knight, master, ninja, redWizard, whiteWizard],

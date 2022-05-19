@@ -1,4 +1,4 @@
-import Menu from "./Menu";
+import Menu from "./Menu"
 
 class ActionsMenu extends Menu {
   constructor(x, y, scene) {
@@ -18,4 +18,4 @@ class ActionsMenu extends Menu {
   }
 }
 
-export default ActionsMenu;
+export default ActionsMenu
