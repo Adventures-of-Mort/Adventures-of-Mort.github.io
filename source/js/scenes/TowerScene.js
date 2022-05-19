@@ -10,6 +10,8 @@ class TowerScene extends BaseMapScene {
   preload() {}
 
   create() {
+    this.mapKeys();
+
     // create the map
     const map = this.make.tilemap({ key: "floor1" });
 

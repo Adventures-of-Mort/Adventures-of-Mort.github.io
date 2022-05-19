@@ -108,7 +108,7 @@ export const ninja = {
 };
 export const redWizard = {
   texture: "redWizard",
-  type: "Red Wizard",
+  type: "Baron",
   level: 1,
   hp: 40,
   damage: 8,
@@ -116,7 +116,7 @@ export const redWizard = {
 };
 export const whiteWizard = {
   texture: "whiteWizard",
-  type: "White Wizard",
+  type: "Sage",
   level: 1,
   hp: 40,
   damage: 8,
