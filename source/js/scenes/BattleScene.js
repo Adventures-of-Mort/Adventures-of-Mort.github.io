@@ -12,17 +12,6 @@ class BattleScene extends Phaser.Scene {
   create() {
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
-    // this.initializeAudio();
-    // this.music.play({ volume: 0.2 });
-
-    // this.events.on("wake", () => {
-    // 	this.initializeAudio();
-    //   this.music.play({ volume: 0.2 });
-    // });
-
-    // this.events.on("sleep", () => {
-    // 	this.music.stop();
-    // });
     this.cameras.main.fadeIn(500, 0, 0, 0);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
@@ -128,7 +117,6 @@ class BattleScene extends Phaser.Scene {
     this.music.play({ volume: 0.2 });
 
     let sceneContext = this.registry.get("context");
-    console.log(sceneContext);
 
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
@@ -137,19 +125,9 @@ class BattleScene extends Phaser.Scene {
     // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
 
     // player character - warrior
-    const warrior = new PlayerCharacter(
-      this,
-      250,
-      50,
-      "skeleman",
-      0,
-      "Skeleman",
-      skeleman.currentHP,
-      skeleman.attack,
-      skeleman.maxHP
-    );
+    const warrior = new PlayerCharacter(this, 250, 50, "skeleman", 0, "Skeleman", 70, skeleman.attack, skeleman.maxHP);
     this.add.existing(warrior);
-    console.log(mort);
+
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
@@ -158,13 +136,12 @@ class BattleScene extends Phaser.Scene {
       "battleMort", //texture
       0, //frame
       "Mort", //type
-      mort.currentHP, //HP
+      130, //HP
       mort.attack, //Damage
       mort.maxHP //maxHP
     );
     this.add.existing(mage);
 
-    // array with enemies
     this.enemies = this.generateEnemies();
 
     // array with heroes
@@ -176,24 +153,7 @@ class BattleScene extends Phaser.Scene {
     this.index = -1;
     // Run UI Scene at the same time
     this.scene.run(keys.BATTLE_UI_SCENE);
-
-    //Timer to kill battle sequence for development purposes
-
-    // const timeEvent = this.time.addEvent({
-    // 	delay: 2000,
-    // 	callback: this.exitBattle,
-    // 	callbackScope: this,
-    // })
   }
-
-  // wake() {
-  // 	this.scene.run("BattleUIScene")
-  // 	this.time.addEvent({
-  // 		delay: 2000,
-  // 		callback: this.exitBattle,
-  // 		callbackScope: this,
-  // 	})
-  // }
 
   nextTurn() {
     let outcome = this.checkEndBattle();
@@ -203,8 +163,16 @@ class BattleScene extends Phaser.Scene {
       return;
     } else if (outcome === "gameover") {
       this.music.stop();
+      mort.currentHP = mort.maxHP;
+      skeleman.currentHP = skeleman.maxHP;
+
+      this.battleUIScene.remapHeroes();
       this.scene.sleep(keys.BATTLE_UI_SCENE);
-      this.scene.switch(keys.GAME_OVER_SCENE);
+      this.scene.stop(keys.WORLD_SCENE);
+      this.scene.stop(keys.TOWER_SCENE);
+      this.scene.stop(keys.FINAL_SCENE);
+      this.scene.stop(keys.BATTLE_SCENE);
+      this.scene.start(keys.GAME_OVER_SCENE);
       return;
     }
     do {
@@ -251,14 +219,12 @@ class BattleScene extends Phaser.Scene {
 
     if (victory) {
       let expTally = 0;
-      console.log(`exp before ${mort.experience}`);
       for (let i = 0; i < this.enemies.length; i++) {
         expTally += this.enemies[i].experience;
       }
       this.heroes[0].earnExp(expTally);
       if (mort.toNextLevel <= mort.experience) {
         this.heroes[0].levelUp();
-        console.log(mort);
       }
       return "victory";
     } else if (gameOver) {
@@ -270,7 +236,6 @@ class BattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
-
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;
@@ -279,8 +244,6 @@ class BattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
     this.music.stop();
-    //this.scene.sleep(keys.BATTLE_UI_SCENE);
-    console.log("got here");
     this.scene.launch(keys.BATTLE_WON_SCENE);
   }
 

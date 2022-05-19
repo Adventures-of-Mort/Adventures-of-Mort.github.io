@@ -20,7 +20,7 @@ class BattleWonScene extends Phaser.Scene {
     enterKey.on("down", () => {
       this.music.stop();
       this.scene.sleep(keys.BATTLE_UI_SCENE);
-      // this.scene.stop(keys.BATTLE_WON_SCENE);
+
       this.scene.sleep(keys.BATTLE_SCENE);
       this.scene.switch(sceneContext.currentScene);
     });
