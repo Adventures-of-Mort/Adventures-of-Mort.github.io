@@ -26,6 +26,7 @@ export default class Message extends Phaser.GameObjects.Container {
 
   showMessage(text) {
     this.text.setText(text);
+    console.log("message:" + text);
     this.visible = true;
     if (this.hideEvent) {
       this.hideEvent.remove(false);
