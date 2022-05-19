@@ -25,6 +25,10 @@ class BossBattleScene extends Phaser.Scene {
     background.displayWidth = 320;
     background.displayHeight = 240;
 
+    // PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
+
+    // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
+
     // player character - warrior
     const warrior = new PlayerCharacter(
       this,
@@ -65,11 +69,29 @@ class BossBattleScene extends Phaser.Scene {
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
+    console.log(this.units);
 
     this.index = -1;
     // Run UI Scene at the same time
     this.scene.run(keys.BOSS_BATTLE_UI_SCENE);
+
+    //Timer to kill battle sequence for development purposes
+
+    // const timeEvent = this.time.addEvent({
+    // 	delay: 2000,
+    // 	callback: this.exitBattle,
+    // 	callbackScope: this,
+    // })
   }
+
+  // wake() {
+  // 	this.scene.run("BattleUIScene")
+  // 	this.time.addEvent({
+  // 		delay: 2000,
+  // 		callback: this.exitBattle,
+  // 		callbackScope: this,
+  // 	})
+  // }
 
   nextTurn() {
     if (this.checkEndBattle()) {
@@ -95,7 +117,8 @@ class BossBattleScene extends Phaser.Scene {
       // ATTACK!
       this.units[this.index].attack(this.heroes[target]);
       let currentTarget = this.heroes[target];
-
+      // if (currentTarget.type === mort.type)
+      // 	currentTarget.hp === mort.currentHP
       this.battleUIScene.remapHeroes();
       // This is to add time between attacks to provide smoother gameplay loop
       this.time.addEvent({
@@ -124,6 +147,7 @@ class BossBattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
+    console.log("the battle is done lads");
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;
@@ -132,6 +156,9 @@ class BossBattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
 
+    //this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
+
+    //this.scene.switch(sceneContext.currentScene);
     this.music.stop();
     this.scene.stop(keys.BOSS_SCENE);
     this.scene.stop(keys.BOSS_BATTLE_UI_SCENE);
