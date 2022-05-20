@@ -2,6 +2,7 @@ import keys from "./keys";
 import Phaser from "../phaser";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import hanzIV from "../characters/hanzIV";
 import Message from "../menus/Message";
 import spawnGenerator from "../utilities/spawnGenerator";
 import BaseMapScene from "./BaseMapScene";
@@ -139,9 +140,10 @@ class WorldScene extends BaseMapScene {
   }
 
   healParty() {
-    if (mort.currentHP !== mort.maxHP || skeleman.currentHP !== skeleman.maxHP) {
+    if (mort.currentHP !== mort.maxHP || skeleman.currentHP !== skeleman.maxHP || hanzIV.currentHP !== hanzIV.maxHP) {
       mort.currentHP = mort.maxHP;
       skeleman.currentHP = skeleman.maxHP;
+      hanzIV.currentHP = hanzIV.maxHP;
       this.cameras.main.flash(200);
       this.events.emit("Message", "Your party has been fully healed. Thanks for visiting!");
     }
