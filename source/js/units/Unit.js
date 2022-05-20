@@ -3,7 +3,7 @@ import skeleman from "../characters/skelemen";
 import hanzIV from "../characters/hanzIV";
 
 class Unit extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, texture, frame, type, hp, damage, maxHP, experience, attack) {
+  constructor(scene, x, y, texture, frame, type, hp, damage, maxHP, int, experience, attack) {
     super(scene, x, y, texture, frame);
     this.type = type;
     this.maxHP = maxHP;
@@ -11,6 +11,7 @@ class Unit extends Phaser.GameObjects.Sprite {
     this.damage = damage; // default damage
     this.living = true;
     this.menuItem = null;
+    this.int = int;
   }
   setMenuItem(item) {
     this.menuItem = item;
@@ -27,6 +28,15 @@ class Unit extends Phaser.GameObjects.Sprite {
       });
 
       this.scene.events.emit("Message", this.type + " attacks " + target.type + " for " + this.damage + " damage");
+    }
+  }
+
+  useMagic(target, spell) {
+    console.log("int: ", this.int);
+    let damage = this.int * 1.5;
+    if (target.living) {
+      target.takeDamage(damage);
+      this.scene.events.emit("Message", `${this.type} casts ${spell} on ${target.type} for ${damage} damage`);
     }
   }
 

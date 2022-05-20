@@ -5,6 +5,7 @@ const mort = {
   currentHP: 100,
   maxHP: 100,
   attack: 15,
+  int: 30,
   experience: 0,
   toNextLevel: 100,
   level: 1,
