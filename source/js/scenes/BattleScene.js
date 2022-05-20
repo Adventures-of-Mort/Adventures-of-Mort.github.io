@@ -125,7 +125,19 @@ class BattleScene extends Phaser.Scene {
     // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
 
     // player character - warrior
-    const warrior = new PlayerCharacter(this, 250, 50, "skeleman", 0, "Skeleman", 70, skeleman.attack, skeleman.maxHP);
+    const warrior = new PlayerCharacter(
+      this,
+      250,
+      50,
+      "skeleman",
+      0,
+      "Skeleman",
+      70,
+      skeleman.attack,
+      skeleman.maxHP,
+      skeleman.int
+    );
+    console.log("skeleman: ", skeleman.int);
     this.add.existing(warrior);
 
     // player character - mage
@@ -138,7 +150,8 @@ class BattleScene extends Phaser.Scene {
       "Mort", //type
       130, //HP
       mort.attack, //Damage
-      mort.maxHP //maxHP
+      mort.maxHP, //maxHP
+      mort.int
     );
     this.add.existing(mage);
 
@@ -273,10 +286,14 @@ class BattleScene extends Phaser.Scene {
     });
   }
 
-  receivePlayerSelection(action, target) {
+  receivePlayerSelection(action, target, spell = null) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
     }
+    if (action === "magic") {
+      this.units[this.index].useMagic(this.enemies[target], spell);
+    }
+    this.scene.get(keys.BATTLE_UI_SCENE).actionsMenu.visible = true;
     this.time.addEvent({
       delay: 3000,
       callback: this.nextTurn,

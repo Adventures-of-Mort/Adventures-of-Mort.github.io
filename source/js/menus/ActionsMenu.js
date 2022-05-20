@@ -1,10 +1,11 @@
-import Menu from "./Menu"
+import Menu from "./Menu";
 
 class ActionsMenu extends Menu {
   constructor(x, y, scene) {
     super(x, y, scene);
     this.battleScene = scene;
     this.addMenuItem("Attack");
+    this.addMenuItem("Magic");
     this.addMenuItem("Rest");
     this.addMenuItem("Flee");
   }
@@ -15,7 +16,8 @@ class ActionsMenu extends Menu {
       index: this.menuItemIndex,
       action: this.menuItems[this.menuItemIndex]._text,
     });
+    this.visible = false;
   }
 }
 
-export default ActionsMenu
+export default ActionsMenu;
