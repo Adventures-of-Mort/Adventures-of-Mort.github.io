@@ -68,7 +68,7 @@ class BossBattleScene extends Phaser.Scene {
     this.add.existing(hanz);
 
     // non player character - goblin
-    const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 100, 300, 35, 300);
+    const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 100, 300, 100, 300);
 
     this.add.existing(boss);
 
@@ -85,26 +85,26 @@ class BossBattleScene extends Phaser.Scene {
     this.scene.run(keys.BOSS_BATTLE_UI_SCENE);
 
     //Timer to kill battle sequence for development purposes
-
-    // const timeEvent = this.time.addEvent({
-    // 	delay: 2000,
-    // 	callback: this.exitBattle,
-    // 	callbackScope: this,
-    // })
   }
 
-  // wake() {
-  // 	this.scene.run("BattleUIScene")
-  // 	this.time.addEvent({
-  // 		delay: 2000,
-  // 		callback: this.exitBattle,
-  // 		callbackScope: this,
-  // 	})
-  // }
-
   nextTurn() {
-    if (this.checkEndBattle()) {
+    let outcome = this.checkEndBattle();
+    if (outcome === "victory") {
+      this.music.stop();
       this.endBattle();
+      return;
+    } else if (outcome === "gameover") {
+      this.music.stop();
+      mort.currentHP = mort.maxHP;
+      skeleman.currentHP = skeleman.maxHP;
+
+      this.battleUIScene.remapHeroes();
+      this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
+      this.scene.stop(keys.WORLD_SCENE);
+      this.scene.stop(keys.TOWER_SCENE);
+      this.scene.stop(keys.FINAL_SCENE);
+      this.scene.stop(keys.BOSS_SCENE);
+      this.scene.start(keys.GAME_OVER_SCENE);
       return;
     }
     do {
@@ -151,7 +151,13 @@ class BossBattleScene extends Phaser.Scene {
       if (this.heroes[i].living) gameOver = false;
     }
 
-    return victory || gameOver;
+    if (victory) {
+      return "victory";
+    } else if (gameOver) {
+      return "gameover";
+    } else {
+      return "continue";
+    }
   }
 
   endBattle() {
@@ -164,9 +170,6 @@ class BossBattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
 
-    //this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);
-
-    //this.scene.switch(sceneContext.currentScene);
     this.music.stop();
     this.scene.stop(keys.BOSS_SCENE);
     this.scene.stop(keys.BOSS_BATTLE_UI_SCENE);
@@ -175,12 +178,6 @@ class BossBattleScene extends Phaser.Scene {
 
   fleeBattle() {
     let sceneContext = this.registry.get("context");
-    this.heroes.length = 0;
-    this.enemies.length = 0;
-    for (let i = 0; i < this.units.length; i++) {
-      this.units[i].destroy();
-    }
-    this.units.length = 0;
 
     this.music.stop();
     this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);

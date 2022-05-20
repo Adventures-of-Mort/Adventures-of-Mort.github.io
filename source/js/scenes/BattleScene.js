@@ -13,17 +13,6 @@ class BattleScene extends Phaser.Scene {
   create() {
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
-    // this.initializeAudio();
-    // this.music.play({ volume: 0.2 });
-
-    // this.events.on("wake", () => {
-    // 	this.initializeAudio();
-    //   this.music.play({ volume: 0.2 });
-    // });
-
-    // this.events.on("sleep", () => {
-    // 	this.music.stop();
-    // });
     this.cameras.main.fadeIn(500, 0, 0, 0);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
@@ -135,6 +124,7 @@ class BattleScene extends Phaser.Scene {
     background.displayHeight = 240;
 
     // player character - warrior
+
     const warrior = new PlayerCharacter(
       this,
       250,
@@ -147,6 +137,7 @@ class BattleScene extends Phaser.Scene {
       skeleman.maxHP
     );
     this.add.existing(warrior);
+
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
@@ -155,11 +146,12 @@ class BattleScene extends Phaser.Scene {
       "battleMort", //texture
       0, //frame
       "Mort", //type
-      mort.currentHP, //HP
+      130, //HP
       mort.attack, //Damage
       mort.maxHP //maxHP
     );
     this.add.existing(mage);
+
 
     const hanz = new PlayerCharacter(
       this,
@@ -175,6 +167,7 @@ class BattleScene extends Phaser.Scene {
     this.add.existing(hanz);
 
     // array with enemies
+
     this.enemies = this.generateEnemies();
 
     // array with heroes
@@ -186,24 +179,7 @@ class BattleScene extends Phaser.Scene {
     this.index = -1;
     // Run UI Scene at the same time
     this.scene.run(keys.BATTLE_UI_SCENE);
-
-    //Timer to kill battle sequence for development purposes
-
-    // const timeEvent = this.time.addEvent({
-    // 	delay: 2000,
-    // 	callback: this.exitBattle,
-    // 	callbackScope: this,
-    // })
   }
-
-  // wake() {
-  // 	this.scene.run("BattleUIScene")
-  // 	this.time.addEvent({
-  // 		delay: 2000,
-  // 		callback: this.exitBattle,
-  // 		callbackScope: this,
-  // 	})
-  // }
 
   nextTurn() {
     let outcome = this.checkEndBattle();
@@ -213,8 +189,16 @@ class BattleScene extends Phaser.Scene {
       return;
     } else if (outcome === "gameover") {
       this.music.stop();
+      mort.currentHP = mort.maxHP;
+      skeleman.currentHP = skeleman.maxHP;
+
+      this.battleUIScene.remapHeroes();
       this.scene.sleep(keys.BATTLE_UI_SCENE);
-      this.scene.switch(keys.GAME_OVER_SCENE);
+      this.scene.stop(keys.WORLD_SCENE);
+      this.scene.stop(keys.TOWER_SCENE);
+      this.scene.stop(keys.FINAL_SCENE);
+      this.scene.stop(keys.BATTLE_SCENE);
+      this.scene.start(keys.GAME_OVER_SCENE);
       return;
     }
     do {
@@ -278,7 +262,6 @@ class BattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
-
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;
@@ -292,13 +275,8 @@ class BattleScene extends Phaser.Scene {
 
   fleeBattle() {
     let sceneContext = this.registry.get("context");
-    this.heroes.length = 0;
-    this.enemies.length = 0;
-    for (let i = 0; i < this.units.length; i++) {
-      this.units[i].destroy();
-    }
-    this.units.length = 0;
 
+    this.index--;
     this.music.stop();
     this.scene.sleep(keys.BATTLE_UI_SCENE);
     this.scene.switch(sceneContext.currentScene);
@@ -310,7 +288,7 @@ class BattleScene extends Phaser.Scene {
     this.battleUIScene.remapHeroes();
 
     this.time.addEvent({
-      delay: 3000,
+      delay: 2000,
       callback: this.nextTurn,
       callbackScope: this,
     });

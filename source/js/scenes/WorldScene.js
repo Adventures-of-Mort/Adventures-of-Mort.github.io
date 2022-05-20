@@ -15,6 +15,7 @@ class WorldScene extends BaseMapScene {
 
   create() {
     this.createAnimations();
+    this.mapKeys();
 
     // create the map
     const map = this.make.tilemap({ key: "map" });
