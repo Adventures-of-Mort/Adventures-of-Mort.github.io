@@ -146,12 +146,11 @@ class BattleScene extends Phaser.Scene {
       "battleMort", //texture
       0, //frame
       "Mort", //type
-      130, //HP
+      mort.currentHP, //HP
       mort.attack, //Damage
       mort.maxHP //maxHP
     );
     this.add.existing(mage);
-
 
     const hanz = new PlayerCharacter(
       this,
