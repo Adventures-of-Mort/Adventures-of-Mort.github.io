@@ -81,6 +81,7 @@ class BattleUIScene extends Phaser.Scene {
 
     // map enemy menu items to enemies
     this.remapEnemies();
+    this.actionsMenu.visible = true;
 
     // ROUND 1, FIGHT!
     this.battleScene.nextTurn();

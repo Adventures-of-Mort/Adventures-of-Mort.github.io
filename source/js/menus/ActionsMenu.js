@@ -12,11 +12,11 @@ class ActionsMenu extends Menu {
 
   confirm() {
     // emit when player selects action
+
     this.battleScene.events.emit("SelectAction", {
       index: this.menuItemIndex,
       action: this.menuItems[this.menuItemIndex]._text,
     });
-    this.visible = false;
   }
 }
 
