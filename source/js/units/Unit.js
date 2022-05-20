@@ -4,7 +4,6 @@ import skeleman from "../characters/skelemen";
 class Unit extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, texture, frame, type, hp, damage, maxHP, int, experience, attack) {
     super(scene, x, y, texture, frame);
-    console.log("constuct ", int);
     this.type = type;
     this.maxHP = maxHP;
     this.hp = hp;
