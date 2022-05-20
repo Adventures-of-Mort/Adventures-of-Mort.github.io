@@ -3,6 +3,7 @@ import Enemy from "../units/Enemy";
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import hanzIV from "../characters/hanzIV";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
@@ -122,8 +123,6 @@ class BattleScene extends Phaser.Scene {
     background.displayWidth = 320;
     background.displayHeight = 240;
 
-    // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
-
     // player character - warrior
     const warrior = new PlayerCharacter(
       this,
@@ -137,28 +136,42 @@ class BattleScene extends Phaser.Scene {
       skeleman.maxHP,
       skeleman.int
     );
-    console.log("skeleman: ", skeleman.int);
     this.add.existing(warrior);
 
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
-      250, //x coord
-      100, //y coord
+      290, //x coord
+      90, //y coord
       "battleMort", //texture
       0, //frame
       "Mort", //type
-      130, //HP
+      mort.currentHP, //HP
       mort.attack, //Damage
       mort.maxHP, //maxHP
       mort.int
     );
     this.add.existing(mage);
 
+    const hanz = new PlayerCharacter(
+      this,
+      250,
+      125,
+      hanzIV.texture,
+      0,
+      hanzIV.type,
+      hanzIV.currentHP,
+      hanzIV.attack,
+      hanzIV.maxHP
+    );
+    this.add.existing(hanz);
+
+    // array with enemies
+
     this.enemies = this.generateEnemies();
 
     // array with heroes
-    this.heroes = [warrior, mage];
+    this.heroes = [warrior, mage, hanz];
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
@@ -262,13 +275,8 @@ class BattleScene extends Phaser.Scene {
 
   fleeBattle() {
     let sceneContext = this.registry.get("context");
-    this.heroes.length = 0;
-    this.enemies.length = 0;
-    for (let i = 0; i < this.units.length; i++) {
-      this.units[i].destroy();
-    }
-    this.units.length = 0;
 
+    this.index--;
     this.music.stop();
     this.scene.sleep(keys.BATTLE_UI_SCENE);
     this.scene.switch(sceneContext.currentScene);
@@ -280,7 +288,7 @@ class BattleScene extends Phaser.Scene {
     this.battleUIScene.remapHeroes();
 
     this.time.addEvent({
-      delay: 3000,
+      delay: 2000,
       callback: this.nextTurn,
       callbackScope: this,
     });

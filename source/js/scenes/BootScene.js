@@ -21,7 +21,7 @@ class BootScene extends Phaser.Scene {
 
     this.load.tilemapTiledJSON("FinalTowerFloor", "../../../public/MORT/MAPS/FinalFloor.json");
 
-    // our two characters
+    // battle player characters
     this.load.atlas(
       "battleMort",
       "../../../public/MORT/MORT/BattleMortSpritesheet.png",
@@ -34,7 +34,9 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/SKELEMAN/SkeleSpritesheet.json"
     );
 
-    // butz overworld atlas
+    this.load.image("hanz", "../../../public/MORT/ENEMIES/46.png");
+
+    // mort overworld atlas
     this.load.atlas(
       "playerMort",
       "../../../public/MORT/MORT/OverworldMortSpritesheet.png",
@@ -52,17 +54,11 @@ class BootScene extends Phaser.Scene {
     //final boss background
     this.load.image("BossBattleScene-battleBackground", "../../../public/MORT/BATTLEBACKGROUNDS/30.png");
 
-    //enemies
-
-    this.load.image("whiteWolf", "../../../public/MORT/ENEMIES/10.png");
-
-    this.load.image("goblin", "../../../public/MORT/ENEMIES/5.png");
-
-    this.load.image("ghost", "../../../public/MORT/ENEMIES/46.png");
-
-    this.load.image("spider", "../../../public/MORT/ENEMIES/79.png");
+    //Bosses
 
     this.load.image("boss", "../../../public/MORT/PRINCESS/princessBoss.png");
+
+    //Dragon in distress
 
     this.load.image("dragon", "../../../public/MORT/ENEMIES/107.png");
 
@@ -104,7 +100,7 @@ class BootScene extends Phaser.Scene {
   create() {
     this.registry.set("context", context);
 
-    this.scene.start(keys.START_SCENE);
+    this.scene.start(keys.STATUS_SCENE);
   }
 }
 

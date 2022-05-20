@@ -3,6 +3,7 @@ import Enemy from "../units/Enemy";
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import hanzIV from "../characters/hanzIV";
 import boss from "../characters/enemies";
 
 class BossBattleScene extends Phaser.Scene {
@@ -25,20 +26,16 @@ class BossBattleScene extends Phaser.Scene {
     background.displayWidth = 320;
     background.displayHeight = 240;
 
-    // PLAYER DAMAGE IS SCALED UP FOR DEV PURPOSES
-
-    // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
-
     // player character - warrior
     const warrior = new PlayerCharacter(
       this,
       250,
-      50,
+      60,
       "skeleman",
       0,
       "Skeleman",
       skeleman.currentHP,
-      40,
+      skeleman.attack,
       skeleman.maxHP
     );
     this.add.existing(warrior);
@@ -46,8 +43,8 @@ class BossBattleScene extends Phaser.Scene {
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
-      250, //x coord
-      100, //y coord
+      290, //x coord
+      90, //y coord
       "battleMort", //texture
       0, //frame
       "Mort", //type
@@ -57,6 +54,19 @@ class BossBattleScene extends Phaser.Scene {
     );
     this.add.existing(mage);
 
+    const hanz = new PlayerCharacter(
+      this,
+      250,
+      125,
+      hanzIV.texture,
+      0,
+      hanzIV.type,
+      hanzIV.currentHP,
+      hanzIV.attack,
+      hanzIV.maxHP
+    );
+    this.add.existing(hanz);
+
     // non player character - goblin
     const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 100, 300, 100, 300);
 
@@ -65,11 +75,10 @@ class BossBattleScene extends Phaser.Scene {
     // array with enemies
     this.enemies = [boss];
     // array with heroes
-    this.heroes = [warrior, mage];
+    this.heroes = [warrior, mage, hanz];
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
-    console.log(this.units);
 
     this.index = -1;
     // Run UI Scene at the same time
@@ -153,7 +162,6 @@ class BossBattleScene extends Phaser.Scene {
 
   endBattle() {
     // Wrap it up, boys. The show is over
-
     let sceneContext = this.registry.get("context");
     this.heroes.length = 0;
     this.enemies.length = 0;
@@ -170,12 +178,6 @@ class BossBattleScene extends Phaser.Scene {
 
   fleeBattle() {
     let sceneContext = this.registry.get("context");
-    this.heroes.length = 0;
-    this.enemies.length = 0;
-    for (let i = 0; i < this.units.length; i++) {
-      this.units[i].destroy();
-    }
-    this.units.length = 0;
 
     this.music.stop();
     this.scene.sleep(keys.BOSS_BATTLE_UI_SCENE);

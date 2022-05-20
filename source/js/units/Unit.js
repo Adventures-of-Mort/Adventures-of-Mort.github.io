@@ -1,5 +1,6 @@
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import hanzIV from "../characters/hanzIV";
 
 class Unit extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, texture, frame, type, hp, damage, maxHP, int, experience, attack) {
@@ -36,6 +37,7 @@ class Unit extends Phaser.GameObjects.Sprite {
     this.hp -= damage;
     if (this.type === mort.type) mort.currentHP -= damage;
     if (this.type === skeleman.type) skeleman.currentHP -= damage;
+    if (this.type === hanzIV.type) hanzIV.currentHP -= damage;
 
     if (this.hp <= 0) {
       this.hp = 0;
@@ -73,33 +75,35 @@ class Unit extends Phaser.GameObjects.Sprite {
         }
         this.scene.events.emit("Message", `${this.type} healed for ${healAmount} hp!`);
       }
+
+      if (this.type === hanzIV.type) {
+        hanzIV.currentHP += healAmount;
+        if (this.hp > maxHP) {
+          this.hp = maxHP;
+          hanzIV.currentHP = maxHP;
+        }
+        this.scene.events.emit("Message", `${this.type} healed for ${healAmount} hp!`);
+      }
     }
   }
 
   earnExp(experience) {
     mort.experience += experience;
     skeleman.experience += experience;
+    hanzIV.experience += experience;
   }
 
   levelUp() {
-    let mortIncrease = Math.ceil(mort.maxHP * 0.15);
-    mort.maxHP += mortIncrease;
-    mortIncrease = Math.ceil(mort.attack * 0.15);
-    mort.attack += mortIncrease;
-    mortIncrease = Math.ceil(mort.toNextLevel * 0.2);
-    mort.toNextLevel += mortIncrease;
-    let skelemanIncrease = Math.ceil(skeleman.maxHP * 0.15);
-    skeleman.maxHP += skelemanIncrease;
-    skelemanIncrease = Math.ceil(skeleman.attack * 0.15);
-    skeleman.attack += skelemanIncrease;
-    skelemanIncrease = Math.ceil(skeleman.toNextLevel * 0.2);
-    skeleman.toNextLevel += skelemanIncrease;
-    mort.currentHP = mort.maxHP;
-    skeleman.currentHP = skeleman.maxHP;
-    mort.level++;
-    skeleman.level++;
-    mort.experience = 0;
-    skeleman.experience = 0;
+    const heroes = [mort, skeleman, hanzIV];
+    for (let i = 0; i < heroes.length; i++) {
+      const curHero = heroes[i];
+      curHero.maxHP += Math.ceil(curHero.maxHP * 0.15);
+      curHero.attack += Math.ceil(curHero.attack * 0.15);
+      curHero.toNextLevel += Math.ceil(curHero.toNextLevel * 0.2);
+      curHero.level++;
+      curHero.currentHP = curHero.maxHP;
+      curHero.experience = 0;
+    }
   }
 }
 
