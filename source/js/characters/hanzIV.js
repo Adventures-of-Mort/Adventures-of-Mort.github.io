@@ -5,6 +5,7 @@ const hanzIV = {
   currentHP: 70,
   maxHP: 70,
   attack: 20,
+  int: 20,
   experience: 0,
   toNextLevel: 60,
   level: 1,

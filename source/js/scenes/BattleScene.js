@@ -162,7 +162,8 @@ class BattleScene extends Phaser.Scene {
       hanzIV.type,
       hanzIV.currentHP,
       hanzIV.attack,
-      hanzIV.maxHP
+      hanzIV.maxHP,
+      hanzIV.int
     );
     this.add.existing(hanz);
 
