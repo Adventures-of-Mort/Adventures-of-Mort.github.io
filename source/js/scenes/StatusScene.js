@@ -1,6 +1,7 @@
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import hanzIV from "../characters/hanzIV";
 
 class StatusScene extends Phaser.Scene {
   constructor() {
@@ -8,7 +9,7 @@ class StatusScene extends Phaser.Scene {
   }
 
   create() {
-    let party = [mort, skeleman];
+    let party = [mort, skeleman, hanzIV];
     let sceneContext = this.registry.get("context");
 
     this.graphics = this.add.graphics();
@@ -22,11 +23,19 @@ class StatusScene extends Phaser.Scene {
 
     for (let i = 0; i < party.length; i++) {
       let partyMember = party[i];
-      this.graphics.strokeRect(20, 70 + 60 * i, 280, 1);
-      this.add.text(40, i * 50 + 25, `${partyMember.type}`);
-      this.add.text(200, i * 50 + 25, `hp: ${partyMember.currentHP}/ ${partyMember.maxHP}`, styles);
-      this.add.text(200, i * 50 + 50, `exp: ${partyMember.experience}/ ${partyMember.toNextLevel}`, styles);
+
+      this.graphics.strokeRect(20, 74 + 60 * i, 280, 1);
+      // x, y, text
+      this.add.text(40, i * 55 + 28, `${partyMember.type}`, { fontSize: "14px" });
+      this.add.text(200, i * 55 + 30, `HP: ${partyMember.currentHP}/ ${partyMember.maxHP}`, styles);
+      this.add.text(200, i * 55 + 44, `Dmg: ${partyMember.attack}`, styles);
+      this.add.text(200, i * 55 + 58, `Exp: ${partyMember.experience}/ ${partyMember.toNextLevel}`, styles);
     }
+
+    this.add.image(55, 55, "battleMort");
+    this.add.image(55, 114, "skeleman");
+    this.add.image(55, 169, "hanz");
+    this.add.text(98, 199, `Party Level: ${mort.level}`, { fontSize: "14px" });
 
     let key = this.input.keyboard.addKey("TAB");
     key.on("down", () => {
