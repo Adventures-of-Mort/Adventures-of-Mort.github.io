@@ -18,6 +18,14 @@ class Unit extends Phaser.GameObjects.Sprite {
   attack(target) {
     if (target.living) {
       target.takeDamage(this.damage);
+      target.setTint(0xff0000);
+      this.scene.time.addEvent({
+        delay: 100,
+        callback: () => {
+          target.clearTint();
+        },
+      });
+
       this.scene.events.emit("Message", this.type + " attacks " + target.type + " for " + this.damage + " damage");
     }
   }

@@ -11,6 +11,7 @@ class BattleScene extends Phaser.Scene {
   }
 
   create() {
+    this.bonk = this.sound.add("bonk");
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
@@ -296,6 +297,7 @@ class BattleScene extends Phaser.Scene {
   receivePlayerSelection(action, target) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
+      this.bonk.play({ volume: 0.5 });
     }
     this.time.addEvent({
       delay: 3000,
