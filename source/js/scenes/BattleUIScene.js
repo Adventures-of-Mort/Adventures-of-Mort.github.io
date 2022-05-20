@@ -114,7 +114,7 @@ class BattleUIScene extends Phaser.Scene {
       } else if (event.code === "ArrowDown") {
         this.currentMenu.moveSelectionDown();
       } else if (event.code === "ArrowRight" || event.code === "Shift") {
-      } else if (event.code === "Space" || event.code === "ArrowLeft") {
+      } else if (event.code === "Enter") {
         this.currentMenu.confirm();
       }
     }

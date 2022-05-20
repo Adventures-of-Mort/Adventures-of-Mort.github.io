@@ -6,7 +6,7 @@ const skeleman = {
   maxHP: 70,
   attack: 25,
   experience: 0,
-  toNextLevel: 60,
+  toNextLevel: 100,
   level: 1,
 };
 
