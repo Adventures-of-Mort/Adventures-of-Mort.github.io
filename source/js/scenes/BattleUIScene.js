@@ -111,7 +111,6 @@ class BattleUIScene extends Phaser.Scene {
     if (action === "Magic") {
       this.actionsMenu.visible = false;
       this.magicMenu.visible = true;
-      console.log("action is magic");
       this.currentMenu = this.magicMenu;
       this.magicMenu.select(0);
     }
@@ -149,6 +148,7 @@ class BattleUIScene extends Phaser.Scene {
     this.currentMenu = null;
     if (spell) {
       this.battleScene.receivePlayerSelection("magic", index, spell);
+      this.spell = null;
       return;
     }
     this.battleScene.receivePlayerSelection("attack", index);
