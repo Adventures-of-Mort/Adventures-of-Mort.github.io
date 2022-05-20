@@ -29,6 +29,9 @@ class Unit extends Phaser.GameObjects.Sprite {
     if (this.type === hanzIV.type) hanzIV.currentHP -= damage;
 
     if (this.hp <= 0) {
+      if (this.type === mort.type) mort.currentHP = 0;
+      if (this.type === skeleman.type) skeleman.currentHP = 0;
+      if (this.type === hanzIV.type) hanzIV.currentHP = 0;
       this.hp = 0;
       this.menuItem.unitKilled();
       this.living = false;
