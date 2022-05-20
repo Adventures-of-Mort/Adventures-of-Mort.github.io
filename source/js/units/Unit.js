@@ -30,8 +30,14 @@ class Unit extends Phaser.GameObjects.Sprite {
 
     if (this.hp <= 0) {
       if (this.type === mort.type) mort.currentHP = 0;
-      if (this.type === skeleman.type) skeleman.currentHP = 0;
-      if (this.type === hanzIV.type) hanzIV.currentHP = 0;
+      if (this.type === skeleman.type) {
+        skeleman.currentHP = 0;
+        skeleman.living = false;
+      }
+      if (this.type === hanzIV.type) {
+        hanzIV.currentHP = 0;
+        hanzIV.living = false;
+      }
       this.hp = 0;
       this.menuItem.unitKilled();
       this.living = false;
@@ -96,6 +102,8 @@ class Unit extends Phaser.GameObjects.Sprite {
       curHero.currentHP = curHero.maxHP;
       curHero.experience = 0;
     }
+    skeleman.living = true;
+    hanzIV.living = true;
   }
 }
 

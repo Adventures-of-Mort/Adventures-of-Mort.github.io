@@ -8,6 +8,7 @@ const hanzIV = {
   experience: 0,
   toNextLevel: 60,
   level: 1,
+  living: true,
 };
 
 export default hanzIV;

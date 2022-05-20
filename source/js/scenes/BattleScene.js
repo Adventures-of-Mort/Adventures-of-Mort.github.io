@@ -123,21 +123,6 @@ class BattleScene extends Phaser.Scene {
     background.displayWidth = 320;
     background.displayHeight = 240;
 
-    // player character - warrior
-
-    const warrior = new PlayerCharacter(
-      this,
-      250,
-      60,
-      "skeleman",
-      0,
-      "Skeleman",
-      skeleman.currentHP,
-      skeleman.attack,
-      skeleman.maxHP
-    );
-    this.add.existing(warrior);
-
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
@@ -152,6 +137,21 @@ class BattleScene extends Phaser.Scene {
     );
     this.add.existing(mage);
 
+    // player character - warrior
+    const warrior = new PlayerCharacter(
+      this,
+      250,
+      60,
+      "skeleman",
+      0,
+      "Skeleman",
+      skeleman.currentHP,
+      skeleman.attack,
+      skeleman.maxHP,
+      skeleman.living
+    );
+    this.add.existing(warrior);
+
     const hanz = new PlayerCharacter(
       this,
       250,
@@ -161,9 +161,21 @@ class BattleScene extends Phaser.Scene {
       hanzIV.type,
       hanzIV.currentHP,
       hanzIV.attack,
-      hanzIV.maxHP
+      hanzIV.maxHP,
+      hanzIV.living
     );
     this.add.existing(hanz);
+
+    console.log(skeleman.living);
+    console.log(hanzIV.living);
+
+    if (skeleman.living === false) {
+      warrior.visible = false;
+    }
+
+    if (hanzIV.living === false) {
+      hanz.visible = false;
+    }
 
     // array with enemies
 
