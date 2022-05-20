@@ -3,6 +3,7 @@ import Enemy from "../units/Enemy";
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import hanzIV from "../characters/hanzIV";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
@@ -128,19 +129,16 @@ class BattleScene extends Phaser.Scene {
     this.music.play({ volume: 0.2 });
 
     let sceneContext = this.registry.get("context");
-    console.log(sceneContext);
 
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
     background.displayHeight = 240;
 
-    // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
-
     // player character - warrior
     const warrior = new PlayerCharacter(
       this,
       250,
-      50,
+      60,
       "skeleman",
       0,
       "Skeleman",
@@ -149,12 +147,11 @@ class BattleScene extends Phaser.Scene {
       skeleman.maxHP
     );
     this.add.existing(warrior);
-    console.log(mort);
     // player character - mage
     const mage = new PlayerCharacter(
       this, //scene
-      250, //x coord
-      100, //y coord
+      290, //x coord
+      90, //y coord
       "battleMort", //texture
       0, //frame
       "Mort", //type
@@ -164,11 +161,24 @@ class BattleScene extends Phaser.Scene {
     );
     this.add.existing(mage);
 
+    const hanz = new PlayerCharacter(
+      this,
+      250,
+      125,
+      hanzIV.texture,
+      0,
+      hanzIV.type,
+      hanzIV.currentHP,
+      hanzIV.attack,
+      hanzIV.maxHP
+    );
+    this.add.existing(hanz);
+
     // array with enemies
     this.enemies = this.generateEnemies();
 
     // array with heroes
-    this.heroes = [warrior, mage];
+    this.heroes = [warrior, mage, hanz];
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
@@ -251,14 +261,12 @@ class BattleScene extends Phaser.Scene {
 
     if (victory) {
       let expTally = 0;
-      console.log(`exp before ${mort.experience}`);
       for (let i = 0; i < this.enemies.length; i++) {
         expTally += this.enemies[i].experience;
       }
       this.heroes[0].earnExp(expTally);
       if (mort.toNextLevel <= mort.experience) {
         this.heroes[0].levelUp();
-        console.log(mort);
       }
       return "victory";
     } else if (gameOver) {
@@ -279,8 +287,6 @@ class BattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
     this.music.stop();
-    //this.scene.sleep(keys.BATTLE_UI_SCENE);
-    console.log("got here");
     this.scene.launch(keys.BATTLE_WON_SCENE);
   }
 

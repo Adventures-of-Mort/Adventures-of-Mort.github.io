@@ -15,10 +15,7 @@ class GameWonScene extends Phaser.Scene {
 
     let enterKey = this.input.keyboard.addKey("ENTER");
 
-    console.log("hello");
-
     enterKey.on("down", () => {
-      console.log("click click");
       //this.music.stop();
       //this.scene.stop(keys.GAME_WON_SCENE);
       //this.scene.start(keys.START_SCENE);
