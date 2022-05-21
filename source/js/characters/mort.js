@@ -2,11 +2,12 @@ const mort = {
   texture: "texture",
   frame: 0,
   type: "Mort",
-  currentHP: 130,
-  maxHP: 130,
+  currentHP: 100,
+  maxHP: 100,
   attack: 15,
+  int: 30,
   experience: 0,
-  toNextLevel: 60,
+  toNextLevel: 100,
   level: 1,
 };
 

@@ -12,6 +12,7 @@ class BattleScene extends Phaser.Scene {
   }
 
   create() {
+    this.bonk = this.sound.add("bonk");
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
@@ -134,7 +135,8 @@ class BattleScene extends Phaser.Scene {
       "Mort", //type
       mort.currentHP, //HP
       mort.attack, //Damage
-      mort.maxHP //maxHP
+      mort.maxHP, //maxHP
+      mort.int
     );
     this.add.existing(mage);
 
@@ -149,7 +151,8 @@ class BattleScene extends Phaser.Scene {
       skeleman.currentHP,
       skeleman.attack,
       skeleman.maxHP,
-      skeleman.living
+      skeleman.living,
+      skeleman.int
     );
     this.add.existing(warrior);
 
@@ -163,7 +166,8 @@ class BattleScene extends Phaser.Scene {
       hanzIV.currentHP,
       hanzIV.attack,
       hanzIV.maxHP,
-      hanzIV.living
+      hanzIV.living,
+      hanzIV.int
     );
     this.add.existing(hanz);
 
@@ -314,10 +318,15 @@ class BattleScene extends Phaser.Scene {
     });
   }
 
-  receivePlayerSelection(action, target) {
+  receivePlayerSelection(action, target, spell = null) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
+      this.bonk.play({ volume: 0.5 });
     }
+    if (action === "magic") {
+      this.units[this.index].useMagic(this.enemies[target], spell);
+    }
+    this.scene.get(keys.BATTLE_UI_SCENE).actionsMenu.visible = true;
     this.time.addEvent({
       delay: 3000,
       callback: this.nextTurn,

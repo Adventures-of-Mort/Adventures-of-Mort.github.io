@@ -95,6 +95,7 @@ class BootScene extends Phaser.Scene {
 
     this.load.audio("door1", "../../../source/assets/audio/effects/door1.wav");
     this.load.audio("door2", "../../../source/assets/audio/effects/door2.wav");
+    this.load.audio("bonk", "../../../source/assets/audio/effects/bonk.mp3");
   }
 
   create() {
