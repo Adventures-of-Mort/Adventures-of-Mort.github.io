@@ -4,6 +4,7 @@ import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
 import hanzIV from "../characters/hanzIV";
+import { warrior } from "../characters/enemies";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
@@ -166,9 +167,6 @@ class BattleScene extends Phaser.Scene {
     );
     this.add.existing(hanz);
 
-    console.log(skeleman.living);
-    console.log(hanzIV.living);
-
     if (skeleman.living === false) {
       warrior.visible = false;
     }
@@ -220,7 +218,18 @@ class BattleScene extends Phaser.Scene {
 
     //checking to see if its a player character
     if (this.units[this.index] instanceof PlayerCharacter) {
-      this.events.emit("PlayerSelect", this.index);
+      console.log(`${this.units[this.index]}'s TURN!!!`);
+      console.log(`${this.index}`);
+      if (this.units[this.index].hp === 0) {
+        this.events.emit("DeadSelect", this.index);
+
+        this.time.addEvent({
+          callback: this.nextTurn,
+          callbackScope: this,
+        });
+      } else {
+        this.events.emit("PlayerSelect", this.index);
+      }
     } else {
       // if its an enemy
       // pick a random target
