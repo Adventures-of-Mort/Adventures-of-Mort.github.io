@@ -32,8 +32,7 @@ class Unit extends Phaser.GameObjects.Sprite {
   }
 
   useMagic(target, spell) {
-    console.log("int: ", this.int);
-    let damage = this.int * 1.5;
+    let damage = Math.floor(this.int * 1.5);
     if (target.living) {
       target.takeDamage(damage);
       this.scene.events.emit("Message", `${this.type} casts ${spell} on ${target.type} for ${damage} damage`);
@@ -115,6 +114,7 @@ class Unit extends Phaser.GameObjects.Sprite {
       const curHero = heroes[i];
       curHero.maxHP += Math.ceil(curHero.maxHP * 0.15);
       curHero.attack += Math.ceil(curHero.attack * 0.15);
+      curHero.int += Math.ceil(curHero.int * 0.15);
       curHero.toNextLevel += Math.ceil(curHero.toNextLevel * 0.2);
       curHero.level++;
       curHero.currentHP = curHero.maxHP;
