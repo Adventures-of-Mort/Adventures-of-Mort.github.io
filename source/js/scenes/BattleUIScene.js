@@ -13,6 +13,7 @@ class BattleUIScene extends Phaser.Scene {
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(1, 0xffffff);
     this.graphics.fillStyle(0x031f4c, 1);
+    this.selector = this.sound.add("selector");
 
     //enemy menu
     this.graphics.strokeRect(1, 150, 125, 100);
@@ -133,11 +134,14 @@ class BattleUIScene extends Phaser.Scene {
     if (this.currentMenu && this.currentMenu.selected) {
       if (event.code === "ArrowUp") {
         this.currentMenu.moveSelectionUp();
+        this.selector.play({ volume: 0.5 });
       } else if (event.code === "ArrowDown") {
         this.currentMenu.moveSelectionDown();
+        this.selector.play({ volume: 0.5 });
       } else if (event.code === "ArrowRight" || event.code === "Shift") {
       } else if (event.code === "Enter") {
         this.currentMenu.confirm();
+        this.selector.play({ volume: 0.5 });
       }
     }
   }

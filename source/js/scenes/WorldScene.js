@@ -16,6 +16,7 @@ class WorldScene extends BaseMapScene {
   create() {
     this.createAnimations();
     this.mapKeys();
+    this.healSound = this.sound.add("recover");
 
     // create the map
     const map = this.make.tilemap({ key: "map" });
@@ -144,6 +145,7 @@ class WorldScene extends BaseMapScene {
       skeleman.living = true;
       hanzIV.living = true;
       this.cameras.main.flash(200);
+      this.healSound.play({ volume: 0.5 });
       this.events.emit("Message", "Your party has been fully healed. Thanks for visiting!");
     }
   }

@@ -36,6 +36,13 @@ class Unit extends Phaser.GameObjects.Sprite {
     let damage = Math.floor(this.int * 1.5);
     if (target.living) {
       target.takeDamage(damage);
+      target.setTint(0xff0000);
+      this.scene.time.addEvent({
+        delay: 100,
+        callback: () => {
+          target.clearTint();
+        },
+      });
       this.scene.events.emit("Message", `${this.type} casts ${spell} on ${target.type} for ${damage} damage`);
     }
   }
