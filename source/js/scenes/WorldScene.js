@@ -17,6 +17,8 @@ class WorldScene extends BaseMapScene {
     this.createAnimations();
     this.mapKeys();
 
+    console.log("world scene created");
+
     // create the map
     const map = this.make.tilemap({ key: "map" });
 
@@ -114,6 +116,7 @@ class WorldScene extends BaseMapScene {
     });
 
     this.events.on("shutdown", () => {
+      console.log("shutdown in world scene");
       this.music.stop();
     });
 
@@ -132,10 +135,13 @@ class WorldScene extends BaseMapScene {
 
     zone.y = Phaser.Math.RND.between(this.north, this.south);
     zone.x = Phaser.Math.RND.between(this.west, this.east);
+    let context = this.registry.get("context");
+    context.currentScene = keys.WORLD_SCENE;
 
     // fades out to battle
     this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle
+    this.registry.set("context", context);
     this.scene.switch(keys.BATTLE_SCENE);
   }
 

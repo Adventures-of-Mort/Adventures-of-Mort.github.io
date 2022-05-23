@@ -4,7 +4,6 @@ import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
 import hanzIV from "../characters/hanzIV";
-import { warrior } from "../characters/enemies";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
@@ -12,6 +11,7 @@ class BattleScene extends Phaser.Scene {
   }
 
   create() {
+    console.log("battle scene created");
     this.bonk = this.sound.add("bonk");
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
@@ -292,7 +292,7 @@ class BattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
     this.music.stop();
-    this.scene.launch(keys.BATTLE_WON_SCENE);
+    this.scene.run(keys.BATTLE_WON_SCENE);
   }
 
   fleeBattle() {

@@ -15,6 +15,10 @@ class BattleWonScene extends Phaser.Scene {
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
     this.battleScene.events.emit("Message", "You Won! Press enter to continue.");
 
+    this.events.on("wake", () => {
+      this.battleScene.events.emit("Message", "You Won! Press enter to continue.");
+    });
+
     let sceneContext = this.registry.get("context");
 
     let enterKey = this.input.keyboard.addKey("ENTER");
@@ -24,6 +28,8 @@ class BattleWonScene extends Phaser.Scene {
       this.scene.sleep(keys.BATTLE_UI_SCENE);
 
       this.scene.sleep(keys.BATTLE_SCENE);
+      this.scene.sleep(keys.BATTLE_WON_SCENE);
+      console.log("scene in scene context: ", sceneContext.currentScene);
       this.scene.switch(sceneContext.currentScene);
     });
   }
