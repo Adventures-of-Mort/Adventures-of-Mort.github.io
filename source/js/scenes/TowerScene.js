@@ -11,7 +11,7 @@ class TowerScene extends BaseMapScene {
 
   create() {
     this.mapKeys();
-
+    this.doorFX = this.sound.add("door2");
     // create the map
     const map = this.make.tilemap({ key: "floor1" });
 
@@ -119,6 +119,7 @@ class TowerScene extends BaseMapScene {
 
   hitExitLayer(player, target) {
     this.cameras.main.fadeOut(500, 0, 0, 0);
+    this.doorFX.play({ volume: 0.2 });
     // change context.currentScene to FINAL_SCENE
     this.scene.switch(keys.FINAL_SCENE);
   }
