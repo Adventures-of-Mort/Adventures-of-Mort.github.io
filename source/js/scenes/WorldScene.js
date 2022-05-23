@@ -144,6 +144,8 @@ class WorldScene extends BaseMapScene {
       mort.currentHP = mort.maxHP;
       skeleman.currentHP = skeleman.maxHP;
       hanzIV.currentHP = hanzIV.maxHP;
+      skeleman.living = true;
+      hanzIV.living = true;
       this.cameras.main.flash(200);
       this.events.emit("Message", "Your party has been fully healed. Thanks for visiting!");
     }

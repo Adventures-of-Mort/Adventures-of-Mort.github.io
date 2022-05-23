@@ -9,6 +9,7 @@ const skeleman = {
   experience: 0,
   toNextLevel: 100,
   level: 1,
+  living: true,
 };
 
 export default skeleman;

@@ -56,6 +56,9 @@ class BattleUIScene extends Phaser.Scene {
     //cant heal go again turn
     this.battleScene.events.on("HealSelect", this.onHealSelect, this);
 
+    //dead player character's turn menu reset
+    this.battleScene.events.on("DeadSelect", this.onMenuSelect, this);
+
     this.events.on("MagicSelect", this.onSelectMagic, this);
 
     // when the action on the menu is selected
@@ -98,6 +101,10 @@ class BattleUIScene extends Phaser.Scene {
     this.onPlayerSelect();
   }
 
+  onMenuSelect() {
+    this.actionsMenu.select(0);
+  }
+
   onSelectMagic({ spell }) {
     this.spell = spell;
     this.currentMenu = this.enemiesMenu;
@@ -107,6 +114,8 @@ class BattleUIScene extends Phaser.Scene {
   onSelectAction({ action }) {
     if (action === "Attack") {
       this.currentMenu = this.enemiesMenu;
+      this.heroesMenu.deselect();
+      this.actionsMenu.deselect();
       this.enemiesMenu.select(0);
     }
     if (action === "Magic") {
@@ -147,6 +156,7 @@ class BattleUIScene extends Phaser.Scene {
     this.actionsMenu.deselect();
     this.enemiesMenu.deselect();
     this.currentMenu = null;
+
     if (spell) {
       this.battleScene.receivePlayerSelection("magic", index, spell);
       this.spell = null;
