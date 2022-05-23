@@ -3,7 +3,7 @@ import skeleman from "../characters/skelemen";
 import hanzIV from "../characters/hanzIV";
 
 class Unit extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, texture, frame, type, hp, damage, maxHP, experience, attack) {
+  constructor(scene, x, y, texture, frame, type, hp, damage, maxHP, int, experience, attack) {
     super(scene, x, y, texture, frame);
     this.type = type;
     this.maxHP = maxHP;
@@ -11,6 +11,7 @@ class Unit extends Phaser.GameObjects.Sprite {
     this.damage = damage; // default damage
     this.living = true;
     this.menuItem = null;
+    this.int = int;
   }
   setMenuItem(item) {
     this.menuItem = item;
@@ -30,6 +31,21 @@ class Unit extends Phaser.GameObjects.Sprite {
     }
   }
 
+  useMagic(target, spell) {
+    let damage = Math.floor(this.int * 1.5);
+    if (target.living) {
+      target.takeDamage(damage);
+      target.setTint(0xff0000);
+      this.scene.time.addEvent({
+        delay: 100,
+        callback: () => {
+          target.clearTint();
+        },
+      });
+      this.scene.events.emit("Message", `${this.type} casts ${spell} on ${target.type} for ${damage} damage`);
+    }
+  }
+
   takeDamage(damage) {
     this.hp -= damage;
     if (this.type === mort.type) mort.currentHP -= damage;
@@ -37,6 +53,15 @@ class Unit extends Phaser.GameObjects.Sprite {
     if (this.type === hanzIV.type) hanzIV.currentHP -= damage;
 
     if (this.hp <= 0) {
+      if (this.type === mort.type) mort.currentHP = 0;
+      if (this.type === skeleman.type) {
+        skeleman.currentHP = 0;
+        skeleman.living = false;
+      }
+      if (this.type === hanzIV.type) {
+        hanzIV.currentHP = 0;
+        hanzIV.living = false;
+      }
       this.hp = 0;
       this.menuItem.unitKilled();
       this.living = false;
@@ -96,11 +121,14 @@ class Unit extends Phaser.GameObjects.Sprite {
       const curHero = heroes[i];
       curHero.maxHP += Math.ceil(curHero.maxHP * 0.15);
       curHero.attack += Math.ceil(curHero.attack * 0.15);
+      curHero.int += Math.ceil(curHero.int * 0.15);
       curHero.toNextLevel += Math.ceil(curHero.toNextLevel * 0.2);
       curHero.level++;
       curHero.currentHP = curHero.maxHP;
       curHero.experience = 0;
     }
+    skeleman.living = true;
+    hanzIV.living = true;
   }
 }
 

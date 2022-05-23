@@ -102,6 +102,9 @@ class BootScene extends Phaser.Scene {
     this.load.audio("run", "../../../source/assets/audio/effects/run.mp3");
     this.load.audio("selector", "../../source/assets/audio/effects/move.mp3");
     this.load.audio("accept", "../../source/assets/audio/effects/accept.mp3");
+    this.load.audio("Fire", "../../source/assets/audio/effects/Fire_1.mp3");
+    this.load.audio("Bolt", "../../source/assets/audio/effects/Thunder_1.mp3");
+    this.load.audio("Ice", "../../source/assets/audio/effects/Blizzard_1.mp3");
   }
 
   create() {

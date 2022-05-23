@@ -5,9 +5,11 @@ const skeleman = {
   currentHP: 70,
   maxHP: 70,
   attack: 25,
+  int: 0,
   experience: 0,
-  toNextLevel: 60,
+  toNextLevel: 100,
   level: 1,
+  living: true,
 };
 
 export default skeleman;

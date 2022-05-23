@@ -68,7 +68,7 @@ class BossBattleScene extends Phaser.Scene {
     this.add.existing(hanz);
 
     // non player character - goblin
-    const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 100, 300, 100, 300);
+    const boss = new Enemy(this, 60, 70, "boss", 0, `'Evil' Princess`, 100, 700, 100, 300);
 
     this.add.existing(boss);
 

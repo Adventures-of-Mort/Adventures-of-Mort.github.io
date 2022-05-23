@@ -4,6 +4,7 @@ import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
 import hanzIV from "../characters/hanzIV";
+import { warrior } from "../characters/enemies";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
@@ -16,6 +17,9 @@ class BattleScene extends Phaser.Scene {
     this.recover = this.sound.add("recover");
     this.hit = this.sound.add("hit");
     this.run = this.sound.add("run");
+    this.fire = this.sound.add("Fire");
+    this.ice = this.sound.add("Ice");
+    this.bolt = this.sound.add("Bolt");
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
@@ -120,28 +124,13 @@ class BattleScene extends Phaser.Scene {
 
   battleSequence() {
     this.initializeAudio();
-    this.music.play({ volume: 0.2 });
+    this.music.play({ volume: 0.2, loop: true });
 
     let sceneContext = this.registry.get("context");
 
     let background = this.add.image(160, 120, `${sceneContext.currentScene}-battleBackground`);
     background.displayWidth = 320;
     background.displayHeight = 240;
-
-    // player character - warrior
-
-    const warrior = new PlayerCharacter(
-      this,
-      250,
-      60,
-      "skeleman",
-      0,
-      "Skeleman",
-      skeleman.currentHP,
-      skeleman.attack,
-      skeleman.maxHP
-    );
-    this.add.existing(warrior);
 
     // player character - mage
     const mage = new PlayerCharacter(
@@ -153,9 +142,25 @@ class BattleScene extends Phaser.Scene {
       "Mort", //type
       mort.currentHP, //HP
       mort.attack, //Damage
-      mort.maxHP //maxHP
+      mort.maxHP, //maxHP
+      mort.int
     );
     this.add.existing(mage);
+
+    // player character - warrior
+    const warrior = new PlayerCharacter(
+      this,
+      250,
+      60,
+      "skeleman",
+      0,
+      "Skeleman",
+      skeleman.currentHP,
+      skeleman.attack,
+      skeleman.maxHP,
+      skeleman.int
+    );
+    this.add.existing(warrior);
 
     const hanz = new PlayerCharacter(
       this,
@@ -166,9 +171,18 @@ class BattleScene extends Phaser.Scene {
       hanzIV.type,
       hanzIV.currentHP,
       hanzIV.attack,
-      hanzIV.maxHP
+      hanzIV.maxHP,
+      hanzIV.int
     );
     this.add.existing(hanz);
+
+    if (skeleman.living === false) {
+      warrior.visible = false;
+    }
+
+    if (hanzIV.living === false) {
+      hanz.visible = false;
+    }
 
     // array with enemies
 
@@ -213,7 +227,18 @@ class BattleScene extends Phaser.Scene {
 
     //checking to see if its a player character
     if (this.units[this.index] instanceof PlayerCharacter) {
-      this.events.emit("PlayerSelect", this.index);
+      console.log(`${this.units[this.index]}'s TURN!!!`);
+      console.log(`${this.index}`);
+      if (this.units[this.index].hp === 0) {
+        this.events.emit("DeadSelect", this.index);
+
+        this.time.addEvent({
+          callback: this.nextTurn,
+          callbackScope: this,
+        });
+      } else {
+        this.events.emit("PlayerSelect", this.index);
+      }
     } else {
       // if its an enemy
       // pick a random target
@@ -300,12 +325,13 @@ class BattleScene extends Phaser.Scene {
     });
   }
 
-  receivePlayerSelection(action, target) {
+  receivePlayerSelection(action, target, spell = null) {
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min) + min);
     }
+
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
       let num = getRandomInt(1, 11);
@@ -315,6 +341,19 @@ class BattleScene extends Phaser.Scene {
         this.slash.play({ volume: 0.5 });
       }
     }
+    if (action === "magic") {
+      this.units[this.index].useMagic(this.enemies[target], spell);
+      if (spell === "Ice") {
+        this.ice.play({ volume: 1 });
+      }
+      if (spell === "Fire") {
+        this.fire.play({ volume: 1 });
+      }
+      if (spell === "Bolt") {
+        this.bolt.play({ volume: 1 });
+      }
+    }
+    this.scene.get(keys.BATTLE_UI_SCENE).actionsMenu.visible = true;
     this.time.addEvent({
       delay: 3000,
       callback: this.nextTurn,
