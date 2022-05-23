@@ -18,6 +18,8 @@ class WorldScene extends BaseMapScene {
     this.mapKeys();
     this.healSound = this.sound.add("recover");
 
+    console.log("world scene created");
+
     // create the map
     const map = this.make.tilemap({ key: "map" });
 
@@ -86,12 +88,6 @@ class WorldScene extends BaseMapScene {
       classType: Phaser.GameObjects.Zone,
     });
     spawnGenerator(this.north, this.south, this.east, this.west, 20, this.spawns);
-    // for (let i = 0; i < 15; i++) {
-    //   let y = Phaser.Math.RND.between(this.north, this.south);
-    //   let x = Phaser.Math.RND.between(this.west, this.east);
-    //   // parameters are x, y, width, height
-    //   this.spawns.create(x, y, 20, 20);
-    // }
 
     // add collider
     this.physics.add.overlap(this.player, this.town, this.healParty, false, this);
@@ -133,10 +129,13 @@ class WorldScene extends BaseMapScene {
 
     zone.y = Phaser.Math.RND.between(this.north, this.south);
     zone.x = Phaser.Math.RND.between(this.west, this.east);
+    let context = this.registry.get("context");
+    context.currentScene = keys.WORLD_SCENE;
 
     // fades out to battle
     this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle
+    this.registry.set("context", context);
     this.scene.switch(keys.BATTLE_SCENE);
   }
 

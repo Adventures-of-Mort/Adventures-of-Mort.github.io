@@ -13,6 +13,14 @@ class BossBattleScene extends Phaser.Scene {
 
   create() {
     this.battleUIScene = this.scene.get(keys.BOSS_BATTLE_UI_SCENE);
+    this.bonk = this.sound.add("bonk");
+    this.slash = this.sound.add("slash");
+    this.recover = this.sound.add("recover");
+    this.hit = this.sound.add("hit");
+    this.run = this.sound.add("run");
+    this.fire = this.sound.add("Fire");
+    this.ice = this.sound.add("Ice");
+    this.bolt = this.sound.add("Bolt");
     this.cameras.main.fadeIn(500, 0, 0, 0);
     this.battleSequence();
     this.sys.events.on("wake", this.battleSequence, this);
@@ -33,10 +41,11 @@ class BossBattleScene extends Phaser.Scene {
       60,
       "skeleman",
       0,
-      "Skeleman",
+      skeleman.type,
       skeleman.currentHP,
       skeleman.attack,
-      skeleman.maxHP
+      skeleman.maxHP,
+      skeleman.int
     );
     this.add.existing(warrior);
 
@@ -47,10 +56,11 @@ class BossBattleScene extends Phaser.Scene {
       90, //y coord
       "battleMort", //texture
       0, //frame
-      "Mort", //type
+      mort.type, //type
       mort.currentHP, //HP
-      40, //Damage
-      mort.maxHP //maxHP
+      mort.attack, //Damage
+      mort.maxHP, //maxHP
+      mort.int
     );
     this.add.existing(mage);
 
@@ -63,7 +73,8 @@ class BossBattleScene extends Phaser.Scene {
       hanzIV.type,
       hanzIV.currentHP,
       hanzIV.attack,
-      hanzIV.maxHP
+      hanzIV.maxHP,
+      hanzIV.int
     );
     this.add.existing(hanz);
 
@@ -125,6 +136,7 @@ class BossBattleScene extends Phaser.Scene {
       } while (!this.heroes[target].living);
       // ATTACK!
       this.units[this.index].attack(this.heroes[target]);
+      this.hit.play({ volume: 0.5 });
       let currentTarget = this.heroes[target];
       // if (currentTarget.type === mort.type)
       // 	currentTarget.hp === mort.currentHP
@@ -196,10 +208,34 @@ class BossBattleScene extends Phaser.Scene {
     });
   }
 
-  receivePlayerSelection(action, target) {
+  receivePlayerSelection(action, target, spell = null) {
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min);
+    }
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
+      let num = getRandomInt(1, 11);
+      if (num === 10) {
+        this.bonk.play({ volume: 0.5 });
+      } else {
+        this.slash.play({ volume: 0.5 });
+      }
     }
+    if (action === "magic") {
+      this.units[this.index].useMagic(this.enemies[target], spell);
+      if (spell === "Ice") {
+        this.ice.play({ volume: 1 });
+      }
+      if (spell === "Fire") {
+        this.fire.play({ volume: 1 });
+      }
+      if (spell === "Bolt") {
+        this.bolt.play({ volume: 1 });
+      }
+    }
+    this.scene.get(keys.BOSS_BATTLE_UI_SCENE).actionsMenu.visible = true;
     this.time.addEvent({
       delay: 3000,
       callback: this.nextTurn,
