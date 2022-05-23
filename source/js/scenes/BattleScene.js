@@ -12,6 +12,10 @@ class BattleScene extends Phaser.Scene {
 
   create() {
     this.bonk = this.sound.add("bonk");
+    this.slash = this.sound.add("slash");
+    this.recover = this.sound.add("recover");
+    this.hit = this.sound.add("hit");
+    this.run = this.sound.add("run");
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
@@ -219,6 +223,7 @@ class BattleScene extends Phaser.Scene {
       } while (!this.heroes[target].living);
       // ATTACK!
       this.units[this.index].attack(this.heroes[target]);
+      this.hit.play({ volume: 0.5 });
       let currentTarget = this.heroes[target];
       this.battleUIScene.remapHeroes();
       // This is to add time between attacks to provide smoother gameplay loop
@@ -275,6 +280,7 @@ class BattleScene extends Phaser.Scene {
 
   fleeBattle() {
     let sceneContext = this.registry.get("context");
+    this.run.play({ volume: 0.5 });
 
     this.index--;
     this.music.stop();
@@ -284,7 +290,7 @@ class BattleScene extends Phaser.Scene {
 
   restUp() {
     this.units[this.index].heal(this.units[this.index].maxHP);
-
+    this.recover.play({ volume: 0.5 });
     this.battleUIScene.remapHeroes();
 
     this.time.addEvent({
@@ -295,9 +301,19 @@ class BattleScene extends Phaser.Scene {
   }
 
   receivePlayerSelection(action, target) {
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min);
+    }
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
-      this.bonk.play({ volume: 0.5 });
+      let num = getRandomInt(1, 11);
+      if (num === 10) {
+        this.bonk.play({ volume: 0.5 });
+      } else {
+        this.slash.play({ volume: 0.5 });
+      }
     }
     this.time.addEvent({
       delay: 3000,
