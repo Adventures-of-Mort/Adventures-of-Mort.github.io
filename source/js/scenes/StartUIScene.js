@@ -12,7 +12,7 @@ class StartUIScene extends Phaser.Scene {
     this.selector = this.sound.add("selector");
     this.start = this.sound.add("accept");
 
-    this.startMenu = new StartMenu(33, 170, this);
+    this.startMenu = new StartMenu(25, 200, this);
 
     // the currently selected menu
     this.currentMenu = this.startMenu;

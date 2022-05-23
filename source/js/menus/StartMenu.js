@@ -3,7 +3,7 @@ import Menu from "./Menu";
 class StartMenu extends Menu {
   constructor(x, y, scene) {
     super(x, y, scene);
-    this.addMenuItem("Press enter to start");
+    this.addMenuItem("Press Enter To Start");
     // this.addMenuItem("Debug Mode");
     this.startScene = scene;
   }
