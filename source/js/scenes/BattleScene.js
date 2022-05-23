@@ -151,7 +151,6 @@ class BattleScene extends Phaser.Scene {
       skeleman.currentHP,
       skeleman.attack,
       skeleman.maxHP,
-      skeleman.living,
       skeleman.int
     );
     this.add.existing(warrior);
@@ -166,7 +165,6 @@ class BattleScene extends Phaser.Scene {
       hanzIV.currentHP,
       hanzIV.attack,
       hanzIV.maxHP,
-      hanzIV.living,
       hanzIV.int
     );
     this.add.existing(hanz);
