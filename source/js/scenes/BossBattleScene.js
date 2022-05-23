@@ -33,10 +33,11 @@ class BossBattleScene extends Phaser.Scene {
       60,
       "skeleman",
       0,
-      "Skeleman",
+      skeleman.type,
       skeleman.currentHP,
       skeleman.attack,
-      skeleman.maxHP
+      skeleman.maxHP,
+      skeleman.int
     );
     this.add.existing(warrior);
 
@@ -47,10 +48,11 @@ class BossBattleScene extends Phaser.Scene {
       90, //y coord
       "battleMort", //texture
       0, //frame
-      "Mort", //type
+      mort.type, //type
       mort.currentHP, //HP
-      40, //Damage
-      mort.maxHP //maxHP
+      mort.attack, //Damage
+      mort.maxHP, //maxHP
+      mort.int
     );
     this.add.existing(mage);
 
@@ -63,7 +65,8 @@ class BossBattleScene extends Phaser.Scene {
       hanzIV.type,
       hanzIV.currentHP,
       hanzIV.attack,
-      hanzIV.maxHP
+      hanzIV.maxHP,
+      hanzIV.int
     );
     this.add.existing(hanz);
 
@@ -196,10 +199,14 @@ class BossBattleScene extends Phaser.Scene {
     });
   }
 
-  receivePlayerSelection(action, target) {
+  receivePlayerSelection(action, target, spell = null) {
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
     }
+    if (action === "magic") {
+      this.units[this.index].useMagic(this.enemies[target], spell);
+    }
+    this.scene.get(keys.BOSS_BATTLE_UI_SCENE).actionsMenu.visible = true;
     this.time.addEvent({
       delay: 3000,
       callback: this.nextTurn,

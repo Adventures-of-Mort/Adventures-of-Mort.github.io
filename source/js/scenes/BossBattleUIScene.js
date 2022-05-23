@@ -1,6 +1,7 @@
 import HeroesMenu from "../menus/HeroesMenu";
 import ActionsMenu from "../menus/ActionsMenu";
 import EnemiesMenu from "../menus/EnemiesMenu";
+import MagicMenu from "../menus/MagicMenu";
 import Message from "../menus/Message";
 import keys from "./keys";
 
@@ -27,9 +28,12 @@ class BossBattleUIScene extends Phaser.Scene {
 
     this.menus = this.add.container();
 
-    this.heroesMenu = new HeroesMenu(200, 156, this);
-    this.actionsMenu = new ActionsMenu(132, 156, this);
-    this.enemiesMenu = new EnemiesMenu(10, 156, this);
+    this.heroesMenu = new HeroesMenu(196, 156, this);
+    this.actionsMenu = new ActionsMenu(139, 156, this);
+    this.enemiesMenu = new EnemiesMenu(11, 156, this);
+    this.magicMenu = new MagicMenu(139, 156, this);
+
+    this.magicMenu.visible = false;
 
     // the currently selected menu
     this.currentMenu = this.actionsMenu;
@@ -38,6 +42,7 @@ class BossBattleUIScene extends Phaser.Scene {
     this.menus.add(this.heroesMenu);
     this.menus.add(this.actionsMenu);
     this.menus.add(this.enemiesMenu);
+    this.menus.add(this.magicMenu);
 
     // retrieve unit data from Battle Scene
     this.battleScene = this.scene.get(keys.BOSS_SCENE);
@@ -49,6 +54,8 @@ class BossBattleUIScene extends Phaser.Scene {
     this.battleScene.events.on("PlayerSelect", this.onPlayerSelect, this);
 
     this.battleScene.events.on("HealSelect", this.onHealSelect, this);
+
+    this.events.on("MagicSelect", this.onSelectMagic, this);
 
     // when the action on the menu is selected
     //for now we have only one action so we dont send an action ID
@@ -73,6 +80,7 @@ class BossBattleUIScene extends Phaser.Scene {
 
     // map enemy menu items to enemies
     this.remapEnemies();
+    this.actionsMenu.visible = true;
 
     // ROUND 1, FIGHT!
     this.battleScene.nextTurn();
@@ -89,6 +97,12 @@ class BossBattleUIScene extends Phaser.Scene {
     this.onPlayerSelect();
   }
 
+  onSelectMagic({ spell }) {
+    this.spell = spell;
+    this.currentMenu = this.enemiesMenu;
+    this.enemiesMenu.select(0);
+  }
+
   onSelectAction({ action }) {
     if (action === "Attack") {
       this.currentMenu = this.enemiesMenu;
@@ -100,6 +114,12 @@ class BossBattleUIScene extends Phaser.Scene {
       this.enemiesMenu.deselect();
       this.currentMenu = null;
       this.battleScene.restUp();
+    }
+    if (action === "Magic") {
+      this.actionsMenu.visible = false;
+      this.magicMenu.visible = true;
+      this.currentMenu = this.magicMenu;
+      this.magicMenu.select(0);
     }
     if (action === "Flee") {
       this.battleScene.fleeBattle();
@@ -113,17 +133,25 @@ class BossBattleUIScene extends Phaser.Scene {
       } else if (event.code === "ArrowDown") {
         this.currentMenu.moveSelectionDown();
       } else if (event.code === "ArrowRight" || event.code === "Shift") {
-      } else if (event.code === "Space" || event.code === "ArrowLeft") {
+      } else if (event.code === "Enter") {
         this.currentMenu.confirm();
       }
     }
   }
 
-  onEnemy(index) {
+  onEnemy({ index }) {
+    let spell = this.spell;
+    console.log("on enemy spell: ", this.spell);
     this.heroesMenu.deselect();
     this.actionsMenu.deselect();
     this.enemiesMenu.deselect();
     this.currentMenu = null;
+
+    if (spell) {
+      this.battleScene.receivePlayerSelection("magic", index, spell);
+      this.spell = null;
+      return;
+    }
     this.battleScene.receivePlayerSelection("attack", index);
   }
 
