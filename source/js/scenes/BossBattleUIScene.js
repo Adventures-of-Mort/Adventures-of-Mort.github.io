@@ -19,8 +19,8 @@ class BossBattleUIScene extends Phaser.Scene {
     this.graphics.fillRect(0, 150, 120, 100);
 
     // Action Menu
-    this.graphics.strokeRect(115, 150, 75, 100);
-    this.graphics.fillRect(115, 150, 75, 100);
+    this.graphics.strokeRect(118, 150, 75, 100);
+    this.graphics.fillRect(118, 150, 75, 100);
     // x y width height
     // Player Character Menu
     this.graphics.strokeRect(188, 150, 133, 100);
@@ -29,7 +29,7 @@ class BossBattleUIScene extends Phaser.Scene {
     this.menus = this.add.container();
 
     this.heroesMenu = new HeroesMenu(196, 156, this);
-    this.actionsMenu = new ActionsMenu(139, 156, this);
+    this.actionsMenu = new ActionsMenu(136, 156, this);
     this.enemiesMenu = new EnemiesMenu(11, 156, this);
     this.magicMenu = new MagicMenu(139, 156, this);
 
