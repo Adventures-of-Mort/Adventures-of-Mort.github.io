@@ -153,6 +153,7 @@ class BattleScene extends Phaser.Scene {
       skeleman.maxHP,
       skeleman.int
     );
+
     this.add.existing(warrior);
 
     const hanz = new PlayerCharacter(
@@ -223,8 +224,6 @@ class BattleScene extends Phaser.Scene {
       console.log(`${this.units[this.index]}'s TURN!!!`);
       console.log(`${this.index}`);
       if (this.units[this.index].hp === 0) {
-        this.events.emit("DeadSelect", this.index);
-
         this.time.addEvent({
           callback: this.nextTurn,
           callbackScope: this,
