@@ -4,7 +4,7 @@ class StartMenu extends Menu {
   constructor(x, y, scene) {
     super(x, y, scene);
     this.addMenuItem("Start");
-    this.addMenuItem("Debug Mode");
+    // this.addMenuItem("Debug Mode");
     this.startScene = scene;
   }
   create() {
