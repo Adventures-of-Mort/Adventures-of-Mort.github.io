@@ -126,7 +126,7 @@ class BattleScene extends Phaser.Scene {
     background.displayHeight = 240;
 
     // player character - mage
-    const mage = new PlayerCharacter(
+    const battleMort = new PlayerCharacter(
       this, //scene
       290, //x coord
       90, //y coord
@@ -138,10 +138,10 @@ class BattleScene extends Phaser.Scene {
       mort.maxHP, //maxHP
       mort.int
     );
-    this.add.existing(mage);
+    this.add.existing(battleMort);
 
     // player character - warrior
-    const warrior = new PlayerCharacter(
+    const battleSkeleman = new PlayerCharacter(
       this,
       250,
       60,
@@ -154,9 +154,9 @@ class BattleScene extends Phaser.Scene {
       skeleman.int
     );
 
-    this.add.existing(warrior);
+    this.add.existing(battleSkeleman);
 
-    const hanz = new PlayerCharacter(
+    const battleHanz = new PlayerCharacter(
       this,
       250,
       125,
@@ -168,14 +168,14 @@ class BattleScene extends Phaser.Scene {
       hanzIV.maxHP,
       hanzIV.int
     );
-    this.add.existing(hanz);
+    this.add.existing(battleHanz);
 
     if (skeleman.living === false) {
-      warrior.visible = false;
+      battleSkeleman.visible = false;
     }
 
     if (hanzIV.living === false) {
-      hanz.visible = false;
+      battleHanz.visible = false;
     }
 
     // array with enemies
@@ -183,7 +183,7 @@ class BattleScene extends Phaser.Scene {
     this.enemies = this.generateEnemies();
 
     // array with heroes
-    this.heroes = [warrior, mage, hanz];
+    this.heroes = [battleSkeleman, battleMort, battleHanz];
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
@@ -221,8 +221,6 @@ class BattleScene extends Phaser.Scene {
 
     //checking to see if its a player character
     if (this.units[this.index] instanceof PlayerCharacter) {
-      console.log(`${this.units[this.index]}'s TURN!!!`);
-      console.log(`${this.index}`);
       if (this.units[this.index].hp === 0) {
         this.time.addEvent({
           callback: this.nextTurn,

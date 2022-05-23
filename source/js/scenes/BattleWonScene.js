@@ -29,7 +29,6 @@ class BattleWonScene extends Phaser.Scene {
 
       this.scene.sleep(keys.BATTLE_SCENE);
       this.scene.sleep(keys.BATTLE_WON_SCENE);
-      console.log("scene in scene context: ", sceneContext.currentScene);
       this.scene.switch(sceneContext.currentScene);
     });
   }

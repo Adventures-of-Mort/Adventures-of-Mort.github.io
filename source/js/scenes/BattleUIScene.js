@@ -144,7 +144,6 @@ class BattleUIScene extends Phaser.Scene {
 
   onEnemy({ index }) {
     let spell = this.spell;
-    console.log("on enemy spell: ", this.spell);
     this.heroesMenu.deselect();
     this.actionsMenu.deselect();
     this.enemiesMenu.deselect();

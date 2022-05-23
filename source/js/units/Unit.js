@@ -17,9 +17,9 @@ class Unit extends Phaser.GameObjects.Sprite {
     this.menuItem = item;
   }
   attack(target) {
-    console.log("target: ", target);
     if (target.living) {
       target.takeDamage(this.damage);
+      // unit flashes red when hit
       target.setTint(0xff0000);
       this.scene.time.addEvent({
         delay: 100,

@@ -87,12 +87,6 @@ class WorldScene extends BaseMapScene {
       classType: Phaser.GameObjects.Zone,
     });
     spawnGenerator(this.north, this.south, this.east, this.west, 20, this.spawns);
-    // for (let i = 0; i < 15; i++) {
-    //   let y = Phaser.Math.RND.between(this.north, this.south);
-    //   let x = Phaser.Math.RND.between(this.west, this.east);
-    //   // parameters are x, y, width, height
-    //   this.spawns.create(x, y, 20, 20);
-    // }
 
     // add collider
     this.physics.add.overlap(this.player, this.town, this.healParty, false, this);
@@ -116,7 +110,6 @@ class WorldScene extends BaseMapScene {
     });
 
     this.events.on("shutdown", () => {
-      console.log("shutdown in world scene");
       this.music.stop();
     });
 
