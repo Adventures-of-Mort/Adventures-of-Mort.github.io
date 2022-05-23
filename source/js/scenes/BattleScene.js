@@ -11,7 +11,6 @@ class BattleScene extends Phaser.Scene {
   }
 
   create() {
-    console.log("battle scene created");
     this.bonk = this.sound.add("bonk");
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
