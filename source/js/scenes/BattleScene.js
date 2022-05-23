@@ -3,6 +3,7 @@ import Enemy from "../units/Enemy";
 import keys from "./keys";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import hanzIV from "../characters/hanzIV";
 
 class BattleScene extends Phaser.Scene {
   constructor() {
@@ -10,6 +11,14 @@ class BattleScene extends Phaser.Scene {
   }
 
   create() {
+    this.bonk = this.sound.add("bonk");
+    this.slash = this.sound.add("slash");
+    this.recover = this.sound.add("recover");
+    this.hit = this.sound.add("hit");
+    this.run = this.sound.add("run");
+    this.fire = this.sound.add("Fire");
+    this.ice = this.sound.add("Ice");
+    this.bolt = this.sound.add("Bolt");
     this.battleUIScene = this.scene.get(keys.BATTLE_UI_SCENE);
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
@@ -114,7 +123,7 @@ class BattleScene extends Phaser.Scene {
 
   battleSequence() {
     this.initializeAudio();
-    this.music.play({ volume: 0.2 });
+    this.music.play({ volume: 0.2, loop: true });
 
     let sceneContext = this.registry.get("context");
 
@@ -122,30 +131,65 @@ class BattleScene extends Phaser.Scene {
     background.displayWidth = 320;
     background.displayHeight = 240;
 
-    // The Create method only runs on first initialization, so we must create the Battle Sequence method which is called on first launch and when the scene "wakes up" upon being switched back to from world scene
-
-    // player character - warrior
-    const warrior = new PlayerCharacter(this, 250, 50, "skeleman", 0, "Skeleman", 70, skeleman.attack, skeleman.maxHP);
-    this.add.existing(warrior);
-
     // player character - mage
-    const mage = new PlayerCharacter(
+    const battleMort = new PlayerCharacter(
       this, //scene
-      250, //x coord
-      100, //y coord
+      290, //x coord
+      90, //y coord
       "battleMort", //texture
       0, //frame
       "Mort", //type
-      130, //HP
+      mort.currentHP, //HP
       mort.attack, //Damage
-      mort.maxHP //maxHP
+      mort.maxHP, //maxHP
+      mort.int
     );
-    this.add.existing(mage);
+    this.add.existing(battleMort);
+
+    // player character - warrior
+    const battleSkeleman = new PlayerCharacter(
+      this,
+      250,
+      60,
+      "skeleman",
+      0,
+      "Skeleman",
+      skeleman.currentHP,
+      skeleman.attack,
+      skeleman.maxHP,
+      skeleman.int
+    );
+
+    this.add.existing(battleSkeleman);
+
+    const battleHanz = new PlayerCharacter(
+      this,
+      250,
+      125,
+      hanzIV.texture,
+      0,
+      hanzIV.type,
+      hanzIV.currentHP,
+      hanzIV.attack,
+      hanzIV.maxHP,
+      hanzIV.int
+    );
+    this.add.existing(battleHanz);
+
+    if (skeleman.living === false) {
+      battleSkeleman.visible = false;
+    }
+
+    if (hanzIV.living === false) {
+      battleHanz.visible = false;
+    }
+
+    // array with enemies
 
     this.enemies = this.generateEnemies();
 
     // array with heroes
-    this.heroes = [warrior, mage];
+    this.heroes = [battleSkeleman, battleMort, battleHanz];
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
@@ -183,7 +227,14 @@ class BattleScene extends Phaser.Scene {
 
     //checking to see if its a player character
     if (this.units[this.index] instanceof PlayerCharacter) {
-      this.events.emit("PlayerSelect", this.index);
+      if (this.units[this.index].hp === 0) {
+        this.time.addEvent({
+          callback: this.nextTurn,
+          callbackScope: this,
+        });
+      } else {
+        this.events.emit("PlayerSelect", this.index);
+      }
     } else {
       // if its an enemy
       // pick a random target
@@ -193,6 +244,7 @@ class BattleScene extends Phaser.Scene {
       } while (!this.heroes[target].living);
       // ATTACK!
       this.units[this.index].attack(this.heroes[target]);
+      this.hit.play({ volume: 0.5 });
       let currentTarget = this.heroes[target];
       this.battleUIScene.remapHeroes();
       // This is to add time between attacks to provide smoother gameplay loop
@@ -244,11 +296,12 @@ class BattleScene extends Phaser.Scene {
     }
     this.units.length = 0;
     this.music.stop();
-    this.scene.launch(keys.BATTLE_WON_SCENE);
+    this.scene.run(keys.BATTLE_WON_SCENE);
   }
 
   fleeBattle() {
     let sceneContext = this.registry.get("context");
+    this.run.play({ volume: 0.5 });
 
     this.index--;
     this.music.stop();
@@ -258,7 +311,7 @@ class BattleScene extends Phaser.Scene {
 
   restUp() {
     this.units[this.index].heal(this.units[this.index].maxHP);
-
+    this.recover.play({ volume: 0.5 });
     this.battleUIScene.remapHeroes();
 
     this.time.addEvent({
@@ -268,10 +321,35 @@ class BattleScene extends Phaser.Scene {
     });
   }
 
-  receivePlayerSelection(action, target) {
+  receivePlayerSelection(action, target, spell = null) {
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+
     if (action === "attack") {
       this.units[this.index].attack(this.enemies[target]);
+      let num = getRandomInt(1, 11);
+      if (num === 10) {
+        this.bonk.play({ volume: 0.5 });
+      } else {
+        this.slash.play({ volume: 0.5 });
+      }
     }
+    if (action === "magic") {
+      this.units[this.index].useMagic(this.enemies[target], spell);
+      if (spell === "Ice") {
+        this.ice.play({ volume: 1 });
+      }
+      if (spell === "Fire") {
+        this.fire.play({ volume: 1 });
+      }
+      if (spell === "Bolt") {
+        this.bolt.play({ volume: 1 });
+      }
+    }
+    this.scene.get(keys.BATTLE_UI_SCENE).actionsMenu.visible = true;
     this.time.addEvent({
       delay: 3000,
       callback: this.nextTurn,

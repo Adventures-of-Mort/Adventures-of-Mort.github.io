@@ -1,37 +1,3 @@
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
-export const wolf = {
-  texture: "whiteWolf",
-  type: "Wolf",
-  hp: 40,
-  damage: 10,
-  experience: 10,
-};
-export const goblin = {
-  texture: "goblin",
-  type: "Goblin",
-  hp: 50,
-  damage: 8,
-  experience: 10,
-};
-export const ghost = {
-  texture: "ghost",
-  type: "Ghost",
-  hp: 40,
-  damage: 8,
-  experience: 10,
-};
-export const spider = {
-  texture: "spider",
-  type: "Spider",
-  hp: 40,
-  damage: 8,
-  experience: 10,
-};
 export const boss = {
   texture: "boss",
   type: `'Evil' Princess`,
@@ -44,7 +10,7 @@ export const warrior = {
   texture: "warrior",
   type: "Warrior",
   level: 1,
-  hp: 40,
+  hp: 50,
   damage: 8,
   experience: 10,
 };
@@ -68,7 +34,7 @@ export const redMage = {
   texture: "redMage",
   type: "Red Mage",
   level: 1,
-  hp: 40,
+  hp: 45,
   damage: 8,
   experience: 10,
 };
@@ -77,7 +43,7 @@ export const monk = {
   texture: "monk",
   type: "Monk",
   level: 1,
-  hp: 40,
+  hp: 50,
   damage: 8,
   experience: 10,
 };
@@ -87,7 +53,7 @@ export const knight = {
   type: "Knight",
   level: 1,
   hp: 40,
-  damage: 8,
+  damage: 10,
   experience: 10,
 };
 export const master = {
@@ -95,7 +61,7 @@ export const master = {
   type: "Master",
   level: 1,
   hp: 40,
-  damage: 8,
+  damage: 10,
   experience: 10,
 };
 export const ninja = {
@@ -103,7 +69,7 @@ export const ninja = {
   type: "Ninja",
   level: 1,
   hp: 40,
-  damage: 8,
+  damage: 10,
   experience: 10,
 };
 export const redWizard = {
@@ -111,7 +77,7 @@ export const redWizard = {
   type: "Baron",
   level: 1,
   hp: 40,
-  damage: 8,
+  damage: 10,
   experience: 10,
 };
 export const whiteWizard = {
@@ -119,6 +85,6 @@ export const whiteWizard = {
   type: "Sage",
   level: 1,
   hp: 40,
-  damage: 8,
+  damage: 10,
   experience: 10,
 };

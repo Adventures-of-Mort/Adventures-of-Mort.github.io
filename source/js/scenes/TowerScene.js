@@ -11,7 +11,7 @@ class TowerScene extends BaseMapScene {
 
   create() {
     this.mapKeys();
-
+    this.doorFX = this.sound.add("door2");
     // create the map
     const map = this.make.tilemap({ key: "floor1" });
 
@@ -77,12 +77,6 @@ class TowerScene extends BaseMapScene {
       classType: Phaser.GameObjects.Zone,
     });
     spawnGenerator(0, 390, 0, this.physics.world.bounds.width, 15, this.spawns);
-    // for (let i = 0; i < 15; i++) {
-    //   let x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-    //   let y = Phaser.Math.RND.between(0, 390);
-    //   // parameters are x, y, width, height
-    //   this.spawns.create(x, y, 20, 20);
-    // }
 
     // add collider
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
@@ -125,6 +119,7 @@ class TowerScene extends BaseMapScene {
 
   hitExitLayer(player, target) {
     this.cameras.main.fadeOut(500, 0, 0, 0);
+    this.doorFX.play({ volume: 0.2 });
     // change context.currentScene to FINAL_SCENE
     this.scene.switch(keys.FINAL_SCENE);
   }
