@@ -16,6 +16,7 @@ class BattleWonScene extends Phaser.Scene {
     this.battleScene.events.emit("Message", "You Won! Press enter to continue.");
 
     this.events.on("wake", () => {
+      this.music.play({ volume: 0.2 });
       this.battleScene.events.emit("Message", "You Won! Press enter to continue.");
     });
 
