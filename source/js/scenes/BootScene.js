@@ -21,7 +21,7 @@ class BootScene extends Phaser.Scene {
 
     this.load.tilemapTiledJSON("FinalTowerFloor", "../../../public/MORT/MAPS/FinalFloor.json");
 
-    // our two characters
+    // battle player characters
     this.load.atlas(
       "battleMort",
       "../../../public/MORT/MORT/BattleMortSpritesheet.png",
@@ -34,7 +34,9 @@ class BootScene extends Phaser.Scene {
       "../../../public/MORT/SKELEMAN/SkeleSpritesheet.json"
     );
 
-    // butz overworld atlas
+    this.load.image("hanz", "../../../public/MORT/ENEMIES/46.png");
+
+    // mort overworld atlas
     this.load.atlas(
       "playerMort",
       "../../../public/MORT/MORT/OverworldMortSpritesheet.png",
@@ -52,17 +54,11 @@ class BootScene extends Phaser.Scene {
     //final boss background
     this.load.image("BossBattleScene-battleBackground", "../../../public/MORT/BATTLEBACKGROUNDS/30.png");
 
-    //enemies
-
-    this.load.image("whiteWolf", "../../../public/MORT/ENEMIES/10.png");
-
-    this.load.image("goblin", "../../../public/MORT/ENEMIES/5.png");
-
-    this.load.image("ghost", "../../../public/MORT/ENEMIES/46.png");
-
-    this.load.image("spider", "../../../public/MORT/ENEMIES/79.png");
+    //Bosses
 
     this.load.image("boss", "../../../public/MORT/PRINCESS/princessBoss.png");
+
+    //Dragon in distress
 
     this.load.image("dragon", "../../../public/MORT/ENEMIES/107.png");
 
@@ -99,6 +95,16 @@ class BootScene extends Phaser.Scene {
 
     this.load.audio("door1", "../../../source/assets/audio/effects/door1.wav");
     this.load.audio("door2", "../../../source/assets/audio/effects/door2.wav");
+    this.load.audio("bonk", "../../../source/assets/audio/effects/bonk.mp3");
+    this.load.audio("slash", "../../../source/assets/audio/effects/slash.mp3");
+    this.load.audio("recover", "../../../source/assets/audio/effects/recover.mp3");
+    this.load.audio("hit", "../../../source/assets/audio/effects/hit.mp3");
+    this.load.audio("run", "../../../source/assets/audio/effects/run.mp3");
+    this.load.audio("selector", "../../source/assets/audio/effects/move.mp3");
+    this.load.audio("accept", "../../source/assets/audio/effects/accept.mp3");
+    this.load.audio("Fire", "../../source/assets/audio/effects/Fire_1.mp3");
+    this.load.audio("Bolt", "../../source/assets/audio/effects/Thunder_1.mp3");
+    this.load.audio("Ice", "../../source/assets/audio/effects/Blizzard_1.mp3");
   }
 
   create() {

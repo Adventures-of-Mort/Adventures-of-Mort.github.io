@@ -11,6 +11,12 @@ class FinalBossScene extends BaseMapScene {
   }
 
   create() {
+    // create controls
+    this.mapKeys();
+    // crate scene context
+    let context = this.registry.get("context");
+    context.currentScene = keys.FINAL_SCENE;
+
     // create the map
     const map = this.make.tilemap({ key: "FinalTowerFloor" });
 
@@ -83,6 +89,8 @@ class FinalBossScene extends BaseMapScene {
     this.sys.events.on(
       "wake",
       () => {
+        // this.player.x =
+        this.player.y = 440;
         this.cameras.main.fadeIn(500, 0, 0, 0);
       },
       this
@@ -99,8 +107,8 @@ class FinalBossScene extends BaseMapScene {
 
   onMeetBoss(player, zone) {
     // we move the zone to some other location
-    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+    // zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+    // zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
     //fades to final boss
     this.cameras.main.fadeOut(500, 0, 0, 0);

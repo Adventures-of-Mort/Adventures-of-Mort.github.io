@@ -2,6 +2,7 @@ import keys from "./keys";
 import Phaser from "../phaser";
 import mort from "../characters/mort";
 import skeleman from "../characters/skelemen";
+import hanzIV from "../characters/hanzIV";
 import Message from "../menus/Message";
 import spawnGenerator from "../utilities/spawnGenerator";
 import BaseMapScene from "./BaseMapScene";
@@ -14,6 +15,8 @@ class WorldScene extends BaseMapScene {
 
   create() {
     this.createAnimations();
+    this.mapKeys();
+    this.healSound = this.sound.add("recover");
 
     // create the map
     const map = this.make.tilemap({ key: "map" });
@@ -83,12 +86,6 @@ class WorldScene extends BaseMapScene {
       classType: Phaser.GameObjects.Zone,
     });
     spawnGenerator(this.north, this.south, this.east, this.west, 20, this.spawns);
-    // for (let i = 0; i < 15; i++) {
-    //   let y = Phaser.Math.RND.between(this.north, this.south);
-    //   let x = Phaser.Math.RND.between(this.west, this.east);
-    //   // parameters are x, y, width, height
-    //   this.spawns.create(x, y, 20, 20);
-    // }
 
     // add collider
     this.physics.add.overlap(this.player, this.town, this.healParty, false, this);
@@ -130,18 +127,25 @@ class WorldScene extends BaseMapScene {
 
     zone.y = Phaser.Math.RND.between(this.north, this.south);
     zone.x = Phaser.Math.RND.between(this.west, this.east);
+    let context = this.registry.get("context");
+    context.currentScene = keys.WORLD_SCENE;
 
     // fades out to battle
     this.cameras.main.fadeOut(500, 0, 0, 0);
     // start battle
+    this.registry.set("context", context);
     this.scene.switch(keys.BATTLE_SCENE);
   }
 
   healParty() {
-    if (mort.currentHP !== mort.maxHP || skeleman.currentHP !== skeleman.maxHP) {
+    if (mort.currentHP !== mort.maxHP || skeleman.currentHP !== skeleman.maxHP || hanzIV.currentHP !== hanzIV.maxHP) {
       mort.currentHP = mort.maxHP;
       skeleman.currentHP = skeleman.maxHP;
+      hanzIV.currentHP = hanzIV.maxHP;
+      skeleman.living = true;
+      hanzIV.living = true;
       this.cameras.main.flash(200);
+      this.healSound.play({ volume: 0.5 });
       this.events.emit("Message", "Your party has been fully healed. Thanks for visiting!");
     }
   }

@@ -9,8 +9,10 @@ class StartUIScene extends Phaser.Scene {
   create() {
     // basic container to hold all menus
     this.menus = this.add.container();
+    this.selector = this.sound.add("selector");
+    this.start = this.sound.add("accept");
 
-    this.startMenu = new StartMenu(33, 170, this);
+    this.startMenu = new StartMenu(25, 200, this);
 
     // the currently selected menu
     this.currentMenu = this.startMenu;
@@ -48,10 +50,13 @@ class StartUIScene extends Phaser.Scene {
     if (this.currentMenu) {
       if (event.code === "ArrowUp") {
         this.currentMenu.moveSelectionUp();
+        this.selector.play({ volume: 0.5 });
       } else if (event.code === "ArrowDown") {
         this.currentMenu.moveSelectionDown();
+        this.selector.play({ volume: 0.5 });
       } else if (event.code === "Enter") {
         this.currentMenu.confirm();
+        this.start.play({ volume: 0.5 });
       }
     }
   }

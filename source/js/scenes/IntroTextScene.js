@@ -19,7 +19,7 @@ class IntroTextScene extends Phaser.Scene {
       //this.music.stop();
       this.scene.stop(keys.INTRO_SCENE);
 
-      this.scene.run(keys.WORLD_SCENE);
+      this.scene.start(keys.WORLD_SCENE);
     });
   }
 }

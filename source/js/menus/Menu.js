@@ -1,45 +1,43 @@
-import MenuItem from "../menus/MenuItem"
+import MenuItem from "../menus/MenuItem";
 
 class Menu extends Phaser.GameObjects.Container {
-	constructor(x, y, scene, heroes) {
-		super(scene, x, y)
-		this.menuItems = []
-		this.menuItemIndex = 0
-		this.heroes = heroes
-		this.x = x
-		this.y = y
-		this.selected = false
-	}
-	addMenuItem(unit) {
-		let menuItem = new MenuItem(
-			0,
-			this.menuItems.length * 20,
-			unit,
-			this.scene
-		)
-		this.menuItems.push(menuItem)
-		this.add(menuItem)
-		return menuItem
-	}
-	moveSelectionUp() {
-		this.menuItems[this.menuItemIndex].deselect()
-		this.menuItemIndex--
-		if (this.menuItemIndex < 0)
-			this.menuItemIndex = this.menuItems.length - 1
-		this.menuItems[this.menuItemIndex].select()
-	}
-	moveSelectionDown() {
-		this.menuItems[this.menuItemIndex].deselect()
-		this.menuItemIndex++
-		if (this.menuItemIndex >= this.menuItems.length) this.menuItemIndex = 0
-		this.menuItems[this.menuItemIndex].select()
-	}
-	// select the menu as a whole and an element with index from it
-	select(index) {
-		if (!index) index = 0
+  constructor(x, y, scene, heroes) {
+    super(scene, x, y);
+    this.menuItems = [];
+    this.menuItemIndex = 0;
+    this.heroes = heroes;
+    this.x = x;
+    this.y = y;
+    this.selected = false;
+  }
+  addMenuItem(unit) {
+    let menuItem = new MenuItem(0, this.menuItems.length * 20, unit, this.scene);
+    this.menuItems.push(menuItem);
+    this.add(menuItem);
+    return menuItem;
+  }
+  moveSelectionUp() {
+    do {
+      this.menuItems[this.menuItemIndex].deselect();
+      this.menuItemIndex--;
+      if (this.menuItemIndex < 0) this.menuItemIndex = this.menuItems.length - 1;
+      this.menuItems[this.menuItemIndex].select();
+    } while (!this.menuItems[this.menuItemIndex].active);
+  }
+  moveSelectionDown() {
+    do {
+      this.menuItems[this.menuItemIndex].deselect();
+      this.menuItemIndex++;
+      if (this.menuItemIndex >= this.menuItems.length) this.menuItemIndex = 0;
+      this.menuItems[this.menuItemIndex].select();
+    } while (!this.menuItems[this.menuItemIndex].active);
+  }
+  // select the menu as a whole and an element with index from it
+  select(index) {
+    if (!index) index = 0;
 
-		this.menuItems[this.menuItemIndex].deselect()
-		this.menuItemIndex = index
+    this.menuItems[this.menuItemIndex].deselect();
+    this.menuItemIndex = index;
     while (!this.menuItems[this.menuItemIndex].active) {
       this.menuItemIndex++;
       if (this.menuItemIndex >= this.menuItems.length) {
@@ -68,7 +66,6 @@ class Menu extends Phaser.GameObjects.Container {
     this.menuItems.length = 0;
     this.menuItemIndex = 0;
   }
-
 }
 
-export default Menu
+export default Menu;

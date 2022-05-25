@@ -13,6 +13,7 @@ import BossBattleUIScene from "./scenes/BossBattleUIScene";
 import GameWonScene from "./scenes/GameWonScene";
 import NotificationScene from "./scenes/NotificationsScene";
 import IntroTextScene from "./scenes/IntroTextScene";
+import StatusScene from "./scenes/StatusScene";
 
 const config = {
   type: Phaser.AUTO,
@@ -25,7 +26,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: true, // set to true to view zones
+      debug: false, // set to true to view zones
     },
   },
   scene: [
@@ -44,6 +45,7 @@ const config = {
     BossBattleUIScene,
     GameWonScene,
     NotificationScene,
+    StatusScene,
   ],
   callbacks: {
     preBoot: function (game) {
