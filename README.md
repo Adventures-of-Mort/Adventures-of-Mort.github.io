@@ -9,7 +9,7 @@
 <p align='center'> <img src=https://s8.gifyu.com/images/10fps.gif> </p> 
  
 ## Deployed Site :desktop_computer:
-  Try out <a href='https://group-10-game-dev.github.io/'> Adventures Of Mort! </a> :joystick:
+  Try out <a href='https://adventures-of-mort.github.io/'> Adventures Of Mort! </a> :joystick:
   
 ## Developers :wrench:
   * Kyle Gilbert - [GitHub](https://github.com/gilbertkyle) :computer: | [LinkedIn](https://www.linkedin.com/in/kgb-87/) :handshake:
